@@ -23,10 +23,11 @@ import java.util.List;
 
 /**
  * @author DengChao
+ * baseUrl =/user/jsof
  */
 @Slf4j
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user") //请求路径
 public class UserController {
     @Autowired
     private UserService userService;
@@ -34,10 +35,10 @@ public class UserController {
     @Autowired
     private TopicService topicService;
 
-    @PostMapping("/login")
+    @PostMapping("/login") //user/login
     public R<UserEntity> login(@RequestBody UserEntity user,HttpServletRequest req){
         log.info("登录中");
-        if(user==null || user.getUserName()==null )
+        if(user==null || user.getUserAccountId()==null )
             return R.error("error");
         //对密码进行加密
         String password = user.getUserPassword();

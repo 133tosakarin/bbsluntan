@@ -14,4 +14,9 @@ class BbsluntanApplicationTests {
     void contextLoads() {
     }
 
+    public static void main(String[] args) {
+        BbsluntanApplicationTests bbs = new BbsluntanApplicationTests();
+
+    }
+
 }

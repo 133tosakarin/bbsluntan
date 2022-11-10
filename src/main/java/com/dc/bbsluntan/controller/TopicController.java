@@ -27,10 +27,17 @@ public class TopicController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/list")
-    public R<Page> list(Integer page,Integer pageSize){
+    /**
+     * 分页展示所有首页推荐帖子
+     * @param page
+     * @param pageSize
+     * @return
+     *
+     * url/listAll?page = 2 & pageSize = 100
+     */
+    @GetMapping("/listAll")
+    public R<Page<TopicEntity>> listAll(Integer page,Integer pageSize){
         Page<TopicEntity> pageInfo = new Page<>(page,pageSize);
-
         LambdaQueryWrapper<TopicEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.orderByDesc(TopicEntity::getUpdateTime);
         return R.success(topicService.page(pageInfo,lambdaQueryWrapper));
@@ -51,6 +58,7 @@ public class TopicController {
             id = (Long) 1586600449878847489l;
         wrapper.eq(UserEntity::getId,id);
         UserEntity user = userService.getOne(wrapper);
+
         topic.setUserId(user.getId());
         topic.setTopicClickCount(0);
         topic.setTopicReplyCount(0);
@@ -58,6 +66,11 @@ public class TopicController {
         return flag?R.success(topic):R.error("error");
     }
 
+    /**
+     * 删除帖子
+     * @param ids
+     * @return
+     */
 
     @DeleteMapping("/del")
     public R<String> delTopic(@RequestParam List<Long> ids){
@@ -66,21 +79,6 @@ public class TopicController {
         return R.success("success");
     }
 
-    /**
-     * 获取某一板块下的所有帖子
-     * @param sectionId
-     * @param req
-     * @return
-     */
-    @GetMapping("/listBySection/${sectionid}")
-    public R<Page<TopicEntity>> listBySection(@PathVariable Long sectionId,int page,int pageSize,HttpServletRequest req){
-        log.info("分板块查询");
-        Page<TopicEntity> pageInfo = new Page<>();
-        LambdaQueryWrapper<TopicEntity> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(TopicEntity::getSectionId,sectionId);
-        Page<TopicEntity> topicEntityPage = topicService.page(pageInfo, wrapper);
-        return R.success(topicEntityPage);
-    }
 
 
 

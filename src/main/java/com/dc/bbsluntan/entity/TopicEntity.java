@@ -20,9 +20,11 @@ public class TopicEntity {
     private String topicEmotion;
     private String topicTitle;
     private String topicContent;
+    private Integer topicClickCount;
+
+
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-    private Integer topicClickCount;
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime
             ;

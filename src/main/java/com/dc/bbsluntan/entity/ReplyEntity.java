@@ -1,8 +1,6 @@
 package com.dc.bbsluntan.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,6 +13,8 @@ import java.time.LocalDateTime;
 @TableName("bbs_reply")
 public class ReplyEntity implements Serializable {
     private static final long serialVersionUID = -6260961652L;
+
+
     @TableId(type = IdType.AUTO)
     private Long replyId;
     private Long topicId;
@@ -22,6 +22,12 @@ public class ReplyEntity implements Serializable {
     private String replyEmotion;
     private String replyTopic;
     private String replyContents;
-    private LocalDateTime repplyTime;
     private Integer replyClickCount;
+
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
+
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
+
 }
