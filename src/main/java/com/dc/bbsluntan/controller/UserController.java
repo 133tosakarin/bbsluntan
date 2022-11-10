@@ -76,7 +76,8 @@ public class UserController {
         }
         return R.error("error");
     }
-
+//baseUrl =  http://localhost:8080/
+// base+ user/regist
     @PostMapping("/logout")
     public R<String> logout(HttpServletRequest req){
         req.getSession().removeAttribute("user");

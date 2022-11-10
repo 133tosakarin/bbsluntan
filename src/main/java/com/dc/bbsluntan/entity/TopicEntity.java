@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author DengChao
@@ -23,9 +24,10 @@ public class TopicEntity {
     private Integer topicClickCount;
 
 
+
+    List<ReplyEntity> replys;
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime
-            ;
+    private LocalDateTime updateTime;
 }
