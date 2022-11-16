@@ -25,6 +25,7 @@ public class TopicEntity {
 
 
 
+    @TableField(exist = false)
     List<ReplyEntity> replys;
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;

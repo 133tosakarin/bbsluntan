@@ -20,7 +20,6 @@ public class ReplyEntity implements Serializable {
     private Long topicId;
     private Long userId;
     private String replyEmotion;
-    private String replyTopic;
     private String replyContents;
     private Integer replyClickCount;
 

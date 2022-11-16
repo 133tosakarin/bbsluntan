@@ -1,0 +1,26 @@
+
+.header{
+
+}
+.top-nav{background-color: #6f6f6f;padding: 5px 0;color: #fff;}
+.top-nav a{color: #fff;}
+.top-nav a:hover{
+  color: #dedede;
+  text-decoration: none;
+}
+.second-nav{height: 100px;}
+.second-nav .container{height: 100%;}
+.second-nav .logo{height: 100%;/* vertical-align: middle; *//* line-height: 100%; */padding-top: 25px;}
+.second-nav .logo a{/* vertical-align: middle; *//* display: block; *//* height: 100%; *//* line-height: 100%; */}
+.second-nav .logo img{/* vertical-align: middle; */}
+.second-nav .menu{overflow: visible;list-style: none;padding: 0;margin-left: 200px;margin-top: 26px;}
+.second-nav .menu li{float: left;padding: 10px;font-size: 1.2em;}
+.second-nav .menu li a{color: #000;}
+.second-nav .menu li a:hover, .second-nav .menu li.active a{
+    color: #2ec7bb;
+}
+.second-nav .search-form{width: 250px;margin-top: 30px;margin-right: 16px;}
+.second-nav .login-reg{margin-top: 35px;font-size: 1.2em;}
+.second-nav .login-reg a{
+
+}

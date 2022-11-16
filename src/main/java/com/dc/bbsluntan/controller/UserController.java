@@ -38,14 +38,14 @@ public class UserController {
     @PostMapping("/login") //user/login
     public R<UserEntity> login(@RequestBody UserEntity user,HttpServletRequest req){
         log.info("登录中");
-        if(user==null || user.getUserAccountId()==null )
+        if(user==null || user.getUserName()==null )
             return R.error("error");
         //对密码进行加密
         String password = user.getUserPassword();
         password = DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8));
 
         LambdaQueryWrapper<UserEntity> querryWrapper = new LambdaQueryWrapper<>();
-        querryWrapper.eq(UserEntity::getUserAccountId,user.getUserAccountId());
+        querryWrapper.eq(UserEntity::getUserName,user.getUserName());
         UserEntity one = userService.getOne(querryWrapper);
         if(one!=null){
             if(StringUtils.equal(one.getUserPassword(),password))
@@ -62,14 +62,15 @@ public class UserController {
     }
     @PostMapping("/register")
     public R<String> register(@RequestBody UserEntity user){
-
+        log.info("注册");
         String password = user.getUserPassword();
         password = DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8));
         //从数据库中查找有无相同的账户id
         LambdaQueryWrapper<UserEntity> queryWrapper  =  new LambdaQueryWrapper<>();
-        queryWrapper.eq(UserEntity::getUserAccountId,user.getUserAccountId());
+        queryWrapper.eq(UserEntity::getUserName,user.getUserName());
         UserEntity newUser = userService.getOne(queryWrapper);
         if(newUser==null){
+            log.info("注册成功");
             user.setUserPassword(password);
             userService.save(user);
             return R.success("success");

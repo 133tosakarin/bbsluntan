@@ -8,6 +8,7 @@ import com.dc.bbsluntan.entity.SectionEntity;
 import com.dc.bbsluntan.entity.TopicEntity;
 import com.dc.bbsluntan.service.SectionService;
 import com.dc.bbsluntan.service.TopicService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import java.util.List;
 /**
  * @author DengChao
  */
+@Slf4j
 @RestController
 @RequestMapping("/section")
 public class SectionController {
@@ -28,11 +30,8 @@ public class SectionController {
 
     @GetMapping("/listBySection")
     public R<SectionEntity> listBySection(Long sectionId){
-        LambdaQueryWrapper<TopicEntity> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(TopicEntity::getSectionId,sectionId);
-        List<TopicEntity> topics = topicService.list(wrapper);
-        SectionEntity sectionServiceById = sectionService.getById(sectionId);
-        sectionServiceById.setTopic(topics);
-        return R.success(sectionServiceById);
+        log.info("查询板块所有帖子");
+        SectionEntity sectionEntity = sectionService.selectBySectionIdAndTopic(sectionId);
+        return R.success(sectionEntity);
     }
 }

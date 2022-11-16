@@ -9,4 +9,5 @@ import com.dc.bbsluntan.entity.UserEntity;
  */
 
 public interface SectionService extends IService<SectionEntity> {
+    public SectionEntity selectBySectionIdAndTopic(Long sectionId);
 }

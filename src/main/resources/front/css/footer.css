@@ -1,0 +1,7 @@
+.footer{margin-top: 50px;text-align: center;padding: 20px 0;line-height: 3;font-size: 13px;color: #858585;}
+.footer a{
+  color: #858585;
+}
+.footer a:hover{
+  color: #2ec7bb;
+}

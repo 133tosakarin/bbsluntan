@@ -1,0 +1,212 @@
+.content-area{
+  margin-top: 20px;
+  width: 920px;
+  float: left;
+}
+/* news */
+.news {
+    list-style: none;
+    padding: 40px;
+}
+
+.news li {
+    height: 285px;
+    padding: 20px 10px;
+    border-bottom: 1px solid #ccc;
+    /* margin-bottom: 27px; */
+}
+.news li .share {
+    position: absolute;
+    bottom: 10px;
+    right: 0;
+    padding: 5px;
+}
+.news li .share:hover {
+  color: #ff7200;
+}
+
+.news-pic {
+    float: left;
+}
+
+.news-pic a>img {
+    width: 280px;
+}
+
+.news-detail {
+    position: relative;
+    margin-left: 300px;
+    height: 100%;
+}
+
+.new-title {
+    font-size: 1.6em;
+    margin: 10px 0 20px 0;
+}
+
+.new-title>a {}
+
+.new-title>a:hover {}
+
+.news-content {
+    font-size: 1.1em;
+}
+
+.news-extradetail {
+	position: absolute;
+	bottom: 18px;
+	left: 8px;
+}
+
+.news-cols1 {}
+
+.news-cols2>span {}
+
+.news-cols3 {}
+
+.news-cols3>a {}
+
+.news-cols3>a>img {}
+
+.news-comment,
+.news-views,
+.news-recommends {}
+
+.news-share {}
+
+.news-comment {}
+
+.news-comment:hover {}
+
+.news-views {}
+
+.news-views:hover {}
+
+.news-recommends {}
+
+.news-recommends:hover {}
+
+.news-share {}
+
+.news-share:hover {}
+
+.hot .more {}
+
+
+
+.more {}
+
+.share-index {}
+
+.share-index:before {}
+
+.share-index:after {}
+
+.ie_all .share-index:before {}
+
+.ie_all .share-index:after {}
+
+.ie_all .bdshare-button-style0-16 a:hover {}
+
+div.bdsharebuttonbox {}
+
+div.bdsharebuttonbox>a {}
+
+div.share-index div.bdsharebuttonbox a {}
+
+.bds_weixin:hover,
+.share_xinlang:hover,
+.share_qq:hover,
+.share_qqone:hover,
+.bds_tieba:hover {}
+
+div.share-index div.bdsharebuttonbox a.bds_weixin {}
+
+div.share-index div.bdsharebuttonbox a.share_qqone {}
+
+div.share-index div.bdsharebuttonbox a.bds_tieba {}
+
+div.share-index div.bdsharebuttonbox a.share_qq {}
+  /*åˆ†é¡µ*/
+  .index-pages {
+  text-align: center;
+  padding: 0 0 20px 0;
+  }
+.index-pages a{padding: 8px 10px;/* background-color: #2ec7bb; */color: #6d6d6d;margin: 0 1px;}
+  .index-pages a.active, .index-pages a:hover {
+  background-color: #2ec7bb;
+  color: #fff;
+  }
+  .fl {
+float:right;
+}
+
+.float {
+float:left;
+}
+.cl {
+clear:both;
+}
+.b {
+position: relative;
+float: left;
+width: 520px;
+height: 210px;
+margin-left: 30px;
+}
+.z {
+font-size: 23px;
+line-height: 50px;
+color: #5c5c5c;
+font-weight: 500;
+}
+
+.x {
+color: #858585;
+font-size: 15px;
+line-height: 25px;
+}
+.im {
+float: left;
+width: 280px;
+height: 210px;
+}
+.da {
+padding: 45px 0;
+height: 210px;
+overflow: hidden;
+border-bottom: 1px solid #ececec;
+}
+.xia {
+position: absolute;
+bottom: 0px;
+width: 100%;
+}
+.time {
+color: #adadad;
+line-height: 30px;
+margin-right: 10px;
+font-size: 12px;
+}
+.befo {
+    display: table;
+content: "";
+line-height: 0;
+}
+.tiao {
+margin-top: 25px;
+margin-bottom: 30px;
+text-align: center;
+}
+.tu{
+padding-left: 5px;
+display: inline-block;
+min-width: 18px;
+height: 30px;
+line-height: 30px;
+margin-left: -1px;
+padding: 0 6px;
+font-size: 14px;
+text-align: center;
+border: 1px solid #fff;
+}

@@ -1,0 +1,102 @@
+.sidebar{
+  margin-top: 20px;
+  width: 300px;
+  float: right;
+  padding: 20px 0;
+}
+.new-thread{width: 90%;margin: 0 auto;display: block;/* height: 100px; */font-size: 3em;padding: 20px 0;color: #fff;margin-bottom: 20px;text-align: center;}
+.new-thread:hover{
+  color: #fff;
+}
+.signup-total{width: 43%;margin-left: 5%;text-align: center;color: #fff;font-size: 1.2em;padding: 10px 0;float: left;}
+.signup-total .num-date{font-size: 1.5em;font-weight: bold;}
+
+.signup-lucky{width: 40%;float: left;margin-left: 7%;}
+.signup-lucky a{display: block;text-align: center;font-size: 1.5em;border-width: 4px;color: #2ec7bb;padding: 5px 0;}
+
+.signup-lucky .signup{
+
+}
+.signup-lucky .lucky{margin-top: 9px;}
+
+/**/
+.main .box {
+  background: #fff;
+}
+
+.sidebar .box {
+  margin-bottom: 10px;
+  padding: 0 20px;
+  _overflow: hidden;
+  margin-top: 30px;
+}
+
+.box h4 {
+  font-size: 14px;
+  color: #3c3c3c;
+  border-bottom: 1px solid #ececec;
+  padding-bottom: 4px;
+}
+
+.box h4 .r {
+  float: right;
+  margin: -40px 20px 0 0;
+  color: #333;
+  font-size: 12px;
+}
+
+.box h4 a.r {
+  color: #667ebd;
+}
+
+.box h4 a.r:hover {
+  color: #f60;
+}
+
+.box h4 strong a {
+  float: none;
+  margin-top: 0;
+  color: #333;
+  font-size: 14px;
+}
+
+.box h4 strong a:hover {
+  color: #f60;
+}
+.box ul {list-style: none;padding: 0;line-height: 2;}
+.box li{
+
+}
+.box a{
+
+}
+
+.plays {
+  float: left;
+  /* margin: 20px; */
+}
+.plays ul{
+  /* float: left; */
+  list-style: none;
+  padding: 0;
+}
+
+.plays li {
+  float: left;
+  margin-top: 20px;
+  width: 130px;
+}
+.plays img {margin-right: 10px;}
+
+.playlist a {
+  font-size: 12px;
+}
+
+.sidebar .hot{
+  font-size: 13px;
+}
+.sidebar .start-user{
+}
+.sidebar .start-user-list{float: left;text-align: center;width: 85px;}
+
+.sidebar .start-user img{border-radius: 300px;}

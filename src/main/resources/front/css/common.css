@@ -1,0 +1,77 @@
+body{
+  background: #f1f2f6;
+  color: #6f6f6f;
+  font-family: "Microsoft YaHei", SimHei, Verdana, Arial, sans-serif;
+}
+a{
+  cursor: pointer;
+  color: #5c5c5c;
+}
+a:hover, a.active, .active > a{
+  text-decoration: none;
+  color: #2ec7bb;
+}
+a:active, a:link{
+  text-decoration: none;
+}
+.container{
+  width: 1240px;
+  padding: 0;
+}
+.separator{
+
+}
+.bg-white{
+  background-color: #fff;
+}
+.bg-green{
+  background-color: #2ec7bb;
+}
+.border-green{
+  border: 1px solid #2ec7bb;
+}
+
+/*åˆ†äº«*/
+.share-box {
+  display: none;
+  background: #fff;
+  border: 1px solid #d8d8d8;
+  position: absolute;
+  padding: 4px 5px;
+  width: 230px;
+  overflow: visible;
+}
+
+div.share-box a {
+  background: url(../images/shares.png) no-repeat scroll 0 0;
+  height: 33px;
+  margin: 0 10px 0 0;
+  padding: 0;
+  width: 33px;
+  float: left;
+}
+
+
+div.share-box a.bds_weixin {
+  background-position: -126px 0;
+}
+
+div.share-box a.share_qqone {
+  background-position: -84px 0;
+}
+
+div.share-box a.bds_tieba {
+  background-position: -168px 0;
+}
+
+div.share-box a.share_qq {
+  background-position: -42px 0;
+}
+/*backTop*/
+#backTop{
+  position: fixed;
+  right: 10px;
+  bottom: 300px;
+  color: #686868;
+  display: none;
+}
