@@ -38,6 +38,7 @@ public class TopicController {
     @GetMapping("/listAll")
     public R<Page<TopicEntity>> listAll(Integer page,Integer pageSize){
         Page<TopicEntity> pageInfo = new Page<>(page,pageSize);
+
         LambdaQueryWrapper<TopicEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.orderByDesc(TopicEntity::getUpdateTime);
         return R.success(topicService.page(pageInfo,lambdaQueryWrapper));

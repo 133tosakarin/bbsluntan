@@ -91,9 +91,9 @@
 <div id="loginDiv">
     <form action="file:///D:/web%E8%84%9A%E6%9C%AC/WEB/login.html" id="form">
         <h1 style="text-align: center;color: aliceblue;">登陆</h1>
-        <p>用户名:<input id="username" type="text" v-model="username"><label id="name_trip"></label></p>
+        <p>用户名:<input id="username" type="text" v-model="user.username"><label id="name_trip"></label></p>
 
-        <p>密&emsp;码:<input id="password" type="password" v-model="password"><label id="password_trip"></label></p>
+        <p>密&emsp;码:<input id="password" type="password" v-model="user.password"><label id="password_trip"></label></p>
 
         <div style="text-align: center;margin-top: 30px;">
             <input type="button" class="button" @click="click_login" value="登陆">

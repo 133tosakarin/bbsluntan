@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,379 +14,198 @@
     <link href="../css/header.css" rel="stylesheet">
     <link href="../css/content-area.css" rel="stylesheet">
     <link href="../css/sidebar.css" rel="stylesheet">
-    <link href="../css/footer.css" rel="stylesheet">
+    <link href="../css/footer.css" rel="stylesheet">        <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--axios开发环境-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
 
-  
-  </head>
-
-
-
-  <body>
-  
-    <script src="../js/jquery/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="../js/bootstrap.js"></script>
-    <!-- js -->
-    <script src="../js/common.js"></script>
-
-  <div class="header">
-    <div class="top-nav">
-      <div class="container">
-        <span> <a href="http://#.cn/space-uid-30169687.html" target="_blank">设置首页</a> <span class="separator">|</span> </span>
-        <span> <a href="#" target="_blank">收藏本站</a> <span class="separator">|</span> </span>
-        <span> <a href="#" target="_blank">将本站创建桌面快捷方式</a> <span class="separator">|</span> </span>
-        
-      </div>
-    </div>
-    <div class="second-nav bg-white">
-      <div class="container">
-        <div class="logo pull-left">
-          <a href="index.html"> <img src="../picture/qiku_community_logo.png" alt=""></a>
-        </div>
-        <ul class="menu pull-left">
-          <li class="active"><a href="index.html">首页</a></li>
-          <li><a href="forum.html">论坛</a></li>
-          <li><a href="group.html">校园</a></li>
-         
-         
-        </ul>
-
-
-        <div class="login-reg pull-right">
-          <a href="login.html" target="_blank">登录</a>
-          <a href="register.html" target="_blank">注册</a>
-          <a href="personal.html" target="_blank">个人</a>
-        </div>
-        <div class="search-form pull-right">
-          <div class="input-group">
-            <input type="text" class="form-control" name="name" value="" placeholder="帖子/用户">
-            <div class="input-group-btn">
-              <button type="button" class="btn btn-default">
-                <i class="fa fa-search"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<!--  -->
-<div class="container main">
-  <!--幻灯片-->
-  <div id="dfsj_index1" class="area"><div id="portal_block_230" class="block move-span"><div id="portal_block_230_content" class="dxb_bc"><div class="dfsj_focus">
-<div class="col topCol"><a href="#" target="_blank" title=""><img src="../picture/p1.jpg" width="1240" height="400" alt="" /></a><a href="http://#.cn/thread-14600334-1-1.html " target="_blank" title=""><img src="../picture/p3.jpg" width="1240" height="400" alt="" /></a><a href="http://#.cn/thread-14598759-1-1.html" target="_blank" title=" "><img src="../picture/p4.jpg" width="1240" height="400" alt="" /></a><a href="http://event.youxi.com/3263.html?src=game-community" target="_blank" title=""><img src="../picture/p5.jpg" width="1240" height="400" alt="" /></a><a href="http://#.cn/thread-14599042-1-1.html" target="_blank" title=""><img src="../picture/p6.jpg" width="1240" height="400" alt="" /></a><a href="http://#.cn/thread-14600884-1-1.html" target="_blank" title=""><img src="../picture/p2.jpg" width="1240" height="400" alt="" /></a><ul style="display: block">
-<li class="now"> </li>
-</ul>
-</div>
-<img src="../picture/index_pre.png" alt="上一页" class="index-control" id="index-pre" />
-<img src="../picture/index_next.png" alt="上一页" class="index-control" id="index-next" />
-</div>
-</div></div></div>
+<script src="../js/jquery/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../js/bootstrap.js"></script>
+<!-- js -->
+<script src="../js/common.js"></script>
 <link href="../css/slider.css" rel="stylesheet">
 <script src="../js/slider.js"></script>
-<!--幻灯片结束  -->
-
-<!-- 左侧内容区 -->
-<div class="content-area bg-white">
-
-  <!-- 新闻 news -->
-  <ul class="news">
-  <li>
-    <div class="news-pic">
-      <a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037608159336975" target="_blank">
-        <img src="../picture/pc-1.png" width="280" height="210" alt="【倒计时】360N4S骁龙版发布还有4天！">
-      </a>
-    </div>
-    <div class="news-detail">
-      <h2 class="new-title">
-        <a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037608159336975" target="_blank">
-          学校第二届廉洁文化创意作品大赛
-        </a>
-      </h2>
-      <p class="news-content">
-        学校举办“倡导廉洁之风，弘扬浩然正气”第二届廉洁文化创意作品大赛暨作品展
-        活动由学校纪委、团委主办，美术学院纪委承办，全校师生积极参与。
-        <a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037608159336975" target="_blank" class="more">
-          全文》
-        </a>
-      </p>
-      <div class="news-extradetail">
-        <span class="news-cols1">
-          <a href="#" target="_blank" ></a> </span>
-          <span class="news-cols2 "><span>四川轻化工大学 2022-11-11 </span><span>|</span><span> 校团委 </span></span>
-          </div><div class="share">
-        <i class="fa fa-share-alt"></i>
-      </div>
-          </div>
-          </li><li>
-          <div class="news-pic ">
-          <a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037583308418196" target="_blank "><img src= ../picture/pc-2.png " height="210" alt="第三届中印巴国际学术研讨会在我校举行 "></a>
-          </div>
-          <div class="news-detail ">
-          <h2 class="new-title "><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037583308418196" target="_blank ">第三届中印巴国际学术研讨会在我校举行</a></h2>
-          <p class="news-content
-          "> 时隔一年，11月4日，由我校主办、中印巴研究中心承办、线上线下相结合的第三届&ldquo;上海合作组织框架下中国与周边国家关系国际学术研讨会&rdquo;在自贡李白河校区行政中心1110举行。开幕式由我校中印巴研究中心执行主任李咏梅主持。 <a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037583308418196 " target="_blank " class="more ">全文》</a></p>
-          <div class="news-extradetail ">
-          <span class="news-cols1 "><a href="# " target="_blank ">
-            四川轻化工大学          </a>
-        </span>
-        <span class="news-cols2">
-          <span>
-            2022-11-11
-          </span>
-          <span>
-            |
-          </span>
-          <span>
-            巫燕新
-          </span>
-        </span>
-      </div><div class="share">
-        <i class="fa fa-share-alt"></i>
-      </div>
+<body>
+<div id="app">
 
 
-    </div>
-  </li>
-  <li>
-    <div class="news-pic">
-      <a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037593665060958" target="_blank">
-        <img src="./picture/pc-3.png" width="280" height="210" alt="【微摄影】旗舰版下的微光世界，万花丛中有">
-      </a>
-    </div>
-    <div class="news-detail">
-      <h2 class="new-title">
-        <a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037593665060958" target="_blank">【学习贯彻党的二十大精神】学校第一期青年干部理论学习小组学习贯彻党的二十大精神</a>
-      </h2>
-      <p class="news-content">11月10日上午，学校第一期青年干部理论学习小组举行学习贯彻党的二十大精神专题会，邀请马克思主义学院柯彪教授作党的二十大精神专题辅导。学校第一期青年干部理论学习小组全体成员参加学习。</p>
-      <div class="news-extradetail">四川轻化工大学 <span class="news-cols2 "><span>2022-11-9 </span><span>|</span><span> shimmercc </span></span>
-          </div><div class="share">
-        <i class="fa fa-share-alt"></i>
-      </div>
-          </div>
-          </li><li>
-          <div class="news-pic ">
-          <a href="#" target="_blank "><img src="../picture/t0195b7885ed41570d6.gif&#10;          " width="auto " height="auto " alt="神舟航天员正在天宫里，来关注下【太空网络安全】 "></a>
-          </div>
-          <div class="news-detail ">
-          <h2 class="new-title "><a href="# " target="_blank ">神舟航天员正在天宫里，来关注下【太空网络安全】</a></h2>
-          <p class="news-content
-          ">19日3时31分，神舟十一号载人飞船与天宫二号空间实验室成功实现自动交会对接。这是天宫二号自9月15日发射入轨以来，与神舟飞船开展的首次交会对接。随后，两名航天员也成功从神舟十一号飞船进入天宫二号实验舱。 <a href="http://#.cn/thread-14602808-1-1.html " target="_blank " class="more ">全文》</a></p>
-          <div class="news-extradetail ">
-          <span class="news-cols1 "><a href="# " target="_blank ">
-            粉丝杂谈
-          </a>
-        </span>
-        <span class="news-cols2">
-          <span>
-            2022-11-7
-          </span>
-          <span>
-            |
-          </span>
-          <span>
-            王光明
-          </span>
-        </span>
-      </div><div class="share">
-        <i class="fa fa-share-alt"></i>
-      </div>
-    </div>
-  </li>
-  <li>
-    <div class="news-pic">
-      <a href="#" target="_blank">
-        <img src="../picture/t0151fcc24429622de6.jpg" width="auto" height="auto" alt="【360°摄影】秋风起的时候，你在哪里？">
-      </a>
-    </div>
-    <div class="news-detail">
-      <h2 class="new-title">
-        <a href="#" target="_blank">
-          【360°摄影】秋风起的时候，你在哪里？
-        </a>
-      </h2>
-      <p class="news-content">
-        叶，一片一片地落，轻轻柔柔地飘落在地方，秋风起的时候，你在想什么？
-        <a href="#" target="_blank" class="more">
-          全文》
-        </a>
-      </p>
-      <div class="news-extradetail">
-        <span class="news-cols1">
-          <a href="#" target="_blank" >手机摄影</a> </span>
-          <span class="news-cols2 "><span>2022-11-03 </span><span>|</span><span> 小小女背包 </span></span>
-          </div><div class="share">
-        <i class="fa fa-share-alt"></i>
-      </div>
-          </div>
-          </li><li>
-        <div class="news-pic ">
-          <a href="# " target="_blank "><img src="../picture/t01eace8f036206459c.jpg&#10;          " width="auto " height="auto " alt="过个最美周末，有山，有水，有飞机，有美女 "></a>
+
+    <div class="header">
+        <div class="second-nav bg-white">
+            <div class="container">
+                <div class="logo pull-left">
+                    <a href="index.html"> <img src="../picture/qiku_community_logo.png" alt=""></a>
+                </div>
+                <ul class="menu pull-left">
+                    <li class="active"><a href="index.html">首页</a></li>
+                    <li><a href="forum.html">论坛</a></li>
+                    <li><a href="group.html">校园</a></li>
+
+
+                </ul>
+                <div class="login-reg pull-right">
+                    <a href="login.html" target="_blank" v-show="user.userStatus==null">登录</a>
+                    <a href="register.html" target="_blank" v-if="user.userStatus === null">注册</a>
+                    <a href="" v-else>{{ user.userAccountId }}</a>
+                    <a href="personal.html" target="_blank">个人</a>
+                </div>
+                <div class="search-form pull-right">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="name" value="" placeholder="帖子/用户"
+                               v-model="userSearch">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default" @click="click_search()">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="news-detail ">
-          <h2 class="new-title "><a href="# " target="_blank ">过个最美周末，有山，有水，有飞机，</a></h2>
-          <p class="news-content ">这个星期，公司组织了八达岭两日游的活动。我也刚刚才知道原来老板竟然为了拍景，在一个地方蹲了两三天呢！！！ <a href="http://#.cn/thread-14598805-1-1.html&#10;          " target="_blank " class="more ">全文》</a></p>
-          <div class="news-extradetail ">
-          <span class="news-cols1 "><a href="# " target="_blank " >
-            手机摄影
-          </a>
-        </span>
-        <span class="news-cols2">
-          <span>
-            2022-10-18
-          </span>
-          <span>
-            |
-          </span>
-          <span>
-            360fans74296776
-          </span>
-        </span>
-      </div><div class="share">
-        <i class="fa fa-share-alt"></i>
-      </div>
     </div>
-  </li>
-  <li>
-    <div class="news-pic">
-      <a href="#" target="_blank">
-        <img src="../picture/t017fb22decb3ef85be.png" width="auto" height="auto" alt="黑客是如何干预美国总统大选的？">
-      </a>
-    </div>
-    <div class="news-detail">
-      <h2 class="new-title">
-        <a href="#" target="_blank">
-          黑客是如何干预美国总统大选的？
-        </a>
-      </h2>
-      <p class="news-content">
-        美国总统大选，撕得那是一个风生水起，好生热闹！不过今年除了两位总统候选人备受关注之外，黑客攻击干扰大选的新闻也是屡屡见诸报端，引发了激烈的讨论。
-        <a href="#" target="_blank" class="more">
-          全文》
-        </a>
-      </p>
-      <div class="news-extradetail">
+
+    <!--  -->
+    <div class="container main">
+        <!--幻灯片-->
+        <div id="dfsj_index1" class="area">
+            <div id="portal_block_230" class="block move-span">
+                <div id="portal_block_230_content" class="dxb_bc">
+                    <div class="dfsj_focus">
+                        <div class="col topCol"><a href="#" target="_blank" title=""><img src="../picture/p1.jpg"
+                                                                                          width="1240" height="400"
+                                                                                          alt=""/></a><a
+                                href="http://#.cn/thread-14600334-1-1.html " target="_blank" title=""><img
+                                src="../picture/p3.jpg" width="1240" height="400" alt=""/></a><a
+                                href="http://#.cn/thread-14598759-1-1.html" target="_blank" title=" "><img
+                                src="../picture/p4.jpg" width="1240" height="400" alt=""/></a><a
+                                href="http://event.youxi.com/3263.html?src=game-community" target="_blank" title=""><img
+                                src="../picture/p5.jpg" width="1240" height="400" alt=""/></a><a
+                                href="http://#.cn/thread-14599042-1-1.html" target="_blank" title=""><img
+                                src="../picture/p6.jpg" width="1240" height="400" alt=""/></a><a
+                                href="http://#.cn/thread-14600884-1-1.html" target="_blank" title=""><img
+                                src="../picture/p2.jpg" width="1240" height="400" alt=""/></a>
+                            <ul style="display: block">
+                                <li class="now"></li>
+                            </ul>
+                        </div>
+                        <img src="../picture/index_pre.png" alt="上一页" class="index-control" id="index-pre"/>
+                        <img src="../picture/index_next.png" alt="上一页" class="index-control" id="index-next"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--幻灯片结束  -->
+
+        <!-- 左侧内容区 -->
+        <div class="content-area bg-white">
+
+            <!-- 新闻 news -->
+            <ul class="news">
+                <li>
+                    <div class="news-pic">
+                        <a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037608159336975" target="_blank">
+                            <img src="../picture/pc-1.png" width="280" height="210"
+                                 alt="【倒计时】360N4S骁龙版发布还有4天！">
+                        </a>
+                    </div>
+                    <div class="news-detail">
+                        <h2 class="new-title">
+                            <a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037608159336975"
+                               target="_blank">
+                                学校第二届廉洁文化创意作品大赛
+                            </a>
+                        </h2>
+                        <p class="news-content">
+                            学校举办“倡导廉洁之风，弘扬浩然正气”第二届廉洁文化创意作品大赛暨作品展
+                            活动由学校纪委、团委主办，美术学院纪委承办，全校师生积极参与。
+                            <a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037608159336975"
+                               target="_blank"
+                               class="more">
+                                全文》
+                            </a>
+                        </p>
+                        <div class="news-extradetail">
         <span class="news-cols1">
-          <a href="#" target="_blank" >粉丝杂谈</a> </span>
-          <span class="news-cols2 "><span>2022-10-18 </span><span>|</span><span> 王明 </span></span>
-          </div><div class="share">
-        <i class="fa fa-share-alt"></i>
-      </div>
-          </div>
-          </li><li>
-          <div class="news-pic ">
-          <a href="# " target="_blank "><img src="../picture/t0182e08f48014007e1.jpg&#10;          " width="auto " height="auto " alt="刷机只是男人的专属？谁说女生就不会刷机？ "></a>
-          </div>
-          <div class="news-detail ">
-          <h2 class="new-title "><a href="# " target="_blank ">刷机只是男人的专属？谁说女生就不会刷机？</a></h2>
-          <p class="news-content
-          ">N4S可以哦，可以使劲折腾！关于刷机，妹纸我大写的惨啊！谁说女生就不会刷机的？跟着哥哥一起，我也把我的N4S折腾好了！铛铛铛~崭新的出锅咯！  <a href="http://#.cn/thread-14594366-1-1.html " target="_blank " class="more ">全文》</a></p>
-          <div class="news-extradetail ">粉丝论坛<span class="news-cols2">
-          <span>
-            2022-10-16
-          </span>
-          <span>
-            |
-          </span>
-          <span>
-            MO兔
-          </span>
-        </span>
-      </div><div class="share">
-        <i class="fa fa-share-alt"></i>
-      </div>
+          <a href="#" target="_blank"></a> </span>
+                            <span class="news-cols2 "><span>四川轻化工大学 2022-11-11 </span><span>|</span><span> 校团委 </span></span>
+                        </div>
+                        <div class="share">
+                            <i class="fa fa-share-alt"></i>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!-- 分页 -->
+            <div class="index-pages"><a class="active" href="#">1</a></div>
+        </div>
+        <!-- 右侧边栏 -->
+        <div class="sidebar bg-white">
+            <div class="block">
+                <a href="#" class="new-thread bg-green">发帖</a>
+                <div class="signup-total bg-green">
+                    星期日<br/>
+                    <span class="num-date">11.6</span><br/>
+                    已签到56人
+                </div>
+                <div class="signup-lucky">
+                    <a href="#" class="signup border-green">签到</a>
+                    <a href="#" class="lucky border-green">抽奖</a>
+                </div>
+            </div>
+        </div>
     </div>
-  </li>
-</ul>
-          <!-- 分页 -->
-    <div class="index-pages"><a class="active" href="#">1</a></div>
-</div>
-<!-- 右侧边栏 -->
-<div class="sidebar bg-white">
-  <div class="block">
-    <a href="#" class="new-thread bg-green">发帖</a>
-    <div class="signup-total bg-green">
-      星期日<br />
-      <span class="num-date">11.6</span><br />
-      已签到56人
-    </div>
-    <div class="signup-lucky">
-      <a href="#" class="signup border-green">签到</a>
-      <a href="#" class="lucky border-green">抽奖</a>
-    </div>
-  </div>
-  <!-- 版块推荐 -->
-  <div class="plays box">
-		<h4><strong>版块推荐</strong></h4>
-		<ul>
-		  <li class="playlist"><a href="#" target="_blank" title="360手机N4S"><img src="../picture/t01b3ea84a97551c661.png" width="24" height="24" alt="360手机N4S">计算机</a></li>
-		  <li class="playlist"><a href="forum-5146-1.html" target="_blank" title="手机摄影"><img src="../picture/t01e9739182cfdbb42b.png" width="24" height="24" alt="手机摄影"></a>摄影</li>
-	  <li class="playlist"><a href="#" target="_blank" title="360手机Q5"><img src="../picture/t0175b5d9c7d8bfd7aa.png" width="24" height="24" alt="360手机Q5">寻物启事</a></li>
-	  <li class="playlist"><a href="forum-7081-1.html" target="_blank" title="360儿童机器人"><img src="../picture/t01bd408be3fdc7f74d.png" width="24" height="24" alt="360儿童机器人">机械设计</a></li>
-	  <li class="playlist"><a href="#" target="_blank" title="360儿童卫士"><img src="../picture/t011cfce70442278c24.png" width="24" height="24" alt="360儿童卫士">社团活动</a></li></ul>
-	</div>
-  <div class="clearfix">
-  </div>
-  <!-- 最新活动 -->
-  <div class="box"><h4 class=""><strong>最新活动</strong></h4>
-<div class="">
-		<div class="col topCol" style="width: 270px"><a href="# " target="_blank" title="" style="display: inline;"><em style="opacity: 0;"></em><img src="../picture/sign%20in.png" width="270" height="152" alt="签到赢红包"></a>
-    </div>
-	</div>
-</div>
-<!-- 热门推荐 -->
-<div class="box hot">
-        <h4>
-			<strong>热门推荐</strong>
-		</h4>
-        <ul><li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037599478727046" target="_blank" title="双城派出所对留学生开展禁毒宣传教育">双城派出所对留学生开展禁毒宣传教育</a></li><li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037601288890914" target="_blank" title="化学工程学院开展校友、校友企业合作交流座谈会">化学工程学院校友、校友合作交流座谈会</a></li><li><a href="http://#.cn/thread-14588473-1-1.html" target="_blank" title="体育学院召开学生创新创业培训动员会">体育学院召开学生创新创业培训动员会</a></li><li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037596725215721" target="_blank" title="#冯雷应邀为我校作知识产权专题讲座">冯雷应邀为我校作知识产权专题讲座</a></li><li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037604350693809" target="_blank" title="">消防安全月 学校开展消防演练培训</a></li><li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037597480122262" target="_blank" title="孩子的最佳玩伴--360儿童机器人国庆把玩">研究生颜朋发表最新科研成果</a></li><li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037599049705384" target="_blank" title="十年 ！ 360已在我工作、生活中无处不在">人文学院乡村文化振兴项目上榜</a></li><li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037597865712348" target="_blank" title="【360社区APP v3.1.0版】【10月9日更新】">第一届音体美学生两委会交流会</a></li></ul>
-</div>
-<!-- 明星用户 -->
-<div class="start-user box">
-<h4>明星用户</h4>
-<ul><li class="start-user-list">
-	<a href="#" c="1" target="_blank" mid="card_3527"><img src="../picture/avatar.php" width="48" height="48" alt="宣纸.泛黄"></a>
-	<p class="start-user-name"><a href="#" title="宣纸.泛黄" target="_blank">student-1</a></p>
-</li><li class="start-user-list">
-	<a href="#" c="1" target="_blank" mid="card_3414"><img src="../picture/avatar.php" width="48" height="48" alt="誓言"></a>
-	<p class="start-user-name"><a href="#" title="誓言" target="_blank">誓言-2</a></p>
-</li><li class="start-user-list">
-	<a href="#" c="1" target="_blank" mid="card_6958"><img src="../picture/avatar.php" width="48" height="48" alt="清彤"></a>
-	<p class="start-user-name"><a href="#" title="清彤" target="_blank">清彤-3</a></p>
-</li><li class="start-user-list">
-	<a href="#" c="1" target="_blank" mid="card_7202"><img src="../picture/avatar.php" width="48" height="48" alt="亚柏"></a>
-	<p class="start-user-name"><a href="#" title="亚柏" target="_blank">亚柏-4</a></p>
-</li><li class="start-user-list">
-	<a href="#" c="1" target="_blank" mid="card_484"><img src="../picture/avatar.php" width="48" height="48" alt="勺子"></a>
-	<p class="start-user-name"><a href="#" title="勺子" target="_blank">勺子-5</a></p>
-</li><li class="start-user-list">
-	<a href="#" c="1" target="_blank" mid="card_4324"><img src="../picture/avatar.php" width="48" height="48" alt="不满格"></a>
-	<p class="start-user-name"><a href="#" title="不满格" target="_blank">不满格-6</a></p>
-</li></ul>
-<div style="clear:both;"></div>
-</div>
-<!-- 360社区客户端下载-->
-<div class="box download-360" style="margin-bottom:0;">
-				<h4>联系我们</h4>
-				<div class="bm_c">
-					<table width="100%" border="0">
-						<tbody><tr>
-							<td align="center"><img src="../picture/contact.png" width="240" height="240"></td>
-						</tr>
 
-					</tbody></table>
-				</div>
-			</div>
-
-
+    <!-- footer --><!-- other -->
+    <button type="button" id="backTop" class="btn btn-default">
+        <i class="fa fa-arrow-up"></i>
+    </button>
 </div>
-
-</div>
-
-<!-- footer --><!-- other -->
-<button type="button" id="backTop" class="btn btn-default">
-  <i class="fa fa-arrow-up"></i>
-</button>
 </body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            urlBase: "http://localhost:8080/",
+            user: {
+
+                serialVersionUID: null,
+                id: null,
+                userAccountId:"hjkgbhjbj",
+                username: 666,
+                password: null,
+                userEmail: null,
+                userSex: null,
+                userClass: null,
+                userStatement: null,
+                userStatus:null
+            },
+            createTime: null,
+            updateTime: null,
+            userSearch: null,//搜索输入框输入值
+        },
+        mounted() {
+            let _this = this
+            axios({
+                method: 'get',
+                url: "http://localhost:8080/user/get",
+            }).then(res => {
+                console.log(res);
+                _this.user = res.data.data
+            }, err => {
+                console.log(err);
+            });
+            console.log(this.user.userStatement);
+        },
+        methods: {
+            click_search: function () {
+                //打开searchedShow页面并传入参数
+                window.open("searchedShow.html" + "?content=" + this.userSearch);
+            },
+
+        },
+    });
+</script>
 </html>

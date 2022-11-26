@@ -38,19 +38,20 @@ public class UserController {
     @PostMapping("/login") //user/login
     public R<UserEntity> login(@RequestBody UserEntity user,HttpServletRequest req){
         log.info("登录中");
-        if(user==null || user.getUserName()==null )
+        if(user==null || user.getUsername()==null )
             return R.error("error");
         //对密码进行加密
-        String password = user.getUserPassword();
+        String password = user.getPassword();
         password = DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8));
 
         LambdaQueryWrapper<UserEntity> querryWrapper = new LambdaQueryWrapper<>();
-        querryWrapper.eq(UserEntity::getUserName,user.getUserName());
+        querryWrapper.eq(UserEntity::getUsername,user.getUsername());
         UserEntity one = userService.getOne(querryWrapper);
         if(one!=null){
-            if(StringUtils.equal(one.getUserPassword(),password))
+            if(StringUtils.equal(one.getPassword(),password))
             {
                 log.info("登录成功");
+                one.setUserStatus(1);
                 req.getSession().setAttribute("user",one.getId());
                 return R.success(one);
 
@@ -63,15 +64,15 @@ public class UserController {
     @PostMapping("/register")
     public R<String> register(@RequestBody UserEntity user){
         log.info("注册");
-        String password = user.getUserPassword();
+        String password = user.getPassword();
         password = DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8));
         //从数据库中查找有无相同的账户id
         LambdaQueryWrapper<UserEntity> queryWrapper  =  new LambdaQueryWrapper<>();
-        queryWrapper.eq(UserEntity::getUserName,user.getUserName());
+        queryWrapper.eq(UserEntity::getUsername,user.getUsername());
         UserEntity newUser = userService.getOne(queryWrapper);
         if(newUser==null){
             log.info("注册成功");
-            user.setUserPassword(password);
+            user.setPassword(password);
             userService.save(user);
             return R.success("success");
         }
@@ -81,20 +82,25 @@ public class UserController {
 // base+ user/regist
     @PostMapping("/logout")
     public R<String> logout(HttpServletRequest req){
+        Long id  = (Long) req.getSession().getAttribute("user");
+        UserEntity user = userService.getById(id);
+        user.setUserStatus(0);
         req.getSession().removeAttribute("user");
+
         return R.success("success");
     }
 
     @PutMapping("/update")
-    public R<String> update(@RequestBody UserEntity updateUser){
+    public R<String> update(@RequestBody UserEntity updateUser,HttpServletRequest req){
         log.info("修改用户信息");
-        if(updateUser.getUserPassword()==null){
+        if(updateUser.getPassword()==null){
             return R.error("error");
         }
-        String userPassword = updateUser.getUserPassword();
-        userPassword = DigestUtils.md5DigestAsHex(userPassword.getBytes(StandardCharsets.UTF_8));
-        updateUser.setUserPassword(userPassword);
+        //String userPassword = updateUser.getUserPassword();
+        //userPassword = DigestUtils.md5DigestAsHex(userPassword.getBytes(StandardCharsets.UTF_8));
+        //updateUser.setUserPassword(userPassword);
         userService.updateById(updateUser);
+
         return R.success("success");
     }
 
@@ -108,6 +114,13 @@ public class UserController {
         Page<TopicEntity> page1 = topicService.page(pageInfo, wrapper);
         return R.success(page1);
     }
-
+    @GetMapping("/get")
+    public R<UserEntity> getUser(HttpServletRequest req){
+        Long id = (Long) req.getSession().getAttribute("user");
+        if(id == null)
+            id = 2l;
+        UserEntity user = userService.getById(id);
+        return R.success(user);
+    }
 
 }

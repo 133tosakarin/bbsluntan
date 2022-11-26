@@ -19,14 +19,18 @@ public class WebMvcConfig  implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         log.info("过滤");
-        String urls[] ={""};
         registry.addResourceHandler("/front/**").addResourceLocations("classpath:/front/");
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
         registry.addResourceHandler("/back/**").addResourceLocations("classpath:/back/");
         registry.addResourceHandler("/front/css/**").addResourceLocations("classpath:/front/css/");
         registry.addResourceHandler("/front/js/**").addResourceLocations("classpath:/front/js/");
+        registry.addResourceHandler("/front/js/jquery/**").addResourceLocations("classpath:/front/js/jquery");
+
         registry.addResourceHandler("/front/images/**").addResourceLocations("classpath:/front/s/images");
         registry.addResourceHandler("/front/node_modules/**").addResourceLocations("classpath:/front/js/node_modules");
+        registry.addResourceHandler("/front/node_modules/bootstrap/**").addResourceLocations("classpath:/front/js/node_modules/bootstrap");
+        registry.addResourceHandler("/front/node_modules/font-awesome/**").addResourceLocations("classpath:/front/js/node_modules/font-awesome");
+        registry.addResourceHandler("/front/node_modules/jquery/**").addResourceLocations("classpath:/front/js/node_modules/jquery");
         registry.addResourceHandler("/front/picture/**").addResourceLocations("classpath:/front/picture/");
         registry.addResourceHandler("/front/fonts/**").addResourceLocations("classpath:/front/fonts/");
     }

@@ -14,24 +14,30 @@ let app = new Vue({
     el: "#loginDiv",
     data: {
         urlBase: "http://localhost:8080/",
-        userAccountId: null,
-        username: null,
-        password: null,
-        passwordConfirm: null,
-        userEmail: null,
-        userSex: null,
-        userClass: null,
-        userStatement: null,
-        createTime: null,
-        updateTime: null,
+        user:{
+
+            serialVersionUID: null,
+            id: null,
+            userAccountId: null,
+            username: null,
+            password: null,
+            userEmail: null,
+            userSex: null,
+            userClass: null,
+            userStatement: null,
+            userStatus:null,
+            createTime: null,
+            updateTime: null
+        },
     },
+
     methods: {
         /**
          * 注册点击请求
          */
         async click_register(){
             console.log(this.urlBase);
-            const  res = await register_post(this.urlBase + "user/register",this);
+            const  res = await register_post(this.urlBase + "user/register",this.user);
             let _this = this;
             console.log(res);
             if(res.data.code === 1){
@@ -45,10 +51,10 @@ let app = new Vue({
                  * 注册成功后两秒跳转
                  *
                  */
-                setTimeout(function () {
+                setTimeout(()=> {
                    // window.location.href = _this.urlBase + "user/index.html";
 
-                    window.open(_this.urlBase+'front/pages/login.html')
+                    window.open(this.urlBase+'front/pages/login.html')
                 }, 2000);
 
             }else{

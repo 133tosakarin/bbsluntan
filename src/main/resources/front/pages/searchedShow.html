@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查找结果</title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/font-awesome.css" rel="stylesheet">
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/header.css" rel="stylesheet">
+    <link href="../css/content-area.css" rel="stylesheet">
+    <link href="../css/sidebar.css" rel="stylesheet">
+    <link href="../css/footer.css" rel="stylesheet">
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--axios开发环境-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/package.js"></script>
+    <script src="../js/searchedShow.js"></script>
+</head>
+<body>
+<!--搜索框-->
+<div class="input-group">
+    <input type="text" class="form-control" name="name" value="" placeholder="帖子/用户" v-model="userSearch">
+    <div class="input-group-btn">
+        <button type="button" class="btn btn-default" @click="click_search">
+            <i class="fa fa-search"></i>
+        </button>
+    </div>
+</div>
+<!--搜索结果展示-->
+<div class="content-area bg-white">
+    <!-- 新闻 news -->
+
+    <ul style="list-style-type: decimal">
+        <!--item, index分别是内容和索引-->
+        <li v-for="(item, index) in dataList">
+            <!--    :href指向目标,v-text显示关键字    -->
+            <a :href="item.href" v-text="item.title"></a>
+        </li>
+    </ul>
+    <br>
+    <button v-show="nowPage != 1">previousPage</button>
+    <button v-show="hasNext">nextPage</button>
+    <div class="block">
+        <span class="demonstration">页数较少时的效果</span>
+        <el-pagination
+                layout="prev, pager, next"
+                :total="50">
+        </el-pagination>
+    </div>
+    <div class="block">
+        <span class="demonstration">大于 7 页时的效果</span>
+        <el-pagination
+                layout="prev, pager, next"
+                :total="1000">
+        </el-pagination>
+    </div>
+</div>
+</body>
+</html>

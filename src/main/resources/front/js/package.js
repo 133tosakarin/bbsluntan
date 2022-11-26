@@ -35,13 +35,17 @@ async  function post(url,records)
 {
     console.log(url)
     let ares = null;
+    console.log(url)
+    console.log("显示this.user信息")
+    console.log(records)
+    console.log(records.user)
     const _this = records
     await axios({
         method: "post",
         url: url,
         data: {
-            userName: _this.username,
-            userPassword: _this.password
+            username:records.user.username,
+            password:records.user.password
         }
     }).then(res=>{
         console.log("axios中：",res);
@@ -59,8 +63,8 @@ async function register_post(url,_this)
         method: "post",
         url: url,
         data: {
-            userName: _this.username,
-            userPassword: _this.password
+            username: _this.username,
+            password: _this.password
         }
     }).then(res=>{
         console.log(res);
@@ -72,16 +76,13 @@ async function register_post(url,_this)
     return ares;
 }
 //更新
-function put(url)
+async function put(url, record)
 {
     let ares = null;
-    axios({
+    await axios({
         method: 'put',
         url: url,
-        data: {
-            username: arguments[1],
-            password: arguments[2]
-        }
+        data: record.user,
     }).then(res=>{
         console.log(res);
         ares = res;
@@ -148,6 +149,20 @@ function register(url)
     });
 }
 
+async function get_user(){
+    let ares;
+    await axios({
+        method: 'get',
+        url: "http://localhost:8080/user/get",
+    }).then(res => {
+        console.log(res);
+        ares = res;
+    }, err => {
+        console.log(err);
+        ares = err;
+    });
+    return ares;
+}
 /*页面data模板
 let app = new Vue({
     data: {

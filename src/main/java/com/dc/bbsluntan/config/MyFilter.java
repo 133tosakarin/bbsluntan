@@ -31,7 +31,7 @@ public class MyFilter implements Filter {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
 
-        String[] urls = {".js",".css",".png",".html",".jpg",".png",".php","/login","/register"};
+        String[] urls = {".js",".css",".png","login.html",".jpg",".png",".php","/login","/register"};
         boolean flag = true;
         for (String str : urls) {
             if (path.indexOf(str) != -1) {
@@ -39,12 +39,25 @@ public class MyFilter implements Filter {
                 break;
             }
         }
-        if (!flag) {
+
+        /*if (!flag) {
             log.info("允许通过");
-            chain.doFilter(req,res);
-        }/*else{
+            Long id = (Long) request.getSession().getAttribute("user");
+            if(id != null)
+                chain.doFilter(req,res);
+            else
+                response.sendRedirect("/front/pages/login.html");
+
+        *//*else{
             response.sendRedirect(request.getContextPath()+"/front/pages/login.html");
         }*/
+        Long id = (Long) request.getSession().getAttribute("user");
+        if(id !=null )
+            log.info("用户:{},已登录",id);
+/*        if(id != null)
+            chain.doFilter(req,res);*/
+        //response.sendRedirect(request.getContextPath()+"/front/pages/login.html");
+        chain.doFilter(req,response);
     }
 
 }

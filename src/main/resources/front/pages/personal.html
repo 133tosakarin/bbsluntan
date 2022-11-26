@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,196 +16,213 @@
     <link href="../css/content-area.css" rel="stylesheet">
     <link href="../css/sidebar.css" rel="stylesheet">
     <link href="../css/footer.css" rel="stylesheet">
-    <script src="../js/vue.min.js"></script>
-    <script src="../js/axios.min.js"></script>
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>-->
-    <!--[endif]-->
-  </head>
-  <body>
-  <script src="../js/jquery/jquery.min.js"></script>
-  <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="../js/bootstrap.js"></script>
-  <!-- js -->
-  <script src="../js/common.js"></script>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!--文档加载完毕，开始执行-->
+    <script src="../js/package.js"></script>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--axios开发环境-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<script src="../js/jquery/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../js/bootstrap.js"></script>
+<!-- js -->
+<script src="../js/common.js"></script>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 
-
-
-  <div class="app">
+<link href="../css/slider.css" rel="stylesheet">
+<script src="../js/slider.js"></script>
+<div id="app1">
     <div class="top-nav">
     </div>
     <div class="second-nav bg-white">
-      <div class="container">
-        <div class="logo pull-left">
-          <a href="index.html"> <img src="../picture/qiku_community_logo.png" alt=""></a>
-        </div>
-        <ul class="menu pull-left">
-          <li class="active"><a href="./index.html">首页</a></li>
-          <li><a href="forum.html">论坛</a></li>
-          <li><a href="group.html">校园</a></li>
-         
-        </ul>
-
-
-        <div class="login-reg pull-right">
-          <a href="login.html">登录</a>
-          <a href="register.html" class="active">注册</a>
-          <a href="personal.html" target="_blank">个人</a>
-        </div>
-        <div class="search-form pull-right">
-          <div class="input-group">
-            <input type="text" class="form-control" name="name" value="" placeholder="帖子/用户">
-            <div class="input-group-btn">
-              <button type="button" class="btn btn-default">
-                <i class="fa fa-search"></i>
-              </button>
+        <div class="container">
+            <div class="logo pull-left">
+                <a href="index.html"> <img src="../picture/qiku_community_logo.png" alt=""></a>
             </div>
-          </div>
+            <ul class="menu pull-left">
+                <li class="active"><a href="./index.html">首页</a></li>
+                <li><a href="forum.html">论坛</a></li>
+                <li><a href="group.html">校园</a></li>
+
+            </ul>
+
+
+            <div class="login-reg pull-right">
+                <a href="login.html">登录</a>
+                <a href="register.html" class="active">注册</a>
+                <a href="personal.html" target="_blank">个人</a>
+            </div>
+            <div class="search-form pull-right">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="name" value="" placeholder="帖子/用户">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-  
 
-<!--  -->
-<div class="container main">
 
-<!-- 左侧内容区 -->
-  <div class="content-area bg-white">
-    <link href="../css/slider.css" rel="stylesheet">
-    <script src="../js/slider.js"></script>
-        <div>
-           <table width="921" height="612" border="0" class="zilia">
-    <tr align="left" valign="top">
-      <td height="65" colspan="4"><h3 class="ziliao"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基本资料</h3></td>
-      </tr>
-    <tr>
-      <td width="33" align="left" valign="top">&nbsp;</td>
-      <td width="72" align="left" valign="middle"><strong>用户账号</strong></td>
-      <td width="710">&nbsp;</td>
-      <td width="81">&nbsp;</td>
-      </tr>
-    <tr>
-      <td align="left" valign="top">&nbsp;</td>
-      <td align="left" valign="middle"><strong>昵称</strong></td>
-      <td><form action="" method="post" name="form1">
-        <label for="textfield"></label>
-        <input name="textfield" type="text" id="textfield" size="50">
-      </form></td>
-      </tr>
-    <tr>
-      <td align="left" valign="top">&nbsp;</td>
-      <td align="left" valign="middle"><strong>性别</strong></td>
-      <td><form name="form2" method="post" action="">
-        <label for="select"></label>
-        <select name="select" size="1" id="select">
-          <option>男</option>
-          <option>女</option>
-        </select>
-      </form></td>
-      </tr>
+        <!--  -->
+        <div class="container main">
 
- <!--   <tr>
-      <td align="left" valign="top">&nbsp;</td>
-      <td valign="middle"><strong>生日</strong></td>
-      <td><form name="form4" method="post" action="">
-        <select name="select2" size="1" id="select2">
-          <option>年</option>
-        </select>
-        <label for="select3"></label>
-        <select name="select3" id="select3">
-          <option>月</option>
-        </select>
-        <label for="select4"></label>
-        <select name="select4" id="select4">
-          <option>日</option>
-        </select>
-      </form></td>
-      <td><form name="form9" method="post" action="">
-        <label for="select5"></label>
-        <select name="select8" id="select5">
-          <option>保密</option>
-          <option>公开</option>
-        </select>
-      </form></td>
-      </tr>-->
+            <!-- 左侧内容区 -->
+            <div class="content-area bg-white">
 
-      <td align="left" valign="top">&nbsp;</td>
-      <td align="left" valign="middle"><strong>邮箱</strong></td>
-      <td><form name="form7" method="post" action="">
-        <label for="textfield5"></label>
-        <input name="textfield5" type="text" id="textfield5" size="50">
-      </form></td>
+                <div>
+                    <table width="921" height="612" border="0" class="zilia">
+                        <tr align="left" valign="top">
+                            <td height="65" colspan="4"><h3 class="ziliao"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;基本资料</h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="33" align="left" valign="top">&nbsp;</td>
+                            <td width="72" align="left" valign="middle"><strong>用户账号</strong></td>
+                            <!--下两个td放置用户账号-->
+                            <td width="710" v-text="user.username">&nbsp;</td>
+                            <td width="81">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="middle"><strong>昵称</strong></td>
+                            <td>
+                                <form action="" method="post" name="form1">
+                                    <label for="textfield"></label>
+                                    <input name="textfield" type="text" id="textfield" size="50" v-model="user.userAccountId">
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="middle"><strong>性别</strong></td>
+                            <td>
+                                <form name="form2" method="post" action="">
+                                    <label for="select"></label>
+                                    <select name="select" size="1" id="select" index="gender" >
+                                        <!--                                        男1女0，很好理解-->
+                                        <option value="1">男</option>
+                                        <option value="0">女</option>
+                                    </select>
+                                </form>
+                            </td>
+                        </tr>
 
-      </tr>
-    <tr>
-      <td align="left" valign="top">&nbsp;</td>
-      <td align="left" valign="middle"><strong>个性签名</strong></td>
-      <td><form name="form8" method="post" action="">
-        <label for="textarea"></label>
-        <textarea name="textarea" cols="100" id="textarea"></textarea>
-        </form></td>
-     
-    <td width="3" height="90"></tr>
-    <tr>
-      <td colspan="3" align="center" valign="middle"><form name="form10" method="post" action="">
-        <input type="submit" name="button" id="button" value="保存">
-      </form></td>
-      <td align="left" valign="top">&nbsp;</td>
-      <td height="49">      
-    </tr>
-    </table>
-    </div>
-    </div>
+                        <!--   <tr>
+                             <td align="left" valign="top">&nbsp;</td>
+                             <td valign="middle"><strong>生日</strong></td>
+                             <td><form name="form4" method="post" action="">
+                               <select name="select2" size="1" id="select2">
+                                 <option>年</option>
+                               </select>
+                               <label for="select3"></label>
+                               <select name="select3" id="select3">
+                                 <option>月</option>
+                               </select>
+                               <label for="select4"></label>
+                               <select name="select4" id="select4">
+                                 <option>日</option>
+                               </select>
+                             </form></td>
+                             <td><form name="form9" method="post" action="">
+                               <label for="select5"></label>
+                               <select name="select8" id="select5">
+                                 <option>保密</option>
+                                 <option>公开</option>
+                               </select>
+                             </form></td>
+                             </tr>-->
 
-<!-- 右侧边栏 -->
-<div class="sidebar bg-white">
-  <div class="block"> <a href="#" class="new-thread bg-green">发帖</a>
-    <div class="signup-total bg-green"> 星期日<br />
-      <span class="num-date">11.6</span><br />
-      已签到56人 </div>
-    <div class="signup-lucky"> <a href="#" class="signup border-green">签到</a> <a href="#" class="lucky border-green">抽奖</a> </div>
-  </div>
-  <!-- 版块推荐 -->
-  <div class="plays box">
-    <h4><strong>版块推荐</strong></h4>
-    <ul>
-      <li class="playlist"><a href="forum-7076-1.html" target="_blank" title="360手机N4S"><img src="../picture/t01b3ea84a97551c661.png" width="24" height="24" alt="360手机N4S">计算机</a></li>
-      <li class="playlist"><a href="forum-5146-1.html" target="_blank" title="手机摄影"><img src="../picture/t01e9739182cfdbb42b.png" width="24" height="24" alt="手机摄影"></a>摄影</li>
-      <li class="playlist"><a href="forum-7088-1.html" target="_blank" title="360手机Q5"><img src="../picture/t0175b5d9c7d8bfd7aa.png" width="24" height="24" alt="360手机Q5">寻物启事</a></li>
-      <li class="playlist"><a href="forum-7081-1.html" target="_blank" title="360儿童机器人"><img src="../picture/t01bd408be3fdc7f74d.png" width="24" height="24" alt="360儿童机器人">机械设计</a></li>
-      <li class="playlist"><a href="forum-7005-1.html" target="_blank" title="360儿童卫士"><img src="../picture/t011cfce70442278c24.png" width="24" height="24" alt="360儿童卫士">社团活动</a></li>
-    </ul>
-  </div>
-  <div class="clearfix"></div>
-  <!-- 最新活动 -->
-  <div class="box download-360" style="margin-bottom:0;">
-    <h4>联系我们</h4>
-    <div class="bm_c">
-      <table width="100%" border="0">
-        <tbody>
-          <tr>
-            <td align="center"><img src="../picture/contact.png" alt="" width="240" height="240"></td>
-          </tr>
-        </tbody>
-      </table>
+                        <td align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="middle"><strong>邮箱</strong></td>
+                        <td>
+                            <form name="form7" method="post" action="">
+                                <label for="textfield5"></label>
+                                <input name="textfield5" type="text" id="textfield5" size="50" v-model="user.userEmail">
+                            </form>
+                        </td>
+
+                        </tr>
+                        <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="middle"><strong>个性签名</strong></td>
+                            <td>
+                                <form name="form8" method="post" action="">
+                                    <label for="textarea"></label>
+                                    <textarea name="textarea" cols="100" id="textarea"
+                                              v-model="user.userStatement"></textarea>
+                                </form>
+                            </td>
+
+                            <td width="3" height="90">
+                        </tr>
+                        <tr>
+                            <td colspan="3" align="center" valign="middle">
+                                <form name="form10" method="post" action="">
+                                    <input type="button" name="button" id="button" value="保存" @click="update_user">
+                                </form>
+                            </td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td height="49">
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- footer --><!-- other -->
+        <button type="button" id="backTop" class="btn btn-default">
+            <i class="fa fa-arrow-up"></i>
+        </button>
     </div>
 </div>
-</div>
-</div>
-
-<!-- footer --><!-- other -->
-<button type="button" id="backTop" class="btn btn-default">
-  <i class="fa fa-arrow-up"></i>
-</button>
-    </div>
-  </div>
-  </body>
+</body>
 <script>
+    new Vue({
+        el:"#app1",
+        data:{
+            urlBase:"http://localhost:8080/",
+            user:{
 
 
+                    serialVersionUID: null,
+                    id: null,
+                    userAccountId:"hjkgbhjbj",
+                    username: 666,
+                    password: null,
+                    userEmail: null,
+                    userSex: null,
+                    userClass: null,
+                    userStatement: null,
+                    userStatus:null
 
+            }
+        },
+        mounted(){
+            let _this = this
+            axios({
+                      method: 'get',
+                      url: "http://localhost:8080/user/get",
+                  }).then(res => {
+                console.log(res);
+                _this.user = res.data.data
+                console.log("获取到用户信息{}",_this.user)
+            }, err => {
+                console.log(err);
+            });
+        },
+        methods:{
+            async update_user(){
+                let res
+                  res = await put(this.urlBase+'user/update',this)
+                console.log("get retval",res.data)
+                window.location.href='index.html'
+            }
+        }
+
+    })
 </script>
 </html>
