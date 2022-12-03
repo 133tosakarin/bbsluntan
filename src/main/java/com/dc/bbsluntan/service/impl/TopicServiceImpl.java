@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author DengChao
@@ -28,7 +29,12 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, TopicEntity> impl
     private List<ReplyEntity> getReplys(Long topicId){
         LambdaQueryWrapper<ReplyEntity> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(ReplyEntity::getTopicId,topicId);
+        wrapper.isNull(ReplyEntity::getReplyFloor);
         List<ReplyEntity> replys = replyService.list(wrapper);
+        replys = replys.stream().map(item->{
+            item = replyService.getReplyAndFloor(item.getReplyId());
+            return item;
+        }).collect(Collectors.toList());
         return replys;
     }
 

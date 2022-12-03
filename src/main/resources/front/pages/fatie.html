@@ -180,7 +180,7 @@
 <script src="../../static/12-1/node_modules/bootstrap/dist/js/bootstrap.js"></script>
 <!-- js -->
 <script src="../../static/12-1/js/common.js"></script>
-<script>
+<!--<script>
     new Vue({
         el: "#postDetail",
         mounted() {
@@ -189,50 +189,20 @@
             })
         },
     })
-</script>
-<script>
+</script>-->
+<!--<script>
     let ps = document.querySelector(".content-area");
     document.querySelector("#jishu").addEventListener("click", function () {
         console.log(ps.textContent)
     })
     window.frames["iframe中的name值"].document.getElementById("iframe中控件的id").事件();
 
-</script>
+</script>-->
+<script src="../js/package.js"></script>
 <script src="https://unpkg.com/@wangeditor/editor@latest/dist/index.js"></script>
 <script>
     //content就是用户所输入，同步改变
-    let content;
-    //-------------------------------------------------------------------
-    const {createEditor, createToolbar} = window.wangEditor
-
-    const editorConfig = {
-        placeholder: 'Type here...',
-        onChange(editor) {
-            const html = editor.getHtml()
-            content = html;
-            console.log('editor content', content)
-            // 也可以同步到 <textarea>
-        }
-    }
-
-    const editor = createEditor({
-        selector: '#editor-container',
-        html: '<p><br></p>',
-        config: editorConfig,
-        mode: 'default', // or 'simple'
-    })
-
-    const toolbarConfig = {}
-
-    const toolbar = createToolbar({
-        editor,
-        selector: '#toolbar-container',
-        config: toolbarConfig,
-        mode: 'default', // or 'simple'
-    })
-    //-------------------------------------------------------------------------
-
-    new Vue(
+    let app = new Vue(
         {
             el: "#app",
             data: {
@@ -249,8 +219,10 @@
                     replyClickCount:0,
                     replyContents:"dfgfdsgfsdbgdfsgdf",
                     replyEmotion:null,
+                    replyFloor:null,
                     replyId:"3133",
                     topicId:"1",
+                    m_replys:[],
                     updateTime:null,
                     userId:"1586600449878847489"
                 },
@@ -285,30 +257,72 @@
                 let status_id_id = needed.split("&");
                 //分别获取status，topicID以及replyID
                 this.postData.status = status_id_id[0];
+                console.log("status = ",this.postData.status)
                 this.postData.topicID = status_id_id[1];
+                console.log("topicId = ",this.postData.topicID)
                 if(status_id_id.length === 3)this.postData.replyID = status_id_id[2];
                 console.log(''+this.postData.status)
             },
             methods: {
                 click_post: function () {
+                    let uri;
+                    //回复楼主
+                    if(this.postData.status === '1'){
+                        //回复
+                        this.replys.topicId = this.postData.topicID
+                        this.replys.replyContents = this.postData.postContent
+                        //this.replys.replyId = this.postData.replyID
+                        post_comm("http://localhost:8080/reply/answer?status="+this.postData.status, this.replys);
 
-                    if(this.postData.status === 1){
+                    }else if(this.postData.status === '2'){
+
+                        this.replys.topicId = this.postData.topicID
+                        this.replys.replyFloor = this.postData.replyID
+                        this.replys.replyContents = this.postData.postContent
+                        post_comm("http://localhost:8080/reply/answer?status="+this.postData.status, this.replys);
+                    }else{
+                        //发帖
                         this.topic.topicTitle = this.postData.postTitle
                         this.topic.topicContent = this.postData.postContent
                         post_comm("http://localhost:8080/topic/create", this.topic);
-                    }else {
-                        this.postData.postContent = content;
-                        this.replys.replyContents = content;
-                        this.replys.topicId = this.topicID
-                        this.replys.replysId = this.replyID
-                        post_comm("http://localhost:8080/reply/anwser/"+this.topicID, this.replys);
                     }
+                    /*window.location.href = 'http://localhost:8080/front/pages/'+this.postData.status ===1?*/
                 }
+
             }
         }
     )
+    //-------------------------------------------------------------------
+    const {createEditor, createToolbar} = window.wangEditor
+
+    const editorConfig = {
+        placeholder: 'Type here...',
+        onChange(editor) {
+            const html = editor.getHtml()
+            app.postData.postContent = editor.getHtml();
+            console.log('editor content', app.postData.postContent)
+            // 也可以同步到 <textarea>
+        }
+    }
+
+    const editor = createEditor({
+        selector: '#editor-container',
+        html: '<p><br></p>',
+        config: editorConfig,
+        mode: 'default', // or 'simple'
+    })
+
+    const toolbarConfig = {}
+
+    const toolbar = createToolbar({
+        editor,
+        selector: '#toolbar-container',
+        config: toolbarConfig,
+        mode: 'default', // or 'simple'
+    })
+    //-------------------------------------------------------------------------
+
 </script>
-<script src="../js/package.js"></script>
 <script>
 
 </script>

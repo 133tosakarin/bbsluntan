@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author DengChao
@@ -31,18 +33,23 @@ public class ReplyController {
      * @param req
      * @return
      */
-    @PostMapping("/answer/{status}")
-    public R<String> reply(@RequestBody ReplyEntity reply, @PathVariable Integer status, HttpServletRequest req){
+    @PostMapping("/answer")
+    public R<String> reply(@RequestBody ReplyEntity reply,Integer status, HttpServletRequest req){
         Long userId = (Long) req.getSession().getAttribute("user");
+        boolean flag;
         reply.setUserId(userId);
         reply.setReplyClickCount(0);
-        /*replyEntity.setTopicId(reply);
+        //回复楼主
+        flag = replyService.save(reply);
 
-        replyEntity.setUserId(userId);
-        replyEntity.setReplyContents(content);
-        replyEntity.setReplyClickCount(0);
-        boolean flag = replyService.save(replyEntity);*/
-        boolean flag = replyService.save(reply);
+
+        //replyEntity.setTopicId(reply);
+        //
+        // replyEntity.setUserId(userId);
+        // replyEntity.setReplyContents(content);
+        // replyEntity.setReplyClickCount(0);
+        // boolean flag = replyService.save(replyEntity);
+
         return flag ? R.success("success") : R.error("error");
     }
 
@@ -52,6 +59,11 @@ public class ReplyController {
         LambdaQueryWrapper<ReplyEntity> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(ReplyEntity::getTopicId,topicId);
         replyService.page(pageInfo,wrapper);
+        List<ReplyEntity> records = pageInfo.getRecords();
+        records = records.stream().map(item->{
+            return replyService.getReplyAndFloor(item.getReplyId());
+        }).collect(Collectors.toList());
+        pageInfo.setRecords(records);
         return R.success(pageInfo);
     }
 

@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author DengChao
@@ -19,9 +20,13 @@ public class ReplyEntity implements Serializable {
     private Long replyId;
     private Long topicId;
     private Long userId;
+    private Long replyFloor;//保存回复reply的id
     private String replyEmotion;
     private String replyContents;
     private Integer replyClickCount;
+
+    @TableField(exist = false)
+    List<ReplyEntity> m_replys;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;

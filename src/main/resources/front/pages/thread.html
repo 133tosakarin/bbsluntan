@@ -165,7 +165,7 @@
 
                                             <div class="viewthread-fivefunctions">
                                                 <!--不能点-->
-                                                <a @click="reply()">回复楼主</a>
+                                                <a @click="reply_user()">回复楼主</a>
                                             </div>
 
                                         </div>
@@ -366,7 +366,8 @@
                         replyId:"3133",
                         topicId:"1",
                         updateTime:null,
-                        userId:"1586600449878847489"
+                        userId:"1586600449878847489",
+                        m_replys:[]
                     }],
                     sectionId: "1",
                     topicClickCount:1,
@@ -387,7 +388,8 @@
                     replyId: "31",
                     topicId: "2",
                     updateTime: null,
-                    userId: "1586600489"
+                    userId: "1586600489",
+                    m_replys:[]
                 },
             ],
             user: {
@@ -430,7 +432,9 @@
                 console.log("replys = ",this.reply)
             },
              reply_user(id){
-                window.open('fatie.html?'+2+'&'+this.host.topicId+'&'+id)
+                console.log('id =',id)
+                let status = id === undefined ? 1: 2
+                window.open('fatie.html?'+status+'&'+this.host.topicId+ (id === undefined?'':'&'+id))
             }
         }
     })

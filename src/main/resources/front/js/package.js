@@ -199,6 +199,7 @@ async function getTopicById(url){
 
 async  function post_comm(url,records){
     console.log( "url = ",url," records = ",records)
+    //console.log("content = ",content)
     let res
     await axios({
         method:'post',
