@@ -4,9 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.util.List;
 
@@ -15,10 +13,24 @@ import java.util.List;
  */
 @Slf4j
 @Configuration
-public class WebMvcConfig  implements WebMvcConfigurer {
+public class WebMvcConfig extends WebMvcConfigurationSupport {
+
+
     @Override
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        log.info("开始进行静态资源映射");
+        registry.addResourceHandler("/back/**").addResourceLocations("classpath:/back/");
+        registry.addResourceHandler("/front/**").addResourceLocations("classpath:/front/");
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+    }
+/*    @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         log.info("过滤");
+
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/front/")
+                .addResourceLocations("classpath:/back/");
+
         registry.addResourceHandler("/front/**").addResourceLocations("classpath:/front/");
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
         registry.addResourceHandler("/back/**").addResourceLocations("classpath:/back/");
@@ -28,13 +40,36 @@ public class WebMvcConfig  implements WebMvcConfigurer {
 
         registry.addResourceHandler("/front/images/**").addResourceLocations("classpath:/front/s/images");
         registry.addResourceHandler("/front/node_modules/**").addResourceLocations("classpath:/front/js/node_modules");
-        registry.addResourceHandler("/front/node_modules/bootstrap/**").addResourceLocations("classpath:/front/js/node_modules/bootstrap");
-        registry.addResourceHandler("/front/node_modules/font-awesome/**").addResourceLocations("classpath:/front/js/node_modules/font-awesome");
+        registry.addResourceHandler("/front/node_modules/bootstrap/**").
+                addResourceLocations("classpath:/front/js/node_modules/bootstrap");
+        registry.addResourceHandler("front/node_modules/build/**").addResourceLocations("classpath:/front/node_modules/build");
+        registry.addResourceHandler("front/node_modules/speed/**").addResourceLocations("classpath:/front/node_modules/speed");
+        registry.addResourceHandler("front/node_modules/build/src/**").addResourceLocations("classpath:/front/node_modules/src");
+        registry.addResourceHandler("/front/node_modules/font-awesome/**").
+                addResourceLocations("classpath:/front/js/node_modules/font-awesome");
         registry.addResourceHandler("/front/node_modules/jquery/**").addResourceLocations("classpath:/front/js/node_modules/jquery");
         registry.addResourceHandler("/front/picture/**").addResourceLocations("classpath:/front/picture/");
         registry.addResourceHandler("/front/fonts/**").addResourceLocations("classpath:/front/fonts/");
-    }
+        WebMvcConfigurer.super.addResourceHandlers(registry);
 
+    }*/
+
+    /*@Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor()
+                .addPathPatterns("/**")
+                .excludePathPatterns("/login/**")
+                //3、允许访问localhost:8080/static/**，使得这个路径不会被拦截器拦截
+                .excludePathPatterns("/static/**");
+    }
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        //1、添加资源处理器路径 即每次访问静态资源都得添加"/static/",例如localhost:8080/static/j1.jpg
+        //若registry.addResourceHandler("/s/**") 则必须访问localhost:8080/s/j1.jpg
+        registry.addResourceHandler("/static/**")
+                //2、添加了资源处理器路径后对应的映射资源路径
+                .addResourceLocations("classpath:/static/");
+    }*/
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         //log.info("扩展消息转换器...");

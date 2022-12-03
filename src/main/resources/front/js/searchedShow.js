@@ -1,7 +1,7 @@
 /**
  * searchedShow.js
  */
-let app = new Vue({
+let app3 = new Vue({
     el: "#app",
     data: {
         urlBase: "http://localhost:8080/",

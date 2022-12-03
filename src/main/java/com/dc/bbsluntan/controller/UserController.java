@@ -117,8 +117,6 @@ public class UserController {
     @GetMapping("/get")
     public R<UserEntity> getUser(HttpServletRequest req){
         Long id = (Long) req.getSession().getAttribute("user");
-        if(id == null)
-            id = 2l;
         UserEntity user = userService.getById(id);
         return R.success(user);
     }

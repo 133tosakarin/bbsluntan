@@ -1,12 +1,12 @@
 //请求
-function get(url)
+async function get(url)
 {//js不能重载,但是可以根据参数个数判读执行操作
     //所以直接传参即可
     let ares = null;
 
     if(arguments.length === 1)
     {//普通请求,参数:url
-        axios({
+        await axios({
             method: 'get',
             url: url + '?' + "username=" + _this.username + "&" + "password=" + _this.password,
         }).then(res => {
@@ -18,9 +18,11 @@ function get(url)
     }
     else
     {//页面展示请求参数:url, page, pageSize, id
-        axios({
+        console.log("查询参数",arguments[3])
+        await axios({
             method: 'get',
-            url: url + "?" + "page=" + arguments[1] + "&pageSize=" + arguments[2] + "&id=" + arguments[3],
+
+            url: url + "?" + "page=" + arguments[1] + "&pageSize=" + arguments[2] + "&condition=" + arguments[3],
         }).then(res=>{
             console.log(res);
             ares = res;
@@ -163,6 +165,7 @@ async function get_user(){
     });
     return ares;
 }
+
 /*页面data模板
 let app = new Vue({
     data: {
@@ -180,3 +183,33 @@ let app = new Vue({
     }
 })
 */
+
+async function getTopicById(url){
+    console.log(url)
+    let res = null
+    await axios({
+        method:'get',
+        url:url
+    }).then(resp=>{
+        console.log("get topic:",res)
+        res = resp
+    })
+    return res
+}
+
+async  function post_comm(url,records){
+    console.log( "url = ",url," records = ",records)
+    let res
+    await axios({
+        method:'post',
+        data:records,
+        url:url
+    }).then(resp=>{
+        console.log("resp = ",resp)
+        res = resp
+    })
+
+    return res
+}
+
+

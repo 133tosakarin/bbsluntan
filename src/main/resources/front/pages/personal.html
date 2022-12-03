@@ -39,10 +39,10 @@
     <div class="second-nav bg-white">
         <div class="container">
             <div class="logo pull-left">
-                <a href="index.html"> <img src="../picture/qiku_community_logo.png" alt=""></a>
+                <a href="../../static/index.html"> <img src="../picture/qiku_community_logo.png" alt=""></a>
             </div>
             <ul class="menu pull-left">
-                <li class="active"><a href="./index.html">首页</a></li>
+                <li class="active"><a href="../../static/index.html">首页</a></li>
                 <li><a href="forum.html">论坛</a></li>
                 <li><a href="group.html">校园</a></li>
 
@@ -50,8 +50,9 @@
 
 
             <div class="login-reg pull-right">
-                <a href="login.html">登录</a>
-                <a href="register.html" class="active">注册</a>
+                <a href="login.html" target="_blank" v-show="user.userStatus==null">登录</a>
+                <a href="register.html" target="_blank" v-if="user.userStatus === null">注册</a>
+                <a href="" v-else>{{ user.userAccountId }}</a>
                 <a href="personal.html" target="_blank">个人</a>
             </div>
             <div class="search-form pull-right">
@@ -185,20 +186,16 @@
         el:"#app1",
         data:{
             urlBase:"http://localhost:8080/",
-            user:{
-
-
-                    serialVersionUID: null,
-                    id: null,
-                    userAccountId:"hjkgbhjbj",
-                    username: 666,
-                    password: null,
-                    userEmail: null,
-                    userSex: null,
-                    userClass: null,
-                    userStatement: null,
-                    userStatus:null
-
+            user: {
+                id: null,
+                userAccountId:"hjkgbhjbj",
+                username: 666,
+                password: null,
+                userEmail: null,
+                userSex: null,
+                userClass: null,
+                userStatement: null,
+                userStatus:null
             }
         },
         mounted(){

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>suse校园论坛</title>
+
+    <!-- Bootstrap -->
+    <link href="../../static/12-1/node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+
+    <link href="../../static/12-1/node_modules/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="../../static/12-1/css/common.css" rel="stylesheet">
+    <link href="../../static/12-1/css/header.css" rel="stylesheet">
+    <link href="../../static/12-1/css/content-area.css" rel="stylesheet">
+    <link href="../../static/12-1/css/sidebar.css" rel="stylesheet">
+    <link href="../../static/12-1/css/footer.css" rel="stylesheet">
+
+    <link href="https://unpkg.com/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
+    <style>
+        #editor—wrapper {
+            border: 1px solid #ccc;
+            z-index: 100; /* 按需定义 */
+        }
+
+        #toolbar-container {
+            border-bottom: 1px solid #ccc;
+        }
+
+        #editor-container {
+            height: 500px;
+        }
+    </style>
+    <style>
+        .write-pad {
+            padding-top: 10px;
+            padding-left: 10px;
+        }
+
+        .write-pad #content {
+
+            height: 300px;
+        }
+
+        .title {
+
+            position: relative;
+            padding-top: 10px;
+            padding-left: 10px;
+            width: 350px;
+        }
+
+        .title2 {
+            padding-top: 10px;
+            padding-left: 10px;
+            position: relative;
+            width: 100px;
+
+        }
+
+        .button {
+            padding-left: 10px;
+            padding-top: 20px;
+        }
+    </style>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="../../static/12-1/node_modules/jquery/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../../static/12-1/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <!-- js -->
+    <script src="../../static/12-1/js/common.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--axios开发环境-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link href="../../static/12-1/css/slider.css" rel="stylesheet">
+    <script src="../../static/12-1/js/slider.js"></script>
+</head>
+<body>
+
+
+<div class="header" id="app">
+    <div class="second-nav bg-white">
+        <div class="container">
+            <div class="logo pull-left">
+                <a href="../../static/12-1/index.html"> <img src="../../static/12-1/picture/qiku_community_logo.png" alt=""></a>
+            </div>
+            <ul class="menu pull-left">
+                <li class="active"><a href="../../static/12-1/index.html">首页</a></li>
+                <li><a href="../../static/12-1/forum.html">论坛</a></li>
+                <li><a href="../../static/12-1/group.html">校园</a></li>
+
+
+            </ul>
+
+
+            <div class="login-reg pull-right">
+                <a href="../../static/12-1/login.html">登录</a>
+                <a href="../../static/12-1/register.html" class="active">注册</a>
+                <a href="../../static/12-1/personal.html" target="_blank">个人</a>
+                <a href="../../static/12-1/my.html" target="_blank">我的发帖</a>
+            </div>
+            <div class="search-form pull-right">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="name" value="" placeholder="帖子/用户">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--  -->
+        <div class="container">
+
+            <!-- 左侧内容区 -->
+
+            <div class="content-area">
+
+                <div>
+
+                    <div class="title">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="name" value="" placeholder="标题" v-model="postData.postTitle">
+
+                        </div>
+
+                    </div>
+                    <div class="title2">
+
+                    </div>
+
+
+                    <!-- 输入区 -->
+
+                    <div id="editor—wrapper">
+                        <div id="toolbar-container"><!-- 工具栏 --></div>
+                        <div id="editor-container"><!-- 编辑器 --></div>
+                    </div>
+
+
+                    <div>
+
+
+                    </div>
+
+
+                    <p>&nbsp;</p>
+
+                    <div class="button">
+                        <p>
+                            <input name="" type="submit" value="发送" @click="click_post()">
+                        </p>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+
+        <!-- 右侧边栏 --></div>
+
+    <!-- footer --><!-- other -->
+    <button type="button" id="backTop" class="btn btn-default">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+</div>
+</body>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="../../static/12-1/node_modules/jquery/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../../static/12-1/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+<!-- js -->
+<script src="../../static/12-1/js/common.js"></script>
+<script>
+    new Vue({
+        el: "#postDetail",
+        mounted() {
+            var ue = UE.getEditor('content', {
+                initialFrameWidth: '95%'
+            })
+        },
+    })
+</script>
+<script>
+    let ps = document.querySelector(".content-area");
+    document.querySelector("#jishu").addEventListener("click", function () {
+        console.log(ps.textContent)
+    })
+    window.frames["iframe中的name值"].document.getElementById("iframe中控件的id").事件();
+
+</script>
+<script src="https://unpkg.com/@wangeditor/editor@latest/dist/index.js"></script>
+<script>
+    //content就是用户所输入，同步改变
+    let content;
+    //-------------------------------------------------------------------
+    const {createEditor, createToolbar} = window.wangEditor
+
+    const editorConfig = {
+        placeholder: 'Type here...',
+        onChange(editor) {
+            const html = editor.getHtml()
+            content = html;
+            console.log('editor content', content)
+            // 也可以同步到 <textarea>
+        }
+    }
+
+    const editor = createEditor({
+        selector: '#editor-container',
+        html: '<p><br></p>',
+        config: editorConfig,
+        mode: 'default', // or 'simple'
+    })
+
+    const toolbarConfig = {}
+
+    const toolbar = createToolbar({
+        editor,
+        selector: '#toolbar-container',
+        config: toolbarConfig,
+        mode: 'default', // or 'simple'
+    })
+    //-------------------------------------------------------------------------
+
+    new Vue(
+        {
+            el: "#app",
+            data: {
+                postData: {
+                    postTitle: null,
+                    postContent: null,
+                    postID: null,
+                    topicID: null,
+                    replyID: null,
+                    status: null,
+                },
+                replys: {
+                    createTime:null,
+                    replyClickCount:0,
+                    replyContents:"dfgfdsgfsdbgdfsgdf",
+                    replyEmotion:null,
+                    replyId:"3133",
+                    topicId:"1",
+                    updateTime:null,
+                    userId:"1586600449878847489"
+                },
+                topic:
+                    {
+                        createTime: null,
+                        replys: [{
+                            createTime:null,
+                            replyClickCount:0,
+                            replyContents:null,
+                            replyEmotion:null,
+                            replyId:null,
+                            topicId:null,
+                            updateTime:null,
+                            userId:null
+                        }],
+                        sectionId: 1,
+                        topicClickCount:1,
+                        topicContent: "fuck you",
+                        topicEmotion: null,
+                        topicId: null,
+                        topicReplyCount: 1,
+                        topicTitle: "纯路人",
+                        updateTime: null,
+                        userId: null,
+                    }
+            },
+            mounted() {
+                //  /status/topicID/replyID
+                //截取status
+                let needed = window.location.href.split("?")[1];
+                let status_id_id = needed.split("&");
+                //分别获取status，topicID以及replyID
+                this.postData.status = status_id_id[0];
+                this.postData.topicID = status_id_id[1];
+                if(status_id_id.length === 3)this.postData.replyID = status_id_id[2];
+                console.log(''+this.postData.status)
+            },
+            methods: {
+                click_post: function () {
+
+                    if(this.postData.status === 1){
+                        this.topic.topicTitle = this.postData.postTitle
+                        this.topic.topicContent = this.postData.postContent
+                        post_comm("http://localhost:8080/topic/create", this.topic);
+                    }else {
+                        this.postData.postContent = content;
+                        this.replys.replyContents = content;
+                        this.replys.topicId = this.topicID
+                        this.replys.replysId = this.replyID
+                        post_comm("http://localhost:8080/reply/anwser/"+this.topicID, this.replys);
+                    }
+                }
+            }
+        }
+    )
+</script>
+<script src="../js/package.js"></script>
+<script>
+
+</script>
+</html>

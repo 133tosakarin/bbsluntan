@@ -1,15 +1,32 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>suse校园社区</title>
 
     <!-- Bootstrap -->
-    <link href="../node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--axios开发环境-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Bootstrap -->
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/header.css" rel="stylesheet">
+    <link href="../css/content-area.css" rel="stylesheet">
+    <link href="../css/forum.css" rel="stylesheet">
+    <link href="../css/sidebar.css" rel="stylesheet">
+    <link href="../css/footer.css" rel="stylesheet">
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/header.css" rel="stylesheet">
+    <link href="../css/content-area.css" rel="stylesheet">
+    <link href="../css/sidebar.css" rel="stylesheet">
+    <link href="../css/footer.css" rel="stylesheet">
+    <!--    <link href="../node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">-->
 
-    <link href="../node_modules/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <!--    <link href="../node_modules/font-awesome/css/font-awesome.css" rel="stylesheet">-->
     <link href="../css/common.css" rel="stylesheet">
     <link href="../css/header.css" rel="stylesheet">
     <link href="../css/content-area.css" rel="stylesheet">
@@ -20,2130 +37,415 @@
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-  </head>
-  <body>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="../node_modules/jquery/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
-    <!-- js -->
-    <script src="../js/common.js"></script>
+</head>
+<body>
 
-  <div class="header">
-    <div class="top-nav">
-      <div class="container">
-         <span> <a href="http://#.cn/space-uid-30169687.html" target="_blank">设置首页</a> 
-         <span class="separator">|</span> </span>
-        <span> <a href="#" target="_blank">收藏本站</a> 
-        <span class="separator">|</span> </span>
-        <span> <a href="#" target="_blank">将本站创建桌面快捷方式</a> 		        <span class="separator">|</span> </span>
-      </div>
-    </div>
+<div class="header">
     <div class="second-nav bg-white">
-      <div class="container">
-        <div class="logo pull-left">
-          <a href="index.html"> <img src="../picture/qiku_community_logo.png" alt=""></a>
-        </div>
-        <ul class="menu pull-left">
-          <li class="active"><a href="index.html">首页</a></li>
-          <li><a href="forum.html">论坛</a></li>
-          <li><a href="group.html">校园</a></li>
-       
-        </ul>
-
-
-        <div class="login-reg pull-right">
-          <a href="#">登录</a>
-          <a href="register.html" class="active">注册</a>
-          <a href="personal.html" target="_blank">个人</a>
-        </div>
-        <div class="search-form pull-right">
-          <div class="input-group">
-            <input type="text" class="form-control" name="name" value="" placeholder="帖子/用户">
-            <div class="input-group-btn">
-              <button type="button" class="btn btn-default">
-                <i class="fa fa-search"></i>
-              </button>
+        <div class="container">
+            <div class="logo pull-left">
+                <a href="index.html"> <img src="../picture/qiku_community_logo.png" alt=""></a>
             </div>
-          </div>
+            <ul class="menu pull-left">
+                <li class="active"><a href="index.html">首页</a></li>
+                <li><a href="forum.html">论坛</a></li>
+                <li><a href="group.html">校园</a></li>
+
+            </ul>
+
+
+            <div class="login-reg pull-right">
+                <a href="login.html" target="_blank" v-show="user.userStatus==null">登录</a>
+                <a href="register.html" target="_blank" v-if="user.userStatus === null">注册</a>
+                <a href="" v-else>{{ user.userAccountId }}</a>
+                <a href="personal.html" target="_blank">个人</a>
+            </div>
+            <div class="search-form pull-right">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="name" value="" placeholder="帖子/用户">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 
 <!--  -->
-<div class="container main">
+<div class="container main" id="app">
 
-<!-- 左侧内容区 -->
-<div class="content-area bg-white">
-  <div class="mn xm_mn">
+    <!-- 左侧内容区 -->
+    <div class="content-area bg-white">
+        <div class="mn xm_mn">
 
-          <div id="pt-detail" class="bm cl">
-              <div class="viewthread-bread">
-                  <a href="#">版块</a>
-                   <em>›</em> <a href="#">同城</a>  <em>›</em> <a href="#"></a> <em>›</em> <a href="http://#.cn/group.php?sgid=5372">四川</a> <em>›</em> <a href="#">宜宾同城</a>            </div>
-          </div>
+            <div id="pt-detail" class="bm cl">
+                <div class="viewthread-bread">
+                    <a href="#">版块</a>
+                    <em>›</em> <a href="#">同城</a> <em>›</em><a href="#">板块名</a></div>
+            </div>
 
 
-      <div class="xm_tp">
-          <div class="xm_p_tp">
+            <div class="xm_tp">
+                <div class="xm_p_tp">
 
-                                      <!--id="tath"-->
-                                          <a href="http://#.cn/space-uid-30006763.html" title="天谴执行官" class="xm_avt">
+                    <!--id="tath"-->
+                    <a href="http://#.cn/space-uid-30006763.html" title="天谴执行官" class="xm_avt">
 
-                      </a>
+                    </a>
 
-                      <h1>
-                          <a href="http://#.cn/thread-14646386-1-1.html" id="thread_subject">
-                             【招募】畅快不止两三天 · 360手机N4S骁龙版济南同城开箱体验会[济南]                        </a>
+                    <h1>
+                        {{ host.topicTitle }}
+                    </h1>
 
+                    <div class="xm_tp_action">
 
-                                              </h1>
+                        <span>{{host.createTime}}}</span>
 
-                      <div class="xm_tp_action">
 
-                          <span>2022-11-5 11:54</span>
+                        <div class="y">
+                            <div class="xm_tp_action">
+                                <span class="y replies-uncursor">{{host.topicClickCount}}</span>
+                                <span class="y viewnum-uncursor">{{host.topicClickCount+host.topicReplyCount}}</span>
+                            </div>
+                        </div>
 
-                                                  <span>
-                              <em style="color: #ed5669;padding-left: 5px;">置顶</em>
-                                                      </span>
+                    </div>
 
-                                          <span class="pipe">|</span>
-                                                  <span>
-                              <a href="thread-14646386-1-1.html" onclick="return copyThreadUrl(this, '360社区')" title="拷贝【招募】畅快不止两三天 · 360手机N4S骁龙版济南同城开箱体验会[济南]链接">复制链接</a>
-                          </span>
 
-
-                                              <span class="pipe">|</span>
-                          <span><a href="http://#.cn/forum.php?mod=collection&amp;action=edit&amp;op=addthread&amp;tid=14646386" id="k_collect" onclick="showWindow(this.id, this.href);return false;" onmouseover="this.title = $('collectionnumber').innerHTML + ' 人淘帖'" title="淘好帖进专辑">淘帖<span id="collectionnumber" style="display:none"></span></a></span>
+                </div>
 
-                                                                  <div class="y">
-                              <div class="xm_tp_action">
-                                                                      <span class="y replies-uncursor">11</span>
-                                      <span class="y viewnum-uncursor">147</span>
-                                                              </div>
-                          </div>
+            </div>
 
-                      </div>
 
+            <div id="postlist" class="pl">
 
 
+                <div id="post_102757647">
 
-              </div>
-
-                  </div>
-
-
-
 
+                    <table id="pid102757647" class="plhin post_lz" summary="pid102757647" cellspacing="0"
+                           cellpadding="0">
+                        <tbody>
+                        <tr>
+                            <td class="plc">
+                                <div class="pct">
+                                    <!--                                    <style type="text/css">.pcb {-->
+                                    <!--                                        margin-right: 0-->
+                                    <!--                                    }</style>-->
+                                    <div class="pcb">
 
-          <div id="postlist" class="pl">
-
+                                        <div class="pcbs">
+                                            <div class="act pbm cl">
+                                                <img src="" alt="" title="镇楼图">
+                                                {{host.topicContent}}
+                                            </div>
+                                        </div>
 
-                                                          <div id="post_102757647">
-
-
-  <div class="pl_t">
-  <div id="threadstamp"><img alt="" src="http://b1.qikucdn.com/static/image/stamp/001.gif" title="精华"></div>
-  </div>
-
-  <table id="pid102757647" class="plhin post_lz" summary="pid102757647" cellspacing="0" cellpadding="0">
-  <tbody><tr>
-  <td class="plc"><div class="pct"><style type="text/css">.pcb{margin-right:0}</style><div class="pcb">
-
-  <div class="pcbs">
-  <script type="text/javascript">
-  function checkform(theform) {
-  if (theform.message.value.length > 200) {
-  alert('您的留言超过 200 个字符的限制');
-  theform.message.focus();
-  return false;
-  }
-  return true;
-  }
-  </script>
-
-  <div class="act pbm cl">
-  <div class="spvimg">
-  <a href="javascript:;"><img src="http://p0.qhmsg.com/dr/750_556_70/t010c3e4b76455a2609.jpg" onclick="zoom(this, 'http://p0.qhmsg.com/dr/750_556_70/t010c3e4b76455a2609.jpg')" width="300" alt=""></a></div>
-  <div class="spi">
-  <dl>
-  <dt>活动类型:</dt>
-  <dd><strong>线下活动</strong></dd>
-  <dt>开始时间:</dt>
-  <dd>
-  2016-11-13 14:00 至 2016-11-13 16:00 商定
-  </dd>
-  <dt>活动地点:</dt>
-  <dd>济南市泉城路泰府广场208号（研磨时光咖啡厅，暂定）</dd>
-  <dt>性别:</dt>
-  <dd>
-   不限
-  </dd>
-  </dl>
-  <dl class="nums">
-  <dt style="padding-top:3px;">已报名人数:</dt>
-  <dd>
-  <em style="font-size: 14px;">19</em> 人
-  </dd>
-  </dl>
-  <dl>
-  <dt>剩余名额:</dt>
-  <dd>
-  14 人
-  </dd>
-  <dt>报名截止:</dt>
-  <dd>2016-11-13 00:00</dd>
-  <dt></dt>
-  <dd>
-  <p class="pns" style="margin-top: 22px;">
-  <button class="pn" value="true" name="ijoin" onclick="showWindow('login', 'member.php?mod=logging&amp;action=login&amp;guestmessage=yes')"><span>我要参加</span></button></p>
-  </dd>
-  </dl>
-  </div>
-  </div>
-
-  <table cellspacing="0" cellpadding="0"><tbody><tr><td class="t_f" id="postmessage_102757647"><div align="center"><font face="微软雅黑"><font color="#000000">360手机N4S骁龙版初来济南</font></font></div><div align="center">济南的小伙伴准备集合</div><div align="center">&nbsp;&nbsp;让我们一起抢先360手机N4S骁龙版的开箱体验！</div><div align="center">&nbsp;&nbsp;<font face="微软雅黑">期待已久的</font>360手机济南同城会第三期线下活动开始招募~&nbsp; &nbsp;\\(≧▽≦)/~啦啦啦！</div><div align="center"><font color="#000"><font face="微软雅黑">N4S骁龙版拥有骁龙625处理器，性能强劲，更低功耗；5000mAh大电池+涡轮闪充，畅快不止两三天；4GB+64GB，大内存依旧，闪充翻倍</font></font></div><div align="center"><font color="#000"><font face="微软雅黑"><br>
-  </font></font></div><br>
-  <br>
-  <br>
-  <div align="center">
-  <ignore_js_op style="width:100%;">
-    <div class="tip tip_4 aimg_tip" id="aimg_13783867_menu" style="position: absolute; display: none" disautofocus="true">
-      <div class="xs0">
-  <p><strong>504440034574678897.jpg</strong> <em class="xg1">(73.93 KB, 下载次数: 0)</em></p>
-  <p>
-
-  <a href="http://#.cn/forum.php?mod=attachment&amp;aid=MTM3ODM4Njd8ZGE1MTlkYzR8MTQ3ODQ5NDgwMnwwfDE0NjQ2Mzg2&amp;nothumb=yes" target="_blank">下载附件</a>
-
-  </p>
-  <p>360社区</p>
-  <p class="xg1 y">2016-11-5 10:50 上传</p>
-
-  </div>
-  <div class="tip_horn"></div>
-</div>
-
-  </ignore_js_op>
-  </div><br>
-  <div align="center">
-  <ignore_js_op style="width:100%;">
-    <div class="tip tip_4 aimg_tip" id="aimg_13783872_menu" style="position: absolute; display: none" disautofocus="true">
-      <div class="xs0">
-  <p><strong>526717519904738308.jpg</strong> <em class="xg1">(77.37 KB, 下载次数: 0)</em></p>
-  <p>
-
-  <a href="http://#.cn/forum.php?mod=attachment&amp;aid=MTM3ODM4NzJ8YTc2NGI3NGR8MTQ3ODQ5NDgwMnwwfDE0NjQ2Mzg2&amp;nothumb=yes" target="_blank">下载附件</a>
-
-  </p>
-  <p>360社区</p>
-  <p class="xg1 y">2016-11-5 10:51 上传</p>
-
-  </div>
-  <div class="tip_horn"></div>
-</div>
-
-  </ignore_js_op>
-  </div><br>
-  <div align="center">
-  <ignore_js_op style="width:100%;">
-    <div class="tip tip_4 aimg_tip" id="aimg_13783873_menu" style="position: absolute; display: none" disautofocus="true">
-      <div class="xs0">
-  <p><strong>563994701192263502.jpg</strong> <em class="xg1">(40.49 KB, 下载次数: 0)</em></p>
-  <p>
-
-  <a href="http://#.cn/forum.php?mod=attachment&amp;aid=MTM3ODM4NzN8ZWQ0YTRkYjF8MTQ3ODQ5NDgwMnwwfDE0NjQ2Mzg2&amp;nothumb=yes" target="_blank">下载附件</a>
-
-  </p>
-  <p>360社区</p>
-  <p class="xg1 y">2016-11-5 10:51 上传</p>
-
-  </div>
-  <div class="tip_horn"></div>
-</div>
-
-  </ignore_js_op>
-  </div><br>
-  <br>
-  <br>
-  <div align="left"><strong><font color="#ff0000">【活动地点】</font>济南市</strong><strong><font face="微软雅黑">泉城路泰府广场208号（研磨时光咖啡厅）</font></strong></div><div align="left"><strong><font face="微软雅黑"><br>
-  </font></strong></div><div align="left"><strong><font color="#ff0000">【活动时间】</font></strong><strong>2016年11月13号（周日）下午14：00</strong></div><br>
-  <div align="left"><strong><font color="#ff0000">【集合地点】</font></strong><strong>济南市</strong><strong><font face="微软雅黑">泉城路泰府广场208号（研磨时光咖啡厅）</font></strong></div><br>
-  <div align="left"><strong><font color="#ff0000">【活动人数】</font>30人</strong></div><div align="left"><br>
-  <strong><font color="#ff0000">【报名费用】</font>无&nbsp; &nbsp;</strong></div><div align="left"><strong><br>
-  <font color="#ff0000">【活动目的】</font>360手机N4S骁龙版开箱体验</strong><font face="微软雅黑">、融洽增感情、线下交流会，</font>360手机下线自拍体验</div><br>
-  <div align="left"><strong><font color="#ff0000">【活动流程】</font></strong></div><br>
-  <div align="left">1.&nbsp;&nbsp;14:00--16:00&nbsp; &nbsp;<strong>济南市</strong><strong><font face="微软雅黑">泉城路泰府广场208号（研磨时光咖啡厅）</font></strong><br>
-  2.&nbsp;&nbsp;14:00--14:10&nbsp; &nbsp;签到<br>
-  3.&nbsp;&nbsp;14:10--14:50&nbsp; &nbsp;开箱，每人体验一把360手机N4S骁龙版，说一说体验感受<br>
-  4.&nbsp;&nbsp;14:50--15:20&nbsp; &nbsp;现场小活动（礼品多多） <br>
-  5.&nbsp;&nbsp;15:20--15:50&nbsp; &nbsp;手机使用中的问题和360手机对产品有什么意见或者建议进行讨论<br>
-  6.&nbsp;&nbsp;15:50--16:00&nbsp; &nbsp;开始发放礼品，与参与游戏获胜方的奖品；合影留念.<br>
-  7、16:00 集合，清点人数，返回。</div><br>
-  <div align="left"><div align="left"><div align="left"><font color="#434a54"><font color="#ff0000">【注意事项】</font></font></div><div align="left"><font color="#434a54"><font color="#ff0000"><br>
-  </font></font></div><div align="left"><font color="#434a54">1、认同360手机，认可组织者，参加活动属于自愿行为<br>
-  2、出行请注意个人安全，活动组织者有权根据情况进行活动的调整和决定<br>
-  3、 在规定的时间内集合，切勿迟到<br>
-  4、如有360的活动服装，可以穿着前往，没有的可以穿着简单轻松的日常装即可。<br>
-  5、因外力因素取消活动的情况下，会在活动之前通知，敬请留意<br>
-  6、报名通过之后因故不能参加的同学们请务必提前通知组织者，欢迎空降的同学们参与我们的活动</font></div><div align="left"><font color="#434a54">7.&nbsp; &nbsp;</font><font color="#ff0000">报名人数低于12人活动自动取消</font></div></div></div><br>
-  <br>
-  </td></tr></tbody></table>
-
-
-  <div class="ptm pbm xs1" id="applylist_14646386">
-  <h2>已通过 (16 人)</h2>
-  <table class="dt">
-  <tbody><tr>
-  <th width="140">&nbsp;</th>
-  <th>留言</th>
-  <th width="110">申请时间</th>
-  </tr><tr>
-  <td>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=30193254" class="ratl vm"><img src="http://ucenter.#.cn/avatar.php?uid=30193254&amp;size=small"></a>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=30193254">Charny内核</a>
-  </td>
-  <td></td>
-  <td>2016-11-6 15:48</td>
-  </tr>
-  <tr>
-  <td>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=21188692" class="ratl vm"><img src="http://ucenter.#.cn/avatar.php?uid=21188692&amp;size=small"></a>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=21188692">米饭.er</a>
-  </td>
-  <td></td>
-  <td>2016-11-6 15:35</td>
-  </tr>
-  <tr>
-  <td>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=30177481" class="ratl vm"><img src="http://ucenter.#.cn/avatar.php?uid=30177481&amp;size=small"></a>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=30177481">安安</a>
-  </td>
-  <td></td>
-  <td>2016-11-6 13:59</td>
-  </tr>
-  <tr>
-  <td>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=33265710" class="ratl vm"><img src="http://ucenter.#.cn/avatar.php?uid=33265710&amp;size=small"></a>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=33265710">梦想会实现</a>
-  </td>
-  <td></td>
-  <td>2016-11-6 11:04</td>
-  </tr>
-  <tr>
-  <td>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=30213753" class="ratl vm"><img src="http://ucenter.#.cn/avatar.php?uid=30213753&amp;size=small"></a>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=30213753">冬日</a>
-  </td>
-  <td></td>
-  <td>2016-11-6 09:12</td>
-  </tr>
-  <tr>
-  <td>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=33265440" class="ratl vm"><img src="http://ucenter.#.cn/avatar.php?uid=33265440&amp;size=small"></a>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=33265440">360fans_71879515</a>
-  </td>
-  <td></td>
-  <td>2016-11-6 09:04</td>
-  </tr>
-  <tr>
-  <td>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=31504537" class="ratl vm"><img src="http://ucenter.#.cn/avatar.php?uid=31504537&amp;size=small"></a>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=31504537">小海马</a>
-  </td>
-  <td></td>
-  <td>2016-11-6 08:58</td>
-  </tr>
-  <tr>
-  <td>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=31575457" class="ratl vm"><img src="http://ucenter.#.cn/avatar.php?uid=31575457&amp;size=small"></a>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=31575457">360fans71915837</a>
-  </td>
-  <td></td>
-  <td>2016-11-6 08:14</td>
-  </tr>
-  <tr>
-  <td>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=30425433" class="ratl vm"><img src="http://ucenter.#.cn/avatar.php?uid=30425433&amp;size=small"></a>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=30425433">60小子</a>
-  </td>
-  <td></td>
-  <td>2016-11-5 23:01</td>
-  </tr>
-  <tr>
-  <td>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=3010928" class="ratl vm"><img src="http://ucenter.#.cn/avatar.php?uid=3010928&amp;size=small"></a>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=3010928">qaisjy</a>
-  </td>
-  <td></td>
-  <td>2016-11-5 22:38</td>
-  </tr>
-  <tr>
-  <td>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=20208803" class="ratl vm"><img src="http://ucenter.#.cn/avatar.php?uid=20208803&amp;size=small"></a>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=20208803">鲁岩</a>
-  </td>
-  <td><p>就要做到最好的，我是鲁岩，我在济南。</p></td>
-  <td>2016-11-5 22:25</td>
-  </tr>
-  <tr>
-  <td>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=30020968" class="ratl vm"><img src="http://ucenter.#.cn/avatar.php?uid=30020968&amp;size=small"></a>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=30020968">春风荡漾</a>
-  </td>
-  <td></td>
-  <td>2016-11-5 20:31</td>
-  </tr>
-  <tr>
-  <td>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=24666916" class="ratl vm"><img src="http://ucenter.#.cn/avatar.php?uid=24666916&amp;size=small"></a>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=24666916">随心之笑</a>
-  </td>
-  <td></td>
-  <td>2016-11-5 17:30</td>
-  </tr>
-  <tr>
-  <td>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=30537792" class="ratl vm"><img src="http://ucenter.#.cn/avatar.php?uid=30537792&amp;size=small"></a>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=30537792">色蓝传说</a>
-  </td>
-  <td><p>行政版济南用户</p></td>
-  <td>2016-11-5 17:10</td>
-  </tr>
-  <tr>
-  <td>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=30530161" class="ratl vm"><img src="http://ucenter.#.cn/avatar.php?uid=30530161&amp;size=small"></a>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=30530161">亲吻我的精彩</a>
-  </td>
-  <td></td>
-  <td>2016-11-5 17:04</td>
-  </tr>
-  </tbody></table>
-  <br \="">
-  <div class="pgs mbm cl">
-  <div class="pg">
-  <a onclick="ajaxget('forum.php?mod=misc&amp;action=getactivityapplylist&amp;tid=14646386&amp;page=2', 'applylist_14646386')" class="nxt" href="javascript:;">下一页</a>
-  </div>
-  </div>
-  </div>
-  <div class="ptm pbm xs1">
-  <h2>暂未通过 (3 人)</h2>
-  <table class="dt">
-  <tbody><tr>
-  <th width="140">&nbsp;</th>
-  <th>留言</th>
-  <th width="110">申请时间</th>
-  </tr><tr>
-  <td>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=30036275" class="ratl vm"><img src="http://ucenter.#.cn/avatar.php?uid=30036275&amp;size=small"></a>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=30036275">逍遥笑红尘</a>
-  </td>
-  <td></td>
-  <td>2016-11-7 12:30</td>
-  </tr>
-  <tr>
-  <td>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=33279306" class="ratl vm"><img src="http://ucenter.#.cn/avatar.php?uid=33279306&amp;size=small"></a>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=33279306">QK101810</a>
-  </td>
-  <td></td>
-  <td>2016-11-7 11:28</td>
-  </tr>
-  <tr>
-  <td>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=32619135" class="ratl vm"><img src="http://ucenter.#.cn/avatar.php?uid=32619135&amp;size=small"></a>
-  <a target="_blank" href="http://#.cn/home.php?mod=space&amp;uid=32619135">Liam3721</a>
-  </td>
-  <td></td>
-  <td>2016-11-7 10:15</td>
-  </tr>
-  </tbody></table>
-  </div>
-
-  <div class="ptg mbm mtn">
-  <a title="济南市" href="misc.php?mod=tag&amp;id=5406" target="_blank">济南市</a>, <a title="处理器" href="misc.php?mod=tag&amp;id=714" target="_blank">处理器</a>, <a title="360手机" href="misc.php?mod=tag&amp;id=33" target="_blank">360手机</a>, <a title="交流会" href="misc.php?mod=tag&amp;id=597" target="_blank">交流会</a>, <a title="咖啡厅" href="misc.php?mod=tag&amp;id=850" target="_blank">咖啡厅</a></div>
-
-                          <div class="article-functions">
-  <div class="zan">
-                  <a class="zancontent" id="recommend_add" href="http://#.cn/forum.php?mod=misc&amp;action=recommend&amp;do=add&amp;tid=14646386&amp;hash=c4d1a738" onclick="javascript:this.href='https://passport.qiku.com/?appid=1010000675&amp;callback=http%3a%2f%2f#.cn%2flogin_sso_web.php';" target="_blank">
-            		          			<img alt="" src="http://b1.qikucdn.com/dfsj_imgs/zan_before.png" class="zan-image zan-image-top">
-
-
-  <span class="zannums" id="recommendv_add">5</span>
-  </a>
-
-
-              </div>
-
-      <div class="viewthread-fivefunctions">
-                                          <!--不能点-->
-                          <a id="post_reply" onclick="showWindow('reply', 'forum.php?mod=post&amp;action=reply&amp;fid=5404&amp;tid=14646386')" href="javascript:;" title="回复">回复</a>
-                                                                  <a href="javascript:;" id="ak_rate" onclick="showWindow('rate', 'forum.php?mod=misc&amp;action=rate&amp;tid=14646386&amp;pid=102757647', 'get', -1);return false;" title="评分表立场">点评</a>
-                                                                  <a href="javascript:;" id="ak_rate" onclick="showWindow('rate', 'forum.php?mod=misc&amp;action=rate&amp;tid=14646386&amp;pid=102757647', 'get', -1);return false;" title="评分表立场">评分</a>
-
-
-                      <a href="http://#.cn/home.php?mod=spacecp&amp;ac=favorite&amp;type=thread&amp;id=14646386" id="k_favorite" onclick="showWindow(this.id, this.href, 'get', 0);" onmouseover="this.title = $('favoritenumber').innerHTML + ' 人收藏'" title="收藏本帖">收藏<span id="favoritenumber" style="display:none">0</span></a>
-          </div>
-
-  </div>
-
-  </div>
-  <div id="comment_102757647" class="">
-  </div>
-
-  <div id="post_rate_div_102757647"></div>
-  </div>
-  </div>
-
-  </td>
-  </tr>
-
-  <tr id="_postposition102757647"></tr>
-  <tr>
-  <td class="plc" style="overflow:visible;">
-  <div class="po hin">
-
-  <span class="y">
-                      <em>
-
-
-
-
-                                                  <a href="javascript:;" onclick="showWindow('miscreport102757647', 'misc.php?mod=report&amp;rtype=post&amp;rid=102757647&amp;tid=14646386&amp;fid=5404', 'get', -1);return false;">举报</a>
-
-
-                                                                      </em>
-
-
-                      </span>
-  <div class="pob cl">
-
-  </div>
-  </div>
-  </td>
-  </tr>
-  <tr class="ad">
-  <td class="plc">
-  </td>
-  </tr>
-  </tbody></table>
-  <script type="text/javascript" reload="1">
-  aimgcount[102757647] = ['13783867','13783872','13783873'];
-  attachimggroup(102757647);
-  var aimgfid = 0;
-  </script>
-
-  <div class="post_comment_top">
-      <a id="comment_top" style="display: block; margin-top: -45px;"></a>
-      <div style="margin-top: 45px;">
-          <h2>共 11 个关于【招募】畅快不止两三天 · 360手机N4S骁龙版济南同城开箱体验会[济南]的回复 最后回复于 2016-11-7 12:34</h2>
-      </div>
-      </div>
-  <div class="comments-static">
-      <p class="comments-p">评论</p>
-      <p class="comments-floor">
-          <span>直达楼层</span>
-                      <span id="fj">
-                  <input type="text" size="2" onkeyup="$('fj_btn').href='forum.php?mod=redirect&amp;ptid=14646386&amp;authorid=0&amp;postno='+this.value" onkeydown="if(event.keyCode==13) {window.location=$('fj_btn').href;return false;}" title="跳转到指定楼层">
-                  <a href="javascript:;" id="fj_btn" title="跳转到指定楼层">
-                      <!-- <img alt="" src="http://b1.qikucdn.com/dfsj_imgs/pl_t_fj.gif" alt="跳转到指定楼层" class="vm" /> -->
-                  </a>
+                                        <div class="article-functions">
+                                            <!--<div class="zan">
+                                                <a class="zancontent" id="recommend_add"
+                                                   href="http://#.cn/forum.php?mod=misc&amp;action=recommend&amp;do=add&amp;tid=14646386&amp;hash=c4d1a738"
+                                                   onclick="javascript:this.href='https://passport.qiku.com/?appid=1010000675&amp;callback=http%3a%2f%2f#.cn%2flogin_sso_web.php';"
+                                                   target="_blank">
+                                                    <img alt="" src="http://b1.qikucdn.com/dfsj_imgs/zan_before.png"
+                                                         class="zan-image zan-image-top">
+
+
+                                                    <span class="zannums" id="recommendv_add">5</span>
+                                                </a>
+
+
+                                            </div>-->
+
+                                            <div class="viewthread-fivefunctions">
+                                                <!--不能点-->
+                                                <a @click="reply()">回复楼主</a>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div id="comment_102757647" class="">
+                                    </div>
+
+                                    <div id="post_rate_div_102757647"></div>
+                                </div>
+                        <tr id="_postposition102757647"></tr>
+                        <tr>
+                            <td class="plc" style="overflow:visible;">
+                                <div class="po hin">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="ad">
+                            <td class="plc">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="comments-static">
+                        <p class="comments-p" id="comment">评论</p>
+                        <textarea id="txa" style="display: none" name="" cols="50" rows="5"></textarea>
+                        <br>
+                        <button id="btn" style="display: none">提交</button>
+                        <p class="comments-floor">
+                            <span id="fj">
               </span>
-              </p>
-  </div>
-                                      </div>
-                                               <div id="post_102771656">
-                                              <table id="pid102771656" class="plhin" summary="pid102771656" cellspacing="0" cellpadding="0">
-  <tbody><tr>
-  <td class="pls" rowspan="2">
-  <div id="favatar102771656" class="pls favatar">
-               <div class="p_pop blk bui xm_card card_gender_" id="userinfo102771656" style="display: none;">
-  <div class="card_inner">
-                          <div class="post-img">
-                              <div class="avatar" id="userinfo102771656_ma"></div>
-                                                      </div>
-                          <div class="post-info">
-                              <div class="c_info_top">
-                                  <strong>
-                                      <a href="http://#.cn/space-uid-30425433.html" target="_blank" class="xi2">60小子</a>
+                        </p>
+                    </div>
+                </div>
+                <div id="post_102771656" v-for="(item, index) in reply">
+                    <table id="pid102771656" class="plhin" summary="pid102771656" cellspacing="0" cellpadding="0">
+                        <tbody>
+                        <tr>
+                            <td class="pls" rowspan="2">
+                                <div id="favatar102771656" class="pls favatar">
+                                    <div class="avatar">
+                                        <!--用户头像-->
+                                        <img src="http://ucenter.#.cn/avatar.php?uid=30425433&amp;size=middle">
+                                    </div>
+                                </div>
+                            </td>
 
-                                  </strong>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=56" target="_blank">LV6.中尉</a>
-                              </div>
-                              <p class="personinfo-fans">
-  <span>粉丝: <a href="http://#.cn/home.php?mod=follow&amp;do=follower&amp;uid=30425433" target="_blank" class="xi2"></a></span>
-  <span>关注: <a href="http://#.cn/home.php?mod=follow&amp;do=following&amp;uid=30425433" target="_blank" class="xi2"></a></span>
-  <span>积分: <a href="http://#.cn/home.php?mod=space&amp;uid=30425433&amp;do=profile" target="_blank" class="xi2">3448</a></span>
-  </p>
-  <p class="personinfo-fans">
-  <span>精华: </span>
-  <span>金币:  </span>
-  <span>经验:  </span>
-  </p>
-  <p style="color: #9c9c9c;">最后登录 1970-1-1</p>
-                          </div>
-  <div class="post_action">
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_30425433&amp;touid=30425433&amp;pmid=0&amp;daterange=2&amp;pid=102771656&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="发私信">私信</a>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=30425433&amp;handlekey=addfriendhk_30425433" onclick="showWindow('adduser', this.href, 'get', 0);">加好友</a>
-  <!-- <a class="z" href="http://#.cn/home.php?mod=space&uid=30425433" target="_blank">访问家园</a> -->
-  </div>
-                      </div>
-                  </div>
-  <!--<div class="avatar_outer">-->
-                                              <div class="avatar">
-                              <a href="http://#.cn/space-uid-30425433.html" class="avtm" target="_blank"><img src="http://ucenter.#.cn/avatar.php?uid=30425433&amp;size=middle"></a>
-                          </div>
+                            <td class="plc">
+                                <div class="pi floornum">
+                                    <strong class="y">
+                                        <a>第{{ index + 1 }}楼</a>
+                                    </strong>
+                                    <div class="pti">
+                                        <div class="pdbt">
+                                        </div>
 
-                      <!--</div>-->
-
-  </div>
-  </td>
-
-  <td class="plc">
-  <div class="pi floornum">
-  <strong class="y">
-  <a style="background: #ee5567;width: 43px;text-align:center;color:#fff;margin-right:15px;" href="http://#.cn/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=14646386&amp;pid=102771656" id="postnum102771656" onclick="setCopy(this.href, '帖子地址复制成功');return false;">
-  沙发</a>
-  </strong>
-  <div class="pti">
-  <div class="pdbt">
-  </div>
-
-  <div class="authi">
-
-
-                                      <span class="author"><a href="http://#.cn/space-uid-30425433.html" target="_blank">60小子</a>
+                                        <div class="authi">
+                                      <span class="author"><a href="http://#.cn/space-uid-30425433.html"
+                                                              target="_blank">{{ item.replyId }}</a>
    </span>
-                      <span class="authortitle">LV6.中尉</span>
-  <em id="authorposton102771656">发表于 2016-11-5 23:01</em>
-  <span class="xg1">来自360社区WAP端</span>
-  <span class="pipe">|</span>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14646386&amp;page=1&amp;authorid=30425433" rel="nofollow">只看该作者</a>
-
-  <span class="pipe">|</span>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_30425433&amp;touid=30425433&amp;pmid=0&amp;daterange=2&amp;pid=102771656&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="私信" class="xi2">私信</a>
-
-  <span class="pipe">|</span>
-                          <a href="javascript:;" onclick="showWindow('miscreport102771656', 'misc.php?mod=report&amp;rtype=post&amp;rid=102771656&amp;tid=14646386&amp;fid=5404', 'get', -1);return false;">举报</a>
-                      <!-- "只看大图"“倒序浏览”“阅读模式”delete by fengyuan -->
-  </div>
-  </div>
-  </div><div class="pct"><div class="pcb">
-  <div class="pcbs">
-  <table cellspacing="0" cellpadding="0"><tbody><tr><td class="t_f postmessage-top" id="postmessage_102771656">
-  已报名！！</td></tr></tbody></table>
-
-
-
-  </div>
-  <div id="comment_102771656" class="">
-  </div>
-
-  <div id="post_rate_div_102771656"></div>
-  </div>
-  </div>
-
-
-
-  </td></tr>
-
-  <!-- 个性签名 删除 by fengyuan-->
-
-  <tr id="_postposition102771656"></tr>
-  <tr style="height:36px;">
-  <td>
-  </td>
-  <td class="plc" style="overflow:visible;">
-
-
-  <div class="po hin">
-  <span class="y" style="margin-right: 15px;">
-  <a href="http://#.cn/forum.php?mod=post&amp;action=reply&amp;fid=5404&amp;tid=14646386&amp;repquote=102771656&amp;extra=&amp;page=1" onclick="showWindow('reply', this.href)">回复</a>
-
-
-  <!-- 推送delete by fengyuan -->
-
-
-
-
-
-
-
-                      </span>
-  <div class="pob cl">
-  </div>
-  </div>
-  </td>
-  </tr>
-  <tr class="ad">
-  <td class="pls">
-  </td>
-  <td class="plc">
-  </td>
-  </tr>
-  </tbody></table>
-                                      </div>
-                                               <div id="post_102771906">
-                                              <table id="pid102771906" class="plhin" summary="pid102771906" cellspacing="0" cellpadding="0">
-  <tbody><tr>
-  <td class="pls" rowspan="2">
-  <div id="favatar102771906" class="pls favatar">
-               <div class="p_pop blk bui xm_card card_gender_" id="userinfo102771906" style="display: none;">
-  <div class="card_inner">
-                          <div class="post-img">
-                              <div class="avatar" id="userinfo102771906_ma"></div>
-                                                      </div>
-                          <div class="post-info">
-                              <div class="c_info_top">
-                                  <strong>
-                                      <a href="http://#.cn/space-uid-20208803.html" target="_blank" class="xi2">鲁岩</a>
-
-                                  </strong>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=62" target="_blank">LV3.中士</a>
-                              </div>
-                              <p class="personinfo-fans">
-  <span>粉丝: <a href="http://#.cn/home.php?mod=follow&amp;do=follower&amp;uid=20208803" target="_blank" class="xi2"></a></span>
-  <span>关注: <a href="http://#.cn/home.php?mod=follow&amp;do=following&amp;uid=20208803" target="_blank" class="xi2"></a></span>
-  <span>积分: <a href="http://#.cn/home.php?mod=space&amp;uid=20208803&amp;do=profile" target="_blank" class="xi2">113</a></span>
-  </p>
-  <p class="personinfo-fans">
-  <span>精华: </span>
-  <span>金币:  </span>
-  <span>经验:  </span>
-  </p>
-  <p style="color: #9c9c9c;">最后登录 1970-1-1</p>
-                          </div>
-  <div class="post_action">
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_20208803&amp;touid=20208803&amp;pmid=0&amp;daterange=2&amp;pid=102771906&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="发私信">私信</a>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=20208803&amp;handlekey=addfriendhk_20208803" onclick="showWindow('adduser', this.href, 'get', 0);">加好友</a>
-  <!-- <a class="z" href="http://#.cn/home.php?mod=space&uid=20208803" target="_blank">访问家园</a> -->
-  </div>
-                      </div>
-                  </div>
-  <!--<div class="avatar_outer">-->
-                                              <div class="avatar">
-                              <a href="http://#.cn/space-uid-20208803.html" class="avtm" target="_blank"><img src="http://ucenter.#.cn/avatar.php?uid=20208803&amp;size=middle"></a>
-                          </div>
-
-                      <!--</div>-->
-
-  </div>
-  </td>
-
-  <td class="plc">
-  <div class="pi floornum">
-  <strong class="y">
-  <a style="background: #ff6f3d;width: 43px;text-align:center;color:#fff;margin-right:15px;" href="http://#.cn/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=14646386&amp;pid=102771906" id="postnum102771906" onclick="setCopy(this.href, '帖子地址复制成功');return false;">
-  板凳</a>
-  </strong>
-  <div class="pti">
-  <div class="pdbt">
-  </div>
-
-  <div class="authi">
-
-
-                                      <span class="author"><a href="http://#.cn/space-uid-20208803.html" target="_blank">鲁岩</a>
-   </span>
-                      <span class="authortitle">LV3.中士</span>
-  <em id="authorposton102771906">发表于 2016-11-5 23:14</em>
-  <span class="pipe">|</span>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14646386&amp;page=1&amp;authorid=20208803" rel="nofollow">只看该作者</a>
-
-  <span class="pipe">|</span>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_20208803&amp;touid=20208803&amp;pmid=0&amp;daterange=2&amp;pid=102771906&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="私信" class="xi2">私信</a>
-
-  <span class="pipe">|</span>
-                          <a href="javascript:;" onclick="showWindow('miscreport102771906', 'misc.php?mod=report&amp;rtype=post&amp;rid=102771906&amp;tid=14646386&amp;fid=5404', 'get', -1);return false;">举报</a>
-                      <!-- "只看大图"“倒序浏览”“阅读模式”delete by fengyuan -->
-  </div>
-  </div>
-  </div><div class="pct"><div class="pcb">
-  <div class="pcbs">
-  <table cellspacing="0" cellpadding="0"><tbody><tr><td class="t_f postmessage-top" id="postmessage_102771906">
-  已报名！！</td></tr></tbody></table>
-
-
-
-  </div>
-  <div id="comment_102771906" class="">
-  </div>
-
-  <div id="post_rate_div_102771906"></div>
-  </div>
-  </div>
-
-
-
-  </td></tr>
-
-  <!-- 个性签名 删除 by fengyuan-->
-
-  <tr id="_postposition102771906"></tr>
-  <tr style="height:36px;">
-  <td>
-  </td>
-  <td class="plc" style="overflow:visible;">
-
-
-  <div class="po hin">
-  <span class="y" style="margin-right: 15px;">
-  <a href="http://#.cn/forum.php?mod=post&amp;action=reply&amp;fid=5404&amp;tid=14646386&amp;repquote=102771906&amp;extra=&amp;page=1" onclick="showWindow('reply', this.href)">回复</a>
-
-
-  <!-- 推送delete by fengyuan -->
-
-
-
-
-
-
-
-                      </span>
-  <div class="pob cl">
-  </div>
-  </div>
-  </td>
-  </tr>
-  <tr class="ad">
-  <td class="pls">
-  </td>
-  <td class="plc">
-  </td>
-  </tr>
-  </tbody></table>
-                                      </div>
-                                               <div id="post_102772531">
-                                              <table id="pid102772531" class="plhin" summary="pid102772531" cellspacing="0" cellpadding="0">
-  <tbody><tr>
-  <td class="pls" rowspan="2">
-  <div id="favatar102772531" class="pls favatar">
-               <div class="p_pop blk bui xm_card card_gender_" id="userinfo102772531" style="display: none;">
-  <div class="card_inner">
-                          <div class="post-img">
-                              <div class="avatar" id="userinfo102772531_ma"></div>
-                                                      </div>
-                          <div class="post-info">
-                              <div class="c_info_top">
-                                  <strong>
-                                      <a href="http://#.cn/space-uid-3010928.html" target="_blank" class="xi2">qaisjy</a>
-
-                                  </strong>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=62" target="_blank">LV3.中士</a>
-                              </div>
-                              <p class="personinfo-fans">
-  <span>粉丝: <a href="http://#.cn/home.php?mod=follow&amp;do=follower&amp;uid=3010928" target="_blank" class="xi2"></a></span>
-  <span>关注: <a href="http://#.cn/home.php?mod=follow&amp;do=following&amp;uid=3010928" target="_blank" class="xi2"></a></span>
-  <span>积分: <a href="http://#.cn/home.php?mod=space&amp;uid=3010928&amp;do=profile" target="_blank" class="xi2">197</a></span>
-  </p>
-  <p class="personinfo-fans">
-  <span>精华: </span>
-  <span>金币:  </span>
-  <span>经验:  </span>
-  </p>
-  <p style="color: #9c9c9c;">最后登录 1970-1-1</p>
-                          </div>
-  <div class="post_action">
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_3010928&amp;touid=3010928&amp;pmid=0&amp;daterange=2&amp;pid=102772531&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="发私信">私信</a>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=3010928&amp;handlekey=addfriendhk_3010928" onclick="showWindow('adduser', this.href, 'get', 0);">加好友</a>
-  <!-- <a class="z" href="http://#.cn/home.php?mod=space&uid=3010928" target="_blank">访问家园</a> -->
-  </div>
-                      </div>
-                  </div>
-  <!--<div class="avatar_outer">-->
-                                              <div class="avatar">
-                              <a href="http://#.cn/space-uid-3010928.html" class="avtm" target="_blank"><img src="http://ucenter.#.cn/avatar.php?uid=3010928&amp;size=middle"></a>
-                          </div>
-
-                      <!--</div>-->
-
-  </div>
-  </td>
-
-  <td class="plc">
-  <div class="pi floornum">
-  <strong class="y">
-  <a style="background: #ffce55;width: 43px;text-align:center;color:#fff;margin-right:15px;" href="http://#.cn/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=14646386&amp;pid=102772531" id="postnum102772531" onclick="setCopy(this.href, '帖子地址复制成功');return false;">
-  地板</a>
-  </strong>
-  <div class="pti">
-  <div class="pdbt">
-  </div>
-
-  <div class="authi">
-
-
-                                      <span class="author"><a href="http://#.cn/space-uid-3010928.html" target="_blank">qaisjy</a>
-   </span>
-                      <span class="authortitle">LV3.中士</span>
-  <em id="authorposton102772531">发表于 2016-11-5 23:50</em>
-  <span class="pipe">|</span>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14646386&amp;page=1&amp;authorid=3010928" rel="nofollow">只看该作者</a>
-
-  <span class="pipe">|</span>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_3010928&amp;touid=3010928&amp;pmid=0&amp;daterange=2&amp;pid=102772531&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="私信" class="xi2">私信</a>
-
-  <span class="pipe">|</span>
-                          <a href="javascript:;" onclick="showWindow('miscreport102772531', 'misc.php?mod=report&amp;rtype=post&amp;rid=102772531&amp;tid=14646386&amp;fid=5404', 'get', -1);return false;">举报</a>
-                      <!-- "只看大图"“倒序浏览”“阅读模式”delete by fengyuan -->
-  </div>
-  </div>
-  </div><div class="pct"><div class="pcb">
-  <div class="pcbs">
-  <table cellspacing="0" cellpadding="0"><tbody><tr><td class="t_f postmessage-top" id="postmessage_102772531">
-  算我一个</td></tr></tbody></table>
-
-
-                          <div class="po phoneversion">
-                  <span class="">来自360手机N4(360社区3.1.0版)
-                  </span>
-  <!--查看版本号的权限设置，新增了版主也能查看-->
-                            </div>
-
-  </div>
-  <div id="comment_102772531" class="">
-  </div>
-
-  <div id="post_rate_div_102772531"></div>
-  </div>
-  </div>
-
-
-
-  </td></tr>
-
-  <!-- 个性签名 删除 by fengyuan-->
-
-  <tr id="_postposition102772531"></tr>
-  <tr style="height:36px;">
-  <td>
-  </td>
-  <td class="plc" style="overflow:visible;">
-
-
-  <div class="po hin">
-  <span class="y" style="margin-right: 15px;">
-  <a href="http://#.cn/forum.php?mod=post&amp;action=reply&amp;fid=5404&amp;tid=14646386&amp;repquote=102772531&amp;extra=&amp;page=1" onclick="showWindow('reply', this.href)">回复</a>
-
-
-  <!-- 推送delete by fengyuan -->
-
-
-
-
-
-
-
-                      </span>
-  <div class="pob cl">
-  </div>
-  </div>
-  </td>
-  </tr>
-  <tr class="ad">
-  <td class="pls">
-  </td>
-  <td class="plc">
-  </td>
-  </tr>
-  </tbody></table>
-                                      </div>
-                                               <div id="post_102776941">
-                                              <table id="pid102776941" class="plhin" summary="pid102776941" cellspacing="0" cellpadding="0">
-  <tbody><tr>
-  <td class="pls" rowspan="2">
-  <div id="favatar102776941" class="pls favatar">
-               <div class="p_pop blk bui xm_card card_gender_" id="userinfo102776941" style="display: none;">
-  <div class="card_inner">
-                          <div class="post-img">
-                              <div class="avatar" id="userinfo102776941_ma"></div>
-                                                      </div>
-                          <div class="post-info">
-                              <div class="c_info_top">
-                                  <strong>
-                                      <a href="http://#.cn/space-uid-30006763.html" target="_blank" class="xi2">天谴执行官</a>
-
-                                  </strong>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=100" target="_blank">同城会会长</a>
-                              </div>
-                              <p class="personinfo-fans">
-  <span>粉丝: <a href="http://#.cn/home.php?mod=follow&amp;do=follower&amp;uid=30006763" target="_blank" class="xi2"></a></span>
-  <span>关注: <a href="http://#.cn/home.php?mod=follow&amp;do=following&amp;uid=30006763" target="_blank" class="xi2"></a></span>
-  <span>积分: <a href="http://#.cn/home.php?mod=space&amp;uid=30006763&amp;do=profile" target="_blank" class="xi2">5431</a></span>
-  </p>
-  <p class="personinfo-fans">
-  <span>精华: </span>
-  <span>金币:  </span>
-  <span>经验:  </span>
-  </p>
-  <p style="color: #9c9c9c;">最后登录 1970-1-1</p>
-                          </div>
-  <div class="post_action">
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_30006763&amp;touid=30006763&amp;pmid=0&amp;daterange=2&amp;pid=102776941&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="发私信">私信</a>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=30006763&amp;handlekey=addfriendhk_30006763" onclick="showWindow('adduser', this.href, 'get', 0);">加好友</a>
-  <!-- <a class="z" href="http://#.cn/home.php?mod=space&uid=30006763" target="_blank">访问家园</a> -->
-  </div>
-                      </div>
-                  </div>
-  <!--<div class="avatar_outer">-->
-                                              <div class="avatar">
-                              <a href="http://#.cn/space-uid-30006763.html" class="avtm" target="_blank"><img src="http://ucenter.#.cn/avatar.php?uid=30006763&amp;size=middle"></a>
-                          </div>
-
-                      <!--</div>-->
-
-  </div>
-  </td>
-
-  <td class="plc">
-  <div class="pi floornum">
-  <strong class="y">
-  <a style="background: " href="http://#.cn/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=14646386&amp;pid=102776941" id="postnum102776941" onclick="setCopy(this.href, '帖子地址复制成功');return false;">
-  <em>5</em>楼</a>
-  </strong>
-  <div class="pti">
-  <div class="pdbt">
-  </div>
-
-  <div class="authi">
-
-
-                                      <span class="author"><a href="http://#.cn/space-uid-30006763.html" target="_blank">天谴执行官</a>
-   </span>
-                      <span class="authortitle">同城会会长</span>
-  <em id="authorposton102776941">发表于 2016-11-6 07:15</em>
-  <span class="pipe">|</span>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14646386&amp;page=1&amp;authorid=30006763" rel="nofollow">只看该作者</a>
-
-  <span class="pipe">|</span>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_30006763&amp;touid=30006763&amp;pmid=0&amp;daterange=2&amp;pid=102776941&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="私信" class="xi2">私信</a>
-
-  <span class="pipe">|</span>
-                          <a href="javascript:;" onclick="showWindow('miscreport102776941', 'misc.php?mod=report&amp;rtype=post&amp;rid=102776941&amp;tid=14646386&amp;fid=5404', 'get', -1);return false;">举报</a>
-                      <!-- "只看大图"“倒序浏览”“阅读模式”delete by fengyuan -->
-  </div>
-  </div>
-  </div><div class="pct"><div class="pcb">
-  <div class="pcbs">
-  <table cellspacing="0" cellpadding="0"><tbody><tr><td class="t_f postmessage-top" id="postmessage_102776941">
-  <div class="quote"><blockquote><font size="2"><font color="#999999">60小子 发表于 2016-11-5 23:01</font></font><br>
-  已报名！！</blockquote></div>欢迎欢迎</td></tr></tbody></table>
-
-
-                          <div class="po phoneversion">
-                  <span class="">来自360手机N4A(360社区3.1.1版)
-                  </span>
-  <!--查看版本号的权限设置，新增了版主也能查看-->
-                            </div>
-
-  </div>
-  <div id="comment_102776941" class="">
-  </div>
-
-  <div id="post_rate_div_102776941"></div>
-  </div>
-  </div>
-
-
-
-  </td></tr>
-
-  <!-- 个性签名 删除 by fengyuan-->
-
-  <tr id="_postposition102776941"></tr>
-  <tr style="height:36px;">
-  <td>
-  </td>
-  <td class="plc" style="overflow:visible;">
-
-
-  <div class="po hin">
-  <span class="y" style="margin-right: 15px;">
-  <a href="http://#.cn/forum.php?mod=post&amp;action=reply&amp;fid=5404&amp;tid=14646386&amp;repquote=102776941&amp;extra=&amp;page=1" onclick="showWindow('reply', this.href)">回复</a>
-
-
-  <!-- 推送delete by fengyuan -->
-
-
-
-
-
-
-
-                      </span>
-  <div class="pob cl">
-  </div>
-  </div>
-  </td>
-  </tr>
-  <tr class="ad">
-  <td class="pls">
-  </td>
-  <td class="plc">
-  </td>
-  </tr>
-  </tbody></table>
-                                      </div>
-                                               <div id="post_102776965">
-                                              <table id="pid102776965" class="plhin" summary="pid102776965" cellspacing="0" cellpadding="0">
-  <tbody><tr>
-  <td class="pls" rowspan="2">
-  <div id="favatar102776965" class="pls favatar">
-               <div class="p_pop blk bui xm_card card_gender_" id="userinfo102776965" style="display: none;">
-  <div class="card_inner">
-                          <div class="post-img">
-                              <div class="avatar" id="userinfo102776965_ma"></div>
-                                                      </div>
-                          <div class="post-info">
-                              <div class="c_info_top">
-                                  <strong>
-                                      <a href="http://#.cn/space-uid-30006763.html" target="_blank" class="xi2">天谴执行官</a>
-
-                                  </strong>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=100" target="_blank">同城会会长</a>
-                              </div>
-                              <p class="personinfo-fans">
-  <span>粉丝: <a href="http://#.cn/home.php?mod=follow&amp;do=follower&amp;uid=30006763" target="_blank" class="xi2"></a></span>
-  <span>关注: <a href="http://#.cn/home.php?mod=follow&amp;do=following&amp;uid=30006763" target="_blank" class="xi2"></a></span>
-  <span>积分: <a href="http://#.cn/home.php?mod=space&amp;uid=30006763&amp;do=profile" target="_blank" class="xi2">5431</a></span>
-  </p>
-  <p class="personinfo-fans">
-  <span>精华: </span>
-  <span>金币:  </span>
-  <span>经验:  </span>
-  </p>
-  <p style="color: #9c9c9c;">最后登录 1970-1-1</p>
-                          </div>
-  <div class="post_action">
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_30006763&amp;touid=30006763&amp;pmid=0&amp;daterange=2&amp;pid=102776965&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="发私信">私信</a>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=30006763&amp;handlekey=addfriendhk_30006763" onclick="showWindow('adduser', this.href, 'get', 0);">加好友</a>
-  <!-- <a class="z" href="http://#.cn/home.php?mod=space&uid=30006763" target="_blank">访问家园</a> -->
-  </div>
-                      </div>
-                  </div>
-  <!--<div class="avatar_outer">-->
-                                              <div class="avatar">
-                              <a href="http://#.cn/space-uid-30006763.html" class="avtm" target="_blank"><img src="http://ucenter.#.cn/avatar.php?uid=30006763&amp;size=middle"></a>
-                          </div>
-
-                      <!--</div>-->
-
-  </div>
-  </td>
-
-  <td class="plc">
-  <div class="pi floornum">
-  <strong class="y">
-  <a style="background: " href="http://#.cn/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=14646386&amp;pid=102776965" id="postnum102776965" onclick="setCopy(this.href, '帖子地址复制成功');return false;">
-  <em>6</em>楼</a>
-  </strong>
-  <div class="pti">
-  <div class="pdbt">
-  </div>
-
-  <div class="authi">
-
-
-                                      <span class="author"><a href="http://#.cn/space-uid-30006763.html" target="_blank">天谴执行官</a>
-   </span>
-                      <span class="authortitle">同城会会长</span>
-  <em id="authorposton102776965">发表于 2016-11-6 07:18</em>
-  <span class="pipe">|</span>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14646386&amp;page=1&amp;authorid=30006763" rel="nofollow">只看该作者</a>
-
-  <span class="pipe">|</span>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_30006763&amp;touid=30006763&amp;pmid=0&amp;daterange=2&amp;pid=102776965&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="私信" class="xi2">私信</a>
-
-  <span class="pipe">|</span>
-                          <a href="javascript:;" onclick="showWindow('miscreport102776965', 'misc.php?mod=report&amp;rtype=post&amp;rid=102776965&amp;tid=14646386&amp;fid=5404', 'get', -1);return false;">举报</a>
-                      <!-- "只看大图"“倒序浏览”“阅读模式”delete by fengyuan -->
-  </div>
-  </div>
-  </div><div class="pct"><div class="pcb">
-  <div class="pcbs">
-  <table cellspacing="0" cellpadding="0"><tbody><tr><td class="t_f postmessage-top" id="postmessage_102776965">
-  <div class="quote"><blockquote><font size="2"><font color="#999999">鲁岩 发表于 2016-11-5 23:14</font></font><br>
-  已报名！！</blockquote></div>欢迎欢迎<img src="http://b1.qikucdn.com/static/image/smiley/pryleague80/pryleague80 (3).png" smilieid="369" border="0" alt=""></td></tr></tbody></table>
-
-
-                          <div class="po phoneversion">
-                  <span class="">来自360手机N4A(360社区3.1.1版)
-                  </span>
-  <!--查看版本号的权限设置，新增了版主也能查看-->
-                            </div>
-
-  </div>
-  <div id="comment_102776965" class="">
-  </div>
-
-  <div id="post_rate_div_102776965"></div>
-  </div>
-  </div>
-
-
-
-  </td></tr>
-
-  <!-- 个性签名 删除 by fengyuan-->
-
-  <tr id="_postposition102776965"></tr>
-  <tr style="height:36px;">
-  <td>
-  </td>
-  <td class="plc" style="overflow:visible;">
-
-
-  <div class="po hin">
-  <span class="y" style="margin-right: 15px;">
-  <a href="http://#.cn/forum.php?mod=post&amp;action=reply&amp;fid=5404&amp;tid=14646386&amp;repquote=102776965&amp;extra=&amp;page=1" onclick="showWindow('reply', this.href)">回复</a>
-
-
-  <!-- 推送delete by fengyuan -->
-
-
-
-
-
-
-
-                      </span>
-  <div class="pob cl">
-  </div>
-  </div>
-  </td>
-  </tr>
-  <tr class="ad">
-  <td class="pls">
-  </td>
-  <td class="plc">
-  </td>
-  </tr>
-  </tbody></table>
-                                      </div>
-                                               <div id="post_102776975">
-                                              <table id="pid102776975" class="plhin" summary="pid102776975" cellspacing="0" cellpadding="0">
-  <tbody><tr>
-  <td class="pls" rowspan="2">
-  <div id="favatar102776975" class="pls favatar">
-               <div class="p_pop blk bui xm_card card_gender_" id="userinfo102776975" style="display: none;">
-  <div class="card_inner">
-                          <div class="post-img">
-                              <div class="avatar" id="userinfo102776975_ma"></div>
-                                                      </div>
-                          <div class="post-info">
-                              <div class="c_info_top">
-                                  <strong>
-                                      <a href="http://#.cn/space-uid-30006763.html" target="_blank" class="xi2">天谴执行官</a>
-
-                                  </strong>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=100" target="_blank">同城会会长</a>
-                              </div>
-                              <p class="personinfo-fans">
-  <span>粉丝: <a href="http://#.cn/home.php?mod=follow&amp;do=follower&amp;uid=30006763" target="_blank" class="xi2"></a></span>
-  <span>关注: <a href="http://#.cn/home.php?mod=follow&amp;do=following&amp;uid=30006763" target="_blank" class="xi2"></a></span>
-  <span>积分: <a href="http://#.cn/home.php?mod=space&amp;uid=30006763&amp;do=profile" target="_blank" class="xi2">5431</a></span>
-  </p>
-  <p class="personinfo-fans">
-  <span>精华: </span>
-  <span>金币:  </span>
-  <span>经验:  </span>
-  </p>
-  <p style="color: #9c9c9c;">最后登录 1970-1-1</p>
-                          </div>
-  <div class="post_action">
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_30006763&amp;touid=30006763&amp;pmid=0&amp;daterange=2&amp;pid=102776975&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="发私信">私信</a>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=30006763&amp;handlekey=addfriendhk_30006763" onclick="showWindow('adduser', this.href, 'get', 0);">加好友</a>
-  <!-- <a class="z" href="http://#.cn/home.php?mod=space&uid=30006763" target="_blank">访问家园</a> -->
-  </div>
-                      </div>
-                  </div>
-  <!--<div class="avatar_outer">-->
-                                              <div class="avatar">
-                              <a href="http://#.cn/space-uid-30006763.html" class="avtm" target="_blank"><img src="http://ucenter.#.cn/avatar.php?uid=30006763&amp;size=middle"></a>
-                          </div>
-
-                      <!--</div>-->
-
-  </div>
-  </td>
-
-  <td class="plc">
-  <div class="pi floornum">
-  <strong class="y">
-  <a style="background: " href="http://#.cn/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=14646386&amp;pid=102776975" id="postnum102776975" onclick="setCopy(this.href, '帖子地址复制成功');return false;">
-  <em>7</em>楼</a>
-  </strong>
-  <div class="pti">
-  <div class="pdbt">
-  </div>
-
-  <div class="authi">
-
-
-                                      <span class="author"><a href="http://#.cn/space-uid-30006763.html" target="_blank">天谴执行官</a>
-   </span>
-                      <span class="authortitle">同城会会长</span>
-  <em id="authorposton102776975">发表于 2016-11-6 07:18</em>
-  <span class="pipe">|</span>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14646386&amp;page=1&amp;authorid=30006763" rel="nofollow">只看该作者</a>
-
-  <span class="pipe">|</span>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_30006763&amp;touid=30006763&amp;pmid=0&amp;daterange=2&amp;pid=102776975&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="私信" class="xi2">私信</a>
-
-  <span class="pipe">|</span>
-                          <a href="javascript:;" onclick="showWindow('miscreport102776975', 'misc.php?mod=report&amp;rtype=post&amp;rid=102776975&amp;tid=14646386&amp;fid=5404', 'get', -1);return false;">举报</a>
-                      <!-- "只看大图"“倒序浏览”“阅读模式”delete by fengyuan -->
-  </div>
-  </div>
-  </div><div class="pct"><div class="pcb">
-  <div class="pcbs">
-  <table cellspacing="0" cellpadding="0"><tbody><tr><td class="t_f postmessage-top" id="postmessage_102776975">
-  <div class="quote"><blockquote><font size="2"><font color="#999999">qaisjy 发表于 2016-11-5 23:50</font></font><br>
-  算我一个</blockquote></div>好的，报名回家我同意</td></tr></tbody></table>
-
-
-                          <div class="po phoneversion">
-                  <span class="">来自360手机N4A(360社区3.1.1版)
-                  </span>
-  <!--查看版本号的权限设置，新增了版主也能查看-->
-                            </div>
-
-  </div>
-  <div id="comment_102776975" class="">
-  </div>
-
-  <div id="post_rate_div_102776975"></div>
-  </div>
-  </div>
-
-
-
-  </td></tr>
-
-  <!-- 个性签名 删除 by fengyuan-->
-
-  <tr id="_postposition102776975"></tr>
-  <tr style="height:36px;">
-  <td>
-  </td>
-  <td class="plc" style="overflow:visible;">
-
-
-  <div class="po hin">
-  <span class="y" style="margin-right: 15px;">
-  <a href="http://#.cn/forum.php?mod=post&amp;action=reply&amp;fid=5404&amp;tid=14646386&amp;repquote=102776975&amp;extra=&amp;page=1" onclick="showWindow('reply', this.href)">回复</a>
-
-
-  <!-- 推送delete by fengyuan -->
-
-
-
-
-
-
-
-                      </span>
-  <div class="pob cl">
-  </div>
-  </div>
-  </td>
-  </tr>
-  <tr class="ad">
-  <td class="pls">
-  </td>
-  <td class="plc">
-  </td>
-  </tr>
-  </tbody></table>
-                                      </div>
-                                               <div id="post_102790713">
-                                              <table id="pid102790713" class="plhin" summary="pid102790713" cellspacing="0" cellpadding="0">
-  <tbody><tr>
-  <td class="pls" rowspan="2">
-  <div id="favatar102790713" class="pls favatar">
-               <div class="p_pop blk bui xm_card card_gender_" id="userinfo102790713" style="display: none;">
-  <div class="card_inner">
-                          <div class="post-img">
-                              <div class="avatar" id="userinfo102790713_ma"></div>
-                                                      </div>
-                          <div class="post-info">
-                              <div class="c_info_top">
-                                  <strong>
-                                      <a href="http://#.cn/space-uid-24666916.html" target="_blank" class="xi2">随心之笑</a>
-
-                                  </strong>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=60" target="_blank">LV4.上士</a>
-                              </div>
-                              <p class="personinfo-fans">
-  <span>粉丝: <a href="http://#.cn/home.php?mod=follow&amp;do=follower&amp;uid=24666916" target="_blank" class="xi2"></a></span>
-  <span>关注: <a href="http://#.cn/home.php?mod=follow&amp;do=following&amp;uid=24666916" target="_blank" class="xi2"></a></span>
-  <span>积分: <a href="http://#.cn/home.php?mod=space&amp;uid=24666916&amp;do=profile" target="_blank" class="xi2">371</a></span>
-  </p>
-  <p class="personinfo-fans">
-  <span>精华: </span>
-  <span>金币:  </span>
-  <span>经验:  </span>
-  </p>
-  <p style="color: #9c9c9c;">最后登录 1970-1-1</p>
-                          </div>
-  <div class="post_action">
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_24666916&amp;touid=24666916&amp;pmid=0&amp;daterange=2&amp;pid=102790713&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="发私信">私信</a>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=24666916&amp;handlekey=addfriendhk_24666916" onclick="showWindow('adduser', this.href, 'get', 0);">加好友</a>
-  <!-- <a class="z" href="http://#.cn/home.php?mod=space&uid=24666916" target="_blank">访问家园</a> -->
-  </div>
-                      </div>
-                  </div>
-  <!--<div class="avatar_outer">-->
-                                              <div class="avatar">
-                              <a href="http://#.cn/space-uid-24666916.html" class="avtm" target="_blank"><img src="http://ucenter.#.cn/avatar.php?uid=24666916&amp;size=middle"></a>
-                          </div>
-
-                      <!--</div>-->
-
-  </div>
-  </td>
-
-  <td class="plc">
-  <div class="pi floornum">
-  <strong class="y">
-  <a style="background: " href="http://#.cn/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=14646386&amp;pid=102790713" id="postnum102790713" onclick="setCopy(this.href, '帖子地址复制成功');return false;">
-  <em>8</em>楼</a>
-  </strong>
-  <div class="pti">
-  <div class="pdbt">
-  </div>
-
-  <div class="authi">
-
-
-                                      <span class="author"><a href="http://#.cn/space-uid-24666916.html" target="_blank">随心之笑</a>
-   </span>
-                      <span class="authortitle">LV4.上士</span>
-  <em id="authorposton102790713">发表于 2016-11-6 17:45</em>
-  <span class="pipe">|</span>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14646386&amp;page=1&amp;authorid=24666916" rel="nofollow">只看该作者</a>
-
-  <span class="pipe">|</span>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_24666916&amp;touid=24666916&amp;pmid=0&amp;daterange=2&amp;pid=102790713&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="私信" class="xi2">私信</a>
-
-  <span class="pipe">|</span>
-                          <a href="javascript:;" onclick="showWindow('miscreport102790713', 'misc.php?mod=report&amp;rtype=post&amp;rid=102790713&amp;tid=14646386&amp;fid=5404', 'get', -1);return false;">举报</a>
-                      <!-- "只看大图"“倒序浏览”“阅读模式”delete by fengyuan -->
-  </div>
-  </div>
-  </div><div class="pct"><div class="pcb">
-  <div class="pcbs">
-  <table cellspacing="0" cellpadding="0"><tbody><tr><td class="t_f postmessage-top" id="postmessage_102790713">
-  竟然通过了</td></tr></tbody></table>
-
-
-                          <div class="po phoneversion">
-                  <span class="">来自360手机 Q5 Plus(360社区3.1.1版)
-                  </span>
-  <!--查看版本号的权限设置，新增了版主也能查看-->
-                            </div>
-
-  </div>
-  <div id="comment_102790713" class="">
-  </div>
-
-  <div id="post_rate_div_102790713"></div>
-  </div>
-  </div>
-
-
-
-  </td></tr>
-
-  <!-- 个性签名 删除 by fengyuan-->
-
-  <tr id="_postposition102790713"></tr>
-  <tr style="height:36px;">
-  <td>
-  </td>
-  <td class="plc" style="overflow:visible;">
-
-
-  <div class="po hin">
-  <span class="y" style="margin-right: 15px;">
-  <a href="http://#.cn/forum.php?mod=post&amp;action=reply&amp;fid=5404&amp;tid=14646386&amp;repquote=102790713&amp;extra=&amp;page=1" onclick="showWindow('reply', this.href)">回复</a>
-
-
-  <!-- 推送delete by fengyuan -->
-
-
-
-
-
-
-
-                      </span>
-  <div class="pob cl">
-  </div>
-  </div>
-  </td>
-  </tr>
-  <tr class="ad">
-  <td class="pls">
-  </td>
-  <td class="plc">
-  </td>
-  </tr>
-  </tbody></table>
-                                      </div>
-                                               <div id="post_102792219">
-                                              <table id="pid102792219" class="plhin" summary="pid102792219" cellspacing="0" cellpadding="0">
-  <tbody><tr>
-  <td class="pls" rowspan="2">
-  <div id="favatar102792219" class="pls favatar">
-               <div class="p_pop blk bui xm_card card_gender_" id="userinfo102792219" style="display: none;">
-  <div class="card_inner">
-                          <div class="post-img">
-                              <div class="avatar" id="userinfo102792219_ma"></div>
-                                                      </div>
-                          <div class="post-info">
-                              <div class="c_info_top">
-                                  <strong>
-                                      <a href="http://#.cn/space-uid-30006763.html" target="_blank" class="xi2">天谴执行官</a>
-
-                                  </strong>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=100" target="_blank">同城会会长</a>
-                              </div>
-                              <p class="personinfo-fans">
-  <span>粉丝: <a href="http://#.cn/home.php?mod=follow&amp;do=follower&amp;uid=30006763" target="_blank" class="xi2"></a></span>
-  <span>关注: <a href="http://#.cn/home.php?mod=follow&amp;do=following&amp;uid=30006763" target="_blank" class="xi2"></a></span>
-  <span>积分: <a href="http://#.cn/home.php?mod=space&amp;uid=30006763&amp;do=profile" target="_blank" class="xi2">5431</a></span>
-  </p>
-  <p class="personinfo-fans">
-  <span>精华: </span>
-  <span>金币:  </span>
-  <span>经验:  </span>
-  </p>
-  <p style="color: #9c9c9c;">最后登录 1970-1-1</p>
-                          </div>
-  <div class="post_action">
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_30006763&amp;touid=30006763&amp;pmid=0&amp;daterange=2&amp;pid=102792219&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="发私信">私信</a>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=30006763&amp;handlekey=addfriendhk_30006763" onclick="showWindow('adduser', this.href, 'get', 0);">加好友</a>
-  <!-- <a class="z" href="http://#.cn/home.php?mod=space&uid=30006763" target="_blank">访问家园</a> -->
-  </div>
-                      </div>
-                  </div>
-  <!--<div class="avatar_outer">-->
-                                              <div class="avatar">
-                              <a href="http://#.cn/space-uid-30006763.html" class="avtm" target="_blank"><img src="http://ucenter.#.cn/avatar.php?uid=30006763&amp;size=middle"></a>
-                          </div>
-
-                      <!--</div>-->
-
-  </div>
-  </td>
-
-  <td class="plc">
-  <div class="pi floornum">
-  <strong class="y">
-  <a style="background: " href="http://#.cn/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=14646386&amp;pid=102792219" id="postnum102792219" onclick="setCopy(this.href, '帖子地址复制成功');return false;">
-  <em>9</em>楼</a>
-  </strong>
-  <div class="pti">
-  <div class="pdbt">
-  </div>
-
-  <div class="authi">
-
-
-                                      <span class="author"><a href="http://#.cn/space-uid-30006763.html" target="_blank">天谴执行官</a>
-   </span>
-                      <span class="authortitle">同城会会长</span>
-  <em id="authorposton102792219">发表于 2016-11-6 19:21</em>
-  <span class="pipe">|</span>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14646386&amp;page=1&amp;authorid=30006763" rel="nofollow">只看该作者</a>
-
-  <span class="pipe">|</span>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_30006763&amp;touid=30006763&amp;pmid=0&amp;daterange=2&amp;pid=102792219&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="私信" class="xi2">私信</a>
-
-  <span class="pipe">|</span>
-                          <a href="javascript:;" onclick="showWindow('miscreport102792219', 'misc.php?mod=report&amp;rtype=post&amp;rid=102792219&amp;tid=14646386&amp;fid=5404', 'get', -1);return false;">举报</a>
-                      <!-- "只看大图"“倒序浏览”“阅读模式”delete by fengyuan -->
-  </div>
-  </div>
-  </div><div class="pct"><div class="pcb">
-  <div class="pcbs">
-  <table cellspacing="0" cellpadding="0"><tbody><tr><td class="t_f postmessage-top" id="postmessage_102792219">
-  <div class="quote"><blockquote><font size="2"><font color="#999999">随心之笑 发表于 2016-11-6 17:45</font></font><br>
-  竟然通过了</blockquote></div>这还很意外吗？<img src="http://b1.qikucdn.com/static/image/smiley/pryleague80/pryleague80 (1).png" smilieid="363" border="0" alt=""></td></tr></tbody></table>
-
-
-                          <div class="po phoneversion">
-                  <span class="">来自360手机N4A(360社区3.1.1版)
-                  </span>
-  <!--查看版本号的权限设置，新增了版主也能查看-->
-                            </div>
-
-  </div>
-  <div id="comment_102792219" class="">
-  </div>
-
-  <div id="post_rate_div_102792219"></div>
-  </div>
-  </div>
-
-
-
-  </td></tr>
-
-  <!-- 个性签名 删除 by fengyuan-->
-
-  <tr id="_postposition102792219"></tr>
-  <tr style="height:36px;">
-  <td>
-  </td>
-  <td class="plc" style="overflow:visible;">
-
-
-  <div class="po hin">
-  <span class="y" style="margin-right: 15px;">
-  <a href="http://#.cn/forum.php?mod=post&amp;action=reply&amp;fid=5404&amp;tid=14646386&amp;repquote=102792219&amp;extra=&amp;page=1" onclick="showWindow('reply', this.href)">回复</a>
-
-
-  <!-- 推送delete by fengyuan -->
-
-
-
-
-
-
-
-                      </span>
-  <div class="pob cl">
-  </div>
-  </div>
-  </td>
-  </tr>
-  <tr class="ad">
-  <td class="pls">
-  </td>
-  <td class="plc">
-  </td>
-  </tr>
-  </tbody></table>
-                                      </div>
-                                               <div id="post_102793607">
-                                              <table id="pid102793607" class="plhin" summary="pid102793607" cellspacing="0" cellpadding="0">
-  <tbody><tr>
-  <td class="pls" rowspan="2">
-  <div id="favatar102793607" class="pls favatar">
-               <div class="p_pop blk bui xm_card card_gender_" id="userinfo102793607" style="display: none;">
-  <div class="card_inner">
-                          <div class="post-img">
-                              <div class="avatar" id="userinfo102793607_ma"></div>
-                                                      </div>
-                          <div class="post-info">
-                              <div class="c_info_top">
-                                  <strong>
-                                      <a href="http://#.cn/space-uid-24666916.html" target="_blank" class="xi2">随心之笑</a>
-
-                                  </strong>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=60" target="_blank">LV4.上士</a>
-                              </div>
-                              <p class="personinfo-fans">
-  <span>粉丝: <a href="http://#.cn/home.php?mod=follow&amp;do=follower&amp;uid=24666916" target="_blank" class="xi2"></a></span>
-  <span>关注: <a href="http://#.cn/home.php?mod=follow&amp;do=following&amp;uid=24666916" target="_blank" class="xi2"></a></span>
-  <span>积分: <a href="http://#.cn/home.php?mod=space&amp;uid=24666916&amp;do=profile" target="_blank" class="xi2">371</a></span>
-  </p>
-  <p class="personinfo-fans">
-  <span>精华: </span>
-  <span>金币:  </span>
-  <span>经验:  </span>
-  </p>
-  <p style="color: #9c9c9c;">最后登录 1970-1-1</p>
-                          </div>
-  <div class="post_action">
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_24666916&amp;touid=24666916&amp;pmid=0&amp;daterange=2&amp;pid=102793607&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="发私信">私信</a>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=24666916&amp;handlekey=addfriendhk_24666916" onclick="showWindow('adduser', this.href, 'get', 0);">加好友</a>
-  <!-- <a class="z" href="http://#.cn/home.php?mod=space&uid=24666916" target="_blank">访问家园</a> -->
-  </div>
-                      </div>
-                  </div>
-  <!--<div class="avatar_outer">-->
-                                              <div class="avatar">
-                              <a href="http://#.cn/space-uid-24666916.html" class="avtm" target="_blank"><img src="http://ucenter.#.cn/avatar.php?uid=24666916&amp;size=middle"></a>
-                          </div>
-
-                      <!--</div>-->
-
-  </div>
-  </td>
-
-  <td class="plc">
-  <div class="pi floornum">
-  <strong class="y">
-  <a style="background: " href="http://#.cn/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=14646386&amp;pid=102793607" id="postnum102793607" onclick="setCopy(this.href, '帖子地址复制成功');return false;">
-  <em>10</em>楼</a>
-  </strong>
-  <div class="pti">
-  <div class="pdbt">
-  </div>
-
-  <div class="authi">
-
-
-                                      <span class="author"><a href="http://#.cn/space-uid-24666916.html" target="_blank">随心之笑</a>
-   </span>
-                      <span class="authortitle">LV4.上士</span>
-  <em id="authorposton102793607">发表于 2016-11-6 20:34</em>
-  <span class="pipe">|</span>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14646386&amp;page=1&amp;authorid=24666916" rel="nofollow">只看该作者</a>
-
-  <span class="pipe">|</span>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_24666916&amp;touid=24666916&amp;pmid=0&amp;daterange=2&amp;pid=102793607&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="私信" class="xi2">私信</a>
-
-  <span class="pipe">|</span>
-                          <a href="javascript:;" onclick="showWindow('miscreport102793607', 'misc.php?mod=report&amp;rtype=post&amp;rid=102793607&amp;tid=14646386&amp;fid=5404', 'get', -1);return false;">举报</a>
-                      <!-- "只看大图"“倒序浏览”“阅读模式”delete by fengyuan -->
-  </div>
-  </div>
-  </div><div class="pct"><div class="pcb">
-  <div class="pcbs">
-  <table cellspacing="0" cellpadding="0"><tbody><tr><td class="t_f postmessage-top" id="postmessage_102793607">
-  <div class="quote"><blockquote><font size="2"><font color="#999999">天谴执行官 发表于 2016-11-6 19:21</font></font><br>
-  这还很意外吗？</blockquote></div>很意外</td></tr></tbody></table>
-
-
-                          <div class="po phoneversion">
-                  <span class="">来自360手机 Q5 Plus(360社区3.1.1版)
-                  </span>
-  <!--查看版本号的权限设置，新增了版主也能查看-->
-                            </div>
-
-  </div>
-  <div id="comment_102793607" class="">
-  </div>
-
-  <div id="post_rate_div_102793607"></div>
-  </div>
-  </div>
-
-
-
-  </td></tr>
-
-  <!-- 个性签名 删除 by fengyuan-->
-
-  <tr id="_postposition102793607"></tr>
-  <tr style="height:36px;">
-  <td>
-  </td>
-  <td class="plc" style="overflow:visible;">
-
-
-  <div class="po hin">
-  <span class="y" style="margin-right: 15px;">
-  <a href="http://#.cn/forum.php?mod=post&amp;action=reply&amp;fid=5404&amp;tid=14646386&amp;repquote=102793607&amp;extra=&amp;page=1" onclick="showWindow('reply', this.href)">回复</a>
-
-
-  <!-- 推送delete by fengyuan -->
-
-
-
-
-
-
-
-                      </span>
-  <div class="pob cl">
-  </div>
-  </div>
-  </td>
-  </tr>
-  <tr class="ad">
-  <td class="pls">
-  </td>
-  <td class="plc">
-  </td>
-  </tr>
-  </tbody></table>
-                                      </div>
-                                               <div id="post_102811118">
-                                              <table id="pid102811118" class="plhin" summary="pid102811118" cellspacing="0" cellpadding="0">
-  <tbody><tr>
-  <td class="pls" rowspan="2">
-  <div id="favatar102811118" class="pls favatar">
-               <div class="p_pop blk bui xm_card card_gender_" id="userinfo102811118" style="display: none;">
-  <div class="card_inner">
-                          <div class="post-img">
-                              <div class="avatar" id="userinfo102811118_ma"></div>
-                                                      </div>
-                          <div class="post-info">
-                              <div class="c_info_top">
-                                  <strong>
-                                      <a href="http://#.cn/space-uid-33279306.html" target="_blank" class="xi2">QK101810</a>
-
-                                  </strong>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=25" target="_blank">LV1.上等兵</a>
-                              </div>
-                              <p class="personinfo-fans">
-  <span>粉丝: <a href="http://#.cn/home.php?mod=follow&amp;do=follower&amp;uid=33279306" target="_blank" class="xi2"></a></span>
-  <span>关注: <a href="http://#.cn/home.php?mod=follow&amp;do=following&amp;uid=33279306" target="_blank" class="xi2"></a></span>
-  <span>积分: <a href="http://#.cn/home.php?mod=space&amp;uid=33279306&amp;do=profile" target="_blank" class="xi2">3</a></span>
-  </p>
-  <p class="personinfo-fans">
-  <span>精华: </span>
-  <span>金币:  </span>
-  <span>经验:  </span>
-  </p>
-  <p style="color: #9c9c9c;">最后登录 1970-1-1</p>
-                          </div>
-  <div class="post_action">
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_33279306&amp;touid=33279306&amp;pmid=0&amp;daterange=2&amp;pid=102811118&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="发私信">私信</a>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=33279306&amp;handlekey=addfriendhk_33279306" onclick="showWindow('adduser', this.href, 'get', 0);">加好友</a>
-  <!-- <a class="z" href="http://#.cn/home.php?mod=space&uid=33279306" target="_blank">访问家园</a> -->
-  </div>
-                      </div>
-                  </div>
-  <!--<div class="avatar_outer">-->
-                                              <div class="avatar">
-                              <a href="http://#.cn/space-uid-33279306.html" class="avtm" target="_blank"><img src="http://ucenter.#.cn/avatar.php?uid=33279306&amp;size=middle"></a>
-                          </div>
-
-                      <!--</div>-->
-
-  </div>
-  </td>
-
-  <td class="plc">
-  <div class="pi floornum">
-  <strong class="y">
-  <a style="background: " href="http://#.cn/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=14646386&amp;pid=102811118" id="postnum102811118" onclick="setCopy(this.href, '帖子地址复制成功');return false;">
-  <em>11</em>楼</a>
-  </strong>
-  <div class="pti">
-  <div class="pdbt">
-  </div>
-
-  <div class="authi">
-
-
-                                      <span class="author"><a href="http://#.cn/space-uid-33279306.html" target="_blank">QK101810</a>
-   </span>
-                      <span class="authortitle">LV1.上等兵</span>
-  <em id="authorposton102811118">发表于 2016-11-7 12:12</em>
-  <span class="xg1">来自360社区WAP端</span>
-  <span class="pipe">|</span>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14646386&amp;page=1&amp;authorid=33279306" rel="nofollow">只看该作者</a>
-
-  <span class="pipe">|</span>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_33279306&amp;touid=33279306&amp;pmid=0&amp;daterange=2&amp;pid=102811118&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="私信" class="xi2">私信</a>
-
-  <span class="pipe">|</span>
-                          <a href="javascript:;" onclick="showWindow('miscreport102811118', 'misc.php?mod=report&amp;rtype=post&amp;rid=102811118&amp;tid=14646386&amp;fid=5404', 'get', -1);return false;">举报</a>
-                      <!-- "只看大图"“倒序浏览”“阅读模式”delete by fengyuan -->
-  </div>
-  </div>
-  </div><div class="pct"><div class="pcb">
-  <div class="pcbs">
-  <table cellspacing="0" cellpadding="0"><tbody><tr><td class="t_f postmessage-top" id="postmessage_102811118">
-  我报名</td></tr></tbody></table>
-
-
-
-  </div>
-  <div id="comment_102811118" class="">
-  </div>
-
-  <div id="post_rate_div_102811118"></div>
-  </div>
-  </div>
-
-
-
-  </td></tr>
-
-  <!-- 个性签名 删除 by fengyuan-->
-
-  <tr id="_postposition102811118"></tr>
-  <tr style="height:36px;">
-  <td>
-  </td>
-  <td class="plc" style="overflow:visible;">
-
-
-  <div class="po hin">
-  <span class="y" style="margin-right: 15px;">
-  <a href="http://#.cn/forum.php?mod=post&amp;action=reply&amp;fid=5404&amp;tid=14646386&amp;repquote=102811118&amp;extra=&amp;page=1" onclick="showWindow('reply', this.href)">回复</a>
-
-
-  <!-- 推送delete by fengyuan -->
-
-
-
-
-
-
-
-                      </span>
-  <div class="pob cl">
-  </div>
-  </div>
-  </td>
-  </tr>
-  <tr class="ad">
-  <td class="pls">
-  </td>
-  <td class="plc">
-  </td>
-  </tr>
-  </tbody></table>
-                                      </div>
-                                               <div id="post_102811578">
-                                              <table id="pid102811578" class="plhin" summary="pid102811578" cellspacing="0" cellpadding="0">
-  <tbody><tr>
-  <td class="pls" rowspan="2">
-  <div id="favatar102811578" class="pls favatar">
-               <a name="lastpost"></a><div class="p_pop blk bui xm_card card_gender_" id="userinfo102811578" style="display: none;">
-  <div class="card_inner">
-                          <div class="post-img">
-                              <div class="avatar" id="userinfo102811578_ma"></div>
-                                                      </div>
-                          <div class="post-info">
-                              <div class="c_info_top">
-                                  <strong>
-                                      <a href="http://#.cn/space-uid-30036275.html" target="_blank" class="xi2">逍遥笑红尘</a>
-
-                                  </strong>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=usergroup&amp;gid=58" target="_blank">LV5.少尉</a>
-                              </div>
-                              <p class="personinfo-fans">
-  <span>粉丝: <a href="http://#.cn/home.php?mod=follow&amp;do=follower&amp;uid=30036275" target="_blank" class="xi2"></a></span>
-  <span>关注: <a href="http://#.cn/home.php?mod=follow&amp;do=following&amp;uid=30036275" target="_blank" class="xi2"></a></span>
-  <span>积分: <a href="http://#.cn/home.php?mod=space&amp;uid=30036275&amp;do=profile" target="_blank" class="xi2">1655</a></span>
-  </p>
-  <p class="personinfo-fans">
-  <span>精华: </span>
-  <span>金币:  </span>
-  <span>经验:  </span>
-  </p>
-  <p style="color: #9c9c9c;">最后登录 1970-1-1</p>
-                          </div>
-  <div class="post_action">
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_30036275&amp;touid=30036275&amp;pmid=0&amp;daterange=2&amp;pid=102811578&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="发私信">私信</a>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=friend&amp;op=add&amp;uid=30036275&amp;handlekey=addfriendhk_30036275" onclick="showWindow('adduser', this.href, 'get', 0);">加好友</a>
-  <!-- <a class="z" href="http://#.cn/home.php?mod=space&uid=30036275" target="_blank">访问家园</a> -->
-  </div>
-                      </div>
-                  </div>
-  <!--<div class="avatar_outer">-->
-                                              <div class="avatar">
-                              <a href="http://#.cn/space-uid-30036275.html" class="avtm" target="_blank"><img src="http://ucenter.#.cn/avatar.php?uid=30036275&amp;size=middle"></a>
-                          </div>
-
-                      <!--</div>-->
-
-  </div>
-  </td>
-
-  <td class="plc">
-  <div class="pi floornum">
-  <strong class="y">
-  <a style="background: " href="http://#.cn/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=14646386&amp;pid=102811578" id="postnum102811578" onclick="setCopy(this.href, '帖子地址复制成功');return false;">
-  <em>12</em>楼</a>
-  </strong>
-  <div class="pti">
-  <div class="pdbt">
-  </div>
-
-  <div class="authi">
-
-
-                                      <span class="author"><a href="http://#.cn/space-uid-30036275.html" target="_blank">逍遥笑红尘</a>
-   </span>
-                      <span class="authortitle">LV5.少尉</span>
-  <em id="authorposton102811578">发表于 2016-11-7 12:31</em>
-  <span class="pipe">|</span>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14646386&amp;page=1&amp;authorid=30036275" rel="nofollow">只看该作者</a>
-
-  <span class="pipe">|</span>
-  <a href="http://#.cn/home.php?mod=spacecp&amp;ac=pm&amp;op=showmsg&amp;handlekey=showmsg_30036275&amp;touid=30036275&amp;pmid=0&amp;daterange=2&amp;pid=102811578&amp;tid=14646386" onclick="showWindow('sendpm', this.href);" title="私信" class="xi2">私信</a>
-
-  <span class="pipe">|</span>
-                          <a href="javascript:;" onclick="showWindow('miscreport102811578', 'misc.php?mod=report&amp;rtype=post&amp;rid=102811578&amp;tid=14646386&amp;fid=5404', 'get', -1);return false;">举报</a>
-                      <!-- "只看大图"“倒序浏览”“阅读模式”delete by fengyuan -->
-  </div>
-  </div>
-  </div><div class="pct"><div class="pcb">
-  <div class="pcbs">
-  <table cellspacing="0" cellpadding="0"><tbody><tr><td class="t_f postmessage-top" id="postmessage_102811578">
-  来晚了<img src="http://b1.qikucdn.com/static/image/smiley/pryleague80/pryleague80 (21).png" smilieid="350" border="0" alt=""></td></tr></tbody></table>
-
-
-                          <div class="po phoneversion">
-                  <span class="">来自360手机 Q5 Plus(360社区3.1.1版)
-                  </span>
-  <!--查看版本号的权限设置，新增了版主也能查看-->
-                            </div>
-
-  </div>
-  <div id="comment_102811578" class="">
-  </div>
-
-  <div id="post_rate_div_102811578"></div>
-  </div>
-  </div>
-
-
-
-  </td></tr>
-
-  <!-- 个性签名 删除 by fengyuan-->
-
-  <tr id="_postposition102811578"></tr>
-  <tr style="height:36px;">
-  <td>
-  </td>
-  <td class="plc" style="overflow:visible;">
-
-
-  <div class="po hin">
-  <span class="y" style="margin-right: 15px;">
-  <a href="http://#.cn/forum.php?mod=post&amp;action=reply&amp;fid=5404&amp;tid=14646386&amp;repquote=102811578&amp;extra=&amp;page=1" onclick="showWindow('reply', this.href)">回复</a>
-
-
-  <!-- 推送delete by fengyuan -->
-
-
-
-
-
-
-
-                      </span>
-  <div class="pob cl">
-  </div>
-  </div>
-  </td>
-  </tr>
-  <tr class="ad">
-  <td class="pls">
-  </td>
-  <td class="plc">
-  </td>
-  </tr>
-  </tbody></table>
-                                      </div>
-               <div id="postlistreply" class="pl"><div id="post_new" class="viewthread_table" style="display: none"></div></div>
-  </div>
-
-
-  <form method="post" autocomplete="off" name="modactions" id="modactions">
-  <input type="hidden" name="formhash" value="c4d1a738">
-  <input type="hidden" name="optgroup">
-  <input type="hidden" name="operation">
-  <input type="hidden" name="listextra" value="">
-  <input type="hidden" name="page" value="1">
-  </form>
-
-
-  <div class="pgs cl">
-  <span class="pgb"><a href="http://#.cn/forum-5404-1.html">返回列表</a></span></div>
-
-
-  <!--[diy=diyfastposttop]--><div id="diyfastposttop" class="area"></div><!--[/diy]-->
-
-
-  <script type="text/javascript">
-  new lazyload();
-  </script>
-  <script type="text/javascript">document.onkeyup = function(e){keyPageScroll(e, 0, 0, 'forum.php?mod=viewthread&tid=14646386', 1);}</script>
-
-      </div>
-</div>
-<!-- 右侧边栏 -->
-<div class="sidebar bg-white">
-  <div class="block"> <a href="#" class="new-thread bg-green">发帖</a>
-    <div class="signup-total bg-green"> 星期日<br />
-      <span class="num-date">11.6</span><br />
-      已签到56人 </div>
-    <div class="signup-lucky"> <a href="#" class="signup border-green">签到</a> <a href="#" class="lucky border-green">抽奖</a> </div>
-  </div>
-  <!-- 版块推荐 -->
-  <div class="plays box">
-    <h4><strong>版块推荐</strong></h4>
-    <ul>
-      <li class="playlist"><a href="forum-7076-1.html" target="_blank" title="360手机N4S"><img src="../picture/t01b3ea84a97551c661.png" width="24" height="24" alt="360手机N4S">计算机</a></li>
-      <li class="playlist"><a href="forum-5146-1.html" target="_blank" title="手机摄影"><img src="../picture/t01e9739182cfdbb42b.png" width="24" height="24" alt="手机摄影"></a>摄影</li>
-      <li class="playlist"><a href="forum-7088-1.html" target="_blank" title="360手机Q5"><img src="../picture/t0175b5d9c7d8bfd7aa.png" width="24" height="24" alt="360手机Q5">寻物启事</a></li>
-      <li class="playlist"><a href="forum-7081-1.html" target="_blank" title="360儿童机器人"><img src="../picture/t01bd408be3fdc7f74d.png" width="24" height="24" alt="360儿童机器人">机械设计</a></li>
-      <li class="playlist"><a href="forum-7005-1.html" target="_blank" title="360儿童卫士"><img src="../picture/t011cfce70442278c24.png" width="24" height="24" alt="360儿童卫士">社团活动</a></li>
-    </ul>
-  </div>
-  <div class="clearfix"></div>
-  <!-- 最新活动 -->
-  <div class="box">
-    <h4 class=""><strong>最新活动</strong></h4>
-    <div class="">
-      <div class="col topCol" style="width: 270px"><a href="# " target="_blank" title="" style="display: inline;"><em style="opacity: 0;"></em><img src="../picture/sign in.png" width="270" height="152" alt="签到赢红包"></a> </div>
+                                            <em id="authorposton102771656">{{ item.createTime }}</em>
+                                            <span class="pipe">|</span>
+
+                                            <span class="pipe">|</span>
+                                            <a>举报</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pct">
+                                    <div class="pcb">
+                                        <div class="pcbs">
+                                            <table cellspacing="0" cellpadding="0">
+                                                <tbody>
+                                                <tr>
+                                                    <td class="t_f postmessage-top" id="postmessage_102771656">
+                                                        {{ item.replyContents }}
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div id="comment_102771656" class="">
+                                        </div>
+
+                                        <div id="post_rate_div_102771656"></div>
+                                    </div>
+                                </div>
+
+
+                            </td>
+                        </tr>
+                        <tr id="_postposition102771656"></tr>
+                        <tr style="height:36px;">
+                            <td>
+                            </td>
+                            <td class="plc" style="overflow:visible;">
+
+
+                                <div class="po hin">
+                                    <span class="y" style="margin-right: 15px;">
+                                        <a @click="reply_user(item.replyId)">回复</a>
+                                    </span>
+                                    <div class="pob cl">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="ad">
+                            <td class="pls">
+                            </td>
+                            <td class="plc">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="postlistreply" class="pl">
+                    <div id="post_new" class="viewthread_table" style="display: none"></div>
+                </div>
+            </div>
+
+
+            <form method="post" autocomplete="off" name="modactions" id="modactions">
+                <input type="hidden" name="formhash" value="c4d1a738">
+                <input type="hidden" name="optgroup">
+                <input type="hidden" name="operation">
+                <input type="hidden" name="listextra" value="">
+                <input type="hidden" name="page" value="1">
+            </form>
+
+
+            <div class="pgs cl">
+                <span class="pgb" onclick="window.history.back()">返回列表</span></div>
+
+
+            <!--[diy=diyfastposttop]-->
+            <div id="diyfastposttop" class="area"></div><!--[/diy]-->
+
+
+        </div>
     </div>
-  </div>
-  <!-- 热门推荐 -->
-  <div class="box hot">
-    <h4> <strong>热门推荐</strong> </h4>
-    <ul>
-      <li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037599478727046" target="_blank" title="双城派出所对留学生开展禁毒宣传教育">双城派出所对留学生开展禁毒宣传教育</a></li>
-      <li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037601288890914" target="_blank" title="化学工程学院开展校友、校友企业合作交流座谈会">化学工程学院校友、校友合作交流座谈会</a></li>
-      <li><a href="http://#.cn/thread-14588473-1-1.html" target="_blank" title="体育学院召开学生创新创业培训动员会">体育学院召开学生创新创业培训动员会</a></li>
-      <li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037596725215721" target="_blank" title="#冯雷应邀为我校作知识产权专题讲座">冯雷应邀为我校作知识产权专题讲座</a></li>
-      <li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037604350693809" target="_blank" title="">消防安全月 学校开展消防演练培训</a></li>
-      <li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037597480122262" target="_blank" title="孩子的最佳玩伴--360儿童机器人国庆把玩">研究生颜朋发表最新科研成果</a></li>
-      <li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037599049705384" target="_blank" title="十年 ！ 360已在我工作、生活中无处不在">人文学院乡村文化振兴项目上榜</a></li>
-      <li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037597865712348" target="_blank" title="【360社区APP v3.1.0版】【10月9日更新】">第一届音体美学生两委会交流会</a></li>
-    </ul>
-  </div>
-  <!-- 明星用户 -->
-  <div class="start-user box">
-    <h4>明星用户</h4>
-    <ul>
-      <li class="start-user-list"> <a href="#" c="1" target="_blank" mid="card_3527"><img src="../picture/avatar.php" width="48" height="48" alt="宣纸.泛黄"></a>
-        <p class="start-user-name"><a href="#" title="宣纸.泛黄" target="_blank">student-1</a></p>
-      </li>
-      <li class="start-user-list"> <a href="#" c="1" target="_blank" mid="card_3414"><img src="../picture/avatar.php" width="48" height="48" alt="誓言"></a>
-        <p class="start-user-name"><a href="#" title="誓言" target="_blank">誓言-2</a></p>
-      </li>
-      <li class="start-user-list"> <a href="#" c="1" target="_blank" mid="card_6958"><img src="../picture/avatar.php" width="48" height="48" alt="清彤"></a>
-        <p class="start-user-name"><a href="#" title="清彤" target="_blank">清彤-3</a></p>
-      </li>
-      <li class="start-user-list"> <a href="#" c="1" target="_blank" mid="card_7202"><img src="../picture/avatar.php" width="48" height="48" alt="亚柏"></a>
-        <p class="start-user-name"><a href="#" title="亚柏" target="_blank">亚柏-4</a></p>
-      </li>
-      <li class="start-user-list"> <a href="#" c="1" target="_blank" mid="card_484"><img src="../picture/avatar.php" width="48" height="48" alt="勺子"></a>
-        <p class="start-user-name"><a href="#" title="勺子" target="_blank">勺子-5</a></p>
-      </li>
-      <li class="start-user-list"> <a href="#" c="1" target="_blank" mid="card_4324"><img src="../picture/avatar.php" width="48" height="48" alt="不满格"></a>
-        <p class="start-user-name"><a href="#" title="不满格" target="_blank">不满格-6</a></p>
-      </li>
-    </ul>
-    <div style="clear:both;"></div>
-  </div>
-  <!-- 360社区客户端下载-->
-  <div class="box download-360" style="margin-bottom:0;">
-    <h4>联系我们</h4>
-    <div class="bm_c">
-      <table width="100%" border="0">
-        <tbody>
-          <tr>
-            <td align="center"><img src="../picture/contact.png" alt="" width="240" height="240"></td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- 右侧边栏 -->
+    <div class="sidebar bg-white">
+        <div class="block"><a href="#" class="new-thread bg-green">发帖</a>
+            <div class="signup-total bg-green"> 星期日<br/>
+                <span class="num-date">11.6</span><br/>
+                已签到56人
+            </div>
+            <div class="signup-lucky"><a href="#" class="signup border-green">签到</a> <a href="#"
+                                                                                          class="lucky border-green">抽奖</a>
+            </div>
+        </div>
+        <!-- 版块推荐 -->
+        <div class="plays box">
+            <h4><strong>版块推荐</strong></h4>
+            <ul>
+                <li class="playlist"><a href="forum-7076-1.html" target="_blank" title="360手机N4S"><img
+                        src="../picture/t01b3ea84a97551c661.png" width="24" height="24" alt="360手机N4S">计算机</a></li>
+                <li class="playlist"><a href="forum-5146-1.html" target="_blank" title="手机摄影"><img
+                        src="../picture/t01e9739182cfdbb42b.png" width="24" height="24" alt="手机摄影"></a>摄影
+                </li>
+                <li class="playlist"><a href="forum-7088-1.html" target="_blank" title="360手机Q5"><img
+                        src="../picture/t0175b5d9c7d8bfd7aa.png" width="24" height="24" alt="360手机Q5">寻物启事</a>
+                </li>
+                <li class="playlist"><a href="forum-7081-1.html" target="_blank" title="360儿童机器人"><img
+                        src="../picture/t01bd408be3fdc7f74d.png" width="24" height="24" alt="360儿童机器人">机械设计</a>
+                </li>
+                <li class="playlist"><a href="forum-7005-1.html" target="_blank" title="360儿童卫士"><img
+                        src="../picture/t011cfce70442278c24.png" width="24" height="24" alt="360儿童卫士">社团活动</a>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
-</div>
 </div>
 
 <!-- footer --><!-- other -->
 <button type="button" id="backTop" class="btn btn-default">
-  <i class="fa fa-arrow-up"></i>
+    <i class="fa fa-arrow-up"></i>
 </button>
+<div id="loginDiv"></div>
 </body>
+<!--<script type="text/javascript">document.onkeyup = function (e) {
+    keyPageScroll(e, 0, 0, 'forum.php?mod=viewthread&tid=14646386', 1);
+}</script>-->
+<script src="../js/package.js"></script>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            host:
+                {
+                    createTime: "2022-11-01 16:16:27",
+                    replys: [{
+                        createTime:null,
+                        replyClickCount:0,
+                        replyContents:"dfgfdsgfsdbgdfsgdf",
+                        replyEmotion:null,
+                        replyId:"3133",
+                        topicId:"1",
+                        updateTime:null,
+                        userId:"1586600449878847489"
+                    }],
+                    sectionId: "1",
+                    topicClickCount:1,
+                    topicContent: "fuck you",
+                    topicEmotion: null,
+                    topicId: "1",
+                    topicReplyCount: 1,
+                    topicTitle: "纯路人",
+                    updateTime: "2022-11-01 16:16:27",
+                    userId: "1586600449878847489",
+                },
+            reply: [
+                {
+                    createTime: "2022/11/11",
+                    replyClickCount: 0,
+                    replyContents: "123",
+                    replyEmotion: null,
+                    replyId: "31",
+                    topicId: "2",
+                    updateTime: null,
+                    userId: "1586600489"
+                },
+            ],
+            user: {
+                id: null,
+                userAccountId:"hjkgbhjbj",
+                username: 666,
+                password: null,
+                userEmail: null,
+                userSex: null,
+                userClass: null,
+                userStatement: null,
+                userStatus:null
+            }
+        },
+        mounted() {
+            /**
+             * id为纯数字，可以采用url的方式放入topicID
+             */
+            let _this = this
+            axios({
+                method: 'get',
+                url: "http://localhost:8080/user/get",
+            }).then(res => {
+                console.log(res);
+                _this.user = res.data.data
+                console.log("获取到用户信息{}",_this.user)
+            }, err => {
+                console.log(err);
+            });
+            this.get_data()
+                //1.解析topicID
+        },
+        methods:{
+            async get_data(){
+                let id = window.location.href.split("?")[1];
+                let res = await getTopicById("http://localhost:8080/topic/detail?id=" + id)
+                console.log("res = ",res)
+                this.host = res.data.data
+                this.reply = this.host.replys
+                console.log("replys = ",this.reply)
+            },
+             reply_user(id){
+                window.open('fatie.html?'+2+'&'+this.host.topicId+'&'+id)
+            }
+        }
+    })
+    let loop = 0;
+    let area = document.querySelector("#txa");
+    let btn = document.querySelector("#btn");
+    document.querySelector("#comment").addEventListener("click", function () {
+        if(loop%2 === 0){
+            area.style.display = "block";
+            btn.style.display = "block";
+        }else{
+            area.style.display = "none";
+            btn.style.display = "none";
+        }
+        loop++;
+    })
+</script>
 </html>

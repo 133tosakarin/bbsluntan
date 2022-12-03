@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author DengChao
@@ -27,6 +28,8 @@ public class TopicController {
     @Autowired
     private UserService userService;
 
+
+
     /**
      * 分页展示所有首页推荐帖子
      * @param page
@@ -36,14 +39,27 @@ public class TopicController {
      * url/listAll?page = 2 & pageSize = 100
      */
     @GetMapping("/listAll")
-    public R<Page<TopicEntity>> listAll(Integer page,Integer pageSize){
+    public R<Page<TopicEntity>> listAll(Integer page,Integer pageSize,String condition){
+        log.info("获取所有话题列表");
         Page<TopicEntity> pageInfo = new Page<>(page,pageSize);
 
         LambdaQueryWrapper<TopicEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        if(condition == null || condition == "null")
+            System.out.println("yes");
+        condition = (condition == null || "null".equals(condition)) ? "":condition;
+        lambdaQueryWrapper.like(TopicEntity::getTopicTitle,condition);
         lambdaQueryWrapper.orderByDesc(TopicEntity::getUpdateTime);
-        return R.success(topicService.page(pageInfo,lambdaQueryWrapper));
+        Page<TopicEntity> page1 = topicService.page(pageInfo, lambdaQueryWrapper);
+        List<TopicEntity> records = pageInfo.getRecords();
+        records = records.stream().map(item -> {
+            item = topicService.selectTopicAndReply(item.getTopicId());
+            item.setTopicReplyCount(item.getReplys().size());
+            System.out.println(item.getReplys().size());
+            return item;
+        }).collect(Collectors.toList());
+        pageInfo.setRecords(records);
+        return R.success(page1);
     }
-
     /**
      * 首页帖子
      * @param topic
@@ -55,8 +71,8 @@ public class TopicController {
         log.info("发布帖子");
         Long id = (Long)req.getSession().getAttribute("user");
         LambdaQueryWrapper<UserEntity> wrapper = new LambdaQueryWrapper() ;
-        if(id==null)
-            id = (Long) 1586600449878847489l;
+/*        if(id==null)
+            id = (Long) 1586600449878847489l;*/
         wrapper.eq(UserEntity::getId,id);
         UserEntity user = userService.getOne(wrapper);
 
@@ -78,6 +94,14 @@ public class TopicController {
         if(ids!=null || ids.size()>0)
             topicService.removeByIds(ids);
         return R.success("success");
+    }
+
+    @GetMapping("/detail")
+    public R<TopicEntity> showDetail(Long id){
+        log.info("展示话题详情");
+        TopicEntity topicEntity = topicService.selectTopicAndReply(id);
+        topicEntity.setTopicReplyCount(topicEntity.getReplys().size());
+        return  R.success(topicEntity);
     }
 
 

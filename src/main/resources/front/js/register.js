@@ -10,7 +10,7 @@
 /**
  * 发送请求
  */
-let app = new Vue({
+let app2 = new Vue({
     el: "#loginDiv",
     data: {
         urlBase: "http://localhost:8080/",

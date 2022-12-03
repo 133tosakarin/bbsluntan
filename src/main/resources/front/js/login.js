@@ -13,7 +13,6 @@ let app = new Vue({
         urlBase: "http://localhost:8080/",
         user:{
 
-            serialVersionUID: null,
             id: null,
             userAccountId: null,
             username: null,
@@ -62,22 +61,24 @@ let app = new Vue({
             //请求体
             let res = await  post(this.urlBase + "user/login",this);
             console.log("登录响应体：",res)
-            if( res.data.code !== 1){
+            console.log("状态码",res.data.code)
+            if( res.data.msg === 'error'){
                 this.$message.error("用户名或密码错误！");
+                return;
             }
 
             /**
              * 登录成功，跳转页面
              * @type {string}
              */
-            console.log(res.data)
             this.$message({
                 showClose: true,
                 message: '登录成功',
                 type: 'success'
             })
             this.user = res.data.data
-            console.log(this.data)
+            console.log("get res = ",res.data)
+            console.log("用户data,",this.user)
             setTimeout( ()=> {
                 // window.location.href = _this.urlBase + "user/index.html";
 

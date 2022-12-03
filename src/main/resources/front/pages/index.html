@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>suse校园论坛</title>
-
+    <script src="../node_modules/jquery/jquery.min.js"></script>
     <!-- Bootstrap -->
     <link href="../css/bootstrap.css" rel="stylesheet">
 
@@ -20,7 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
-<script src="../js/jquery/jquery.min.js"></script>
+
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../js/bootstrap.js"></script>
 <!-- js -->
@@ -165,7 +165,7 @@
 </div>
 </body>
 <script>
-    new Vue({
+    let index_app = new Vue({
         el: "#app",
         data: {
             urlBase: "http://localhost:8080/",
@@ -202,7 +202,9 @@
         methods: {
             click_search: function () {
                 //打开searchedShow页面并传入参数
-                window.open("searchedShow.html" + "?content=" + this.userSearch);
+                console.log(this.userSearch)
+                console.log(this.user.userStatement)
+                window.open("forum.html" + "?content=" + this.userSearch);
             },
 
         },

@@ -31,16 +31,19 @@ public class ReplyController {
      * @param req
      * @return
      */
-    @PostMapping("/answer")
-    public R<ReplyEntity> reply(@RequestParam("topicId") Long topicId,@RequestParam("content")String content, HttpServletRequest req){
-        ReplyEntity replyEntity = new ReplyEntity();
-        replyEntity.setTopicId(topicId);
+    @PostMapping("/answer/{status}")
+    public R<String> reply(@RequestBody ReplyEntity reply, @PathVariable Integer status, HttpServletRequest req){
         Long userId = (Long) req.getSession().getAttribute("user");
+        reply.setUserId(userId);
+        reply.setReplyClickCount(0);
+        /*replyEntity.setTopicId(reply);
+
         replyEntity.setUserId(userId);
         replyEntity.setReplyContents(content);
         replyEntity.setReplyClickCount(0);
-        boolean flag = replyService.save(replyEntity);
-        return flag ? R.success(replyEntity) : R.error("error");
+        boolean flag = replyService.save(replyEntity);*/
+        boolean flag = replyService.save(reply);
+        return flag ? R.success("success") : R.error("error");
     }
 
     @GetMapping ("/list")

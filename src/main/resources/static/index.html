@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>suse校园论坛</title>
+
+    <!-- Bootstrap -->
+    <link href="../front/css/bootstrap.css" rel="stylesheet">
+
+    <link href="../front/css/font-awesome.css" rel="stylesheet">
+    <link href="../front/css/common.css" rel="stylesheet">
+    <link href="../front/css/header.css" rel="stylesheet">
+    <link href="../front/css/content-area.css" rel="stylesheet">
+    <link href="../front/css/sidebar.css" rel="stylesheet">
+    <link href="../front/css/footer.css" rel="stylesheet">        <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--axios开发环境-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<script src="../front/js/jquery/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../front/js/bootstrap.js"></script>
+<!-- js -->
+<script src="../front/js/common.js"></script>
+<link href="../front/css/slider.css" rel="stylesheet">
+<script src="../front/js/slider.js"></script>
+<body>
+<div id="app">
+
+
+
+    <div class="header">
+        <div class="second-nav bg-white">
+            <div class="container">
+                <div class="logo pull-left">
+                    <a href="index.html"> <img src="../front/picture/qiku_community_logo.png" alt=""></a>
+                </div>
+                <ul class="menu pull-left">
+                    <li class="active"><a href="index.html">首页</a></li>
+                    <li><a href="../front/pages/forum.html">论坛</a></li>
+                    <li><a href="../front/pages/group.html">校园</a></li>
+
+
+                </ul>
+                <div class="login-reg pull-right">
+                    <a href="../front/pages/login.html" target="_blank" v-show="user.userStatus==null">登录</a>
+                    <a href="../front/pages/register.html" target="_blank" v-if="user.userStatus === null">注册</a>
+                    <a href="" v-else>{{ user.userAccountId }}</a>
+                    <a href="../front/pages/personal.html" target="_blank">个人</a>
+                </div>
+                <div class="search-form pull-right">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="name" value="" placeholder="帖子/用户"
+                               v-model="userSearch">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default" @click="click_search()">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--  -->
+    <div class="container main">
+        <!--幻灯片-->
+        <div id="dfsj_index1" class="area">
+            <div id="portal_block_230" class="block move-span">
+                <div id="portal_block_230_content" class="dxb_bc">
+                    <div class="dfsj_focus">
+                        <div class="col topCol"><a href="#" target="_blank" title=""><img src="../front/picture/p1.jpg"
+                                                                                          width="1240" height="400"
+                                                                                          alt=""/></a><a
+                                href="http://#.cn/thread-14600334-1-1.html " target="_blank" title=""><img
+                                src="../front/picture/p3.jpg" width="1240" height="400" alt=""/></a><a
+                                href="http://#.cn/thread-14598759-1-1.html" target="_blank" title=" "><img
+                                src="../front/picture/p4.jpg" width="1240" height="400" alt=""/></a><a
+                                href="http://event.youxi.com/3263.html?src=game-community" target="_blank" title=""><img
+                                src="../front/picture/p5.jpg" width="1240" height="400" alt=""/></a><a
+                                href="http://#.cn/thread-14599042-1-1.html" target="_blank" title=""><img
+                                src="../front/picture/p6.jpg" width="1240" height="400" alt=""/></a><a
+                                href="http://#.cn/thread-14600884-1-1.html" target="_blank" title=""><img
+                                src="../front/picture/p2.jpg" width="1240" height="400" alt=""/></a>
+                            <ul style="display: block">
+                                <li class="now"></li>
+                            </ul>
+                        </div>
+                        <img src="../front/picture/index_pre.png" alt="上一页" class="index-control" id="index-pre"/>
+                        <img src="../front/picture/index_next.png" alt="上一页" class="index-control" id="index-next"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--幻灯片结束  -->
+
+        <!-- 左侧内容区 -->
+        <div class="content-area bg-white">
+
+            <!-- 新闻 news -->
+            <ul class="news">
+                <li>
+                    <div class="news-pic">
+                        <a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037608159336975" target="_blank">
+                            <img src="../front/picture/pc-1.png" width="280" height="210"
+                                 alt="【倒计时】360N4S骁龙版发布还有4天！">
+                        </a>
+                    </div>
+                    <div class="news-detail">
+                        <h2 class="new-title">
+                            <a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037608159336975"
+                               target="_blank">
+                                学校第二届廉洁文化创意作品大赛
+                            </a>
+                        </h2>
+                        <p class="news-content">
+                            学校举办“倡导廉洁之风，弘扬浩然正气”第二届廉洁文化创意作品大赛暨作品展
+                            活动由学校纪委、团委主办，美术学院纪委承办，全校师生积极参与。
+                            <a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037608159336975"
+                               target="_blank"
+                               class="more">
+                                全文》
+                            </a>
+                        </p>
+                        <div class="news-extradetail">
+        <span class="news-cols1">
+          <a href="#" target="_blank"></a> </span>
+                            <span class="news-cols2 "><span>四川轻化工大学 2022-11-11 </span><span>|</span><span> 校团委 </span></span>
+                        </div>
+                        <div class="share">
+                            <i class="fa fa-share-alt"></i>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!-- 分页 -->
+            <div class="index-pages"><a class="active" href="#">1</a></div>
+        </div>
+        <!-- 右侧边栏 -->
+        <div class="sidebar bg-white">
+            <div class="block">
+                <a href="#" class="new-thread bg-green">发帖</a>
+                <div class="signup-total bg-green">
+                    星期日<br/>
+                    <span class="num-date">11.6</span><br/>
+                    已签到56人
+                </div>
+                <div class="signup-lucky">
+                    <a href="#" class="signup border-green">签到</a>
+                    <a href="#" class="lucky border-green">抽奖</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer --><!-- other -->
+    <button type="button" id="backTop" class="btn btn-default">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+</div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            urlBase: "http://localhost:8080/",
+            user: {
+
+                serialVersionUID: null,
+                id: null,
+                userAccountId:"hjkgbhjbj",
+                username: 666,
+                password: null,
+                userEmail: null,
+                userSex: null,
+                userClass: null,
+                userStatement: null,
+                userStatus:null
+            },
+            createTime: null,
+            updateTime: null,
+            userSearch: null,//搜索输入框输入值
+        },
+        mounted() {
+            let _this = this
+            axios({
+                method: 'get',
+                url: "http://localhost:8080/user/get",
+            }).then(res => {
+                console.log(res);
+                _this.user = res.data.data
+            }, err => {
+                console.log(err);
+            });
+            console.log(this.user.userStatement);
+        },
+        methods: {
+            click_search: function () {
+                //打开searchedShow页面并传入参数
+                window.open("searchedShow.html" + "?content=" + this.userSearch);
+            },
+
+        },
+    });
+</script>
+</html>

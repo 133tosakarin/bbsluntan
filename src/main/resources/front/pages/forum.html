@@ -1,1178 +1,368 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>suse校园论坛</title>
 
-    <!-- Bootstrap -->
-    <link href="../node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
-    <link href="../node_modules/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <!--<script src="https://unpkg.com/vue@3"></script>-->
+    <!--<script src="https://unpkg.com/vue-router@3.0.0"></script>-->
+    <!--axios开发环境-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+    <!--导入package,login.js-->
+    <script src="../js/package.js"></script>
+    <!--使用页面js-->
+    <!-- Bootstrap -->
     <link href="../css/common.css" rel="stylesheet">
     <link href="../css/header.css" rel="stylesheet">
     <link href="../css/content-area.css" rel="stylesheet">
     <link href="../css/forum.css" rel="stylesheet">
     <link href="../css/sidebar.css" rel="stylesheet">
     <link href="../css/footer.css" rel="stylesheet">
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/font-awesome.css" rel="stylesheet">
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/header.css" rel="stylesheet">
+    <link href="../css/content-area.css" rel="stylesheet">
+    <link href="../css/sidebar.css" rel="stylesheet">
+    <link href="../css/footer.css" rel="stylesheet">
+</head>
+<body>
+<div id="loginDiv"></div>
+<div id="app">
+    <div class="header">
+        <div class="second-nav bg-white">
+            <div class="container">
+                <div class="logo pull-left">
+                    <a href="index.html"> <img src="../picture/qiku_community_logo.png" alt=""></a>
+                </div>
+                <ul class="menu pull-left">
+                    <li class="active"><a href="index.html">首页</a></li>
+                    <li><a href="forum.html">论坛</a></li>
+                    <li><a href="group.html">校园</a></li>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="../node_modules/jquery/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
-    <!-- js -->
-    <script src="../js/common.js"></script>
-
-  <div class="header">
-    <div class="top-nav">
-      <div class="container">
-        <span> <a href="#" target="_blank">设置首页2</a> <span class="separator">|</span> </span>
-        <span> <a href="#" target="_blank">收藏本站</a> <span class="separator">|</span> </span>
-        <span> <a href="#" target="_blank">将本站创建桌面快捷方式</a> <span class="separator">|</span> </span>
-      </div>
-    </div>
-    <div class="second-nav bg-white">
-      <div class="container">
-        <div class="logo pull-left">
-          <a href="index.html"> <img src="../picture/qiku_community_logo.png" alt=""></a>
-        </div>
-        <ul class="menu pull-left">
-          <li class="active"><a href="index.html">首页</a></li>
-          <li><a href="forum.html">论坛</a></li>
-          <li><a href="group.html">校园</a></li>
-         
-        </ul>
+                </ul>
 
 
-        <div class="login-reg pull-right">
-          <a href="login.html">登录</a>
-          <a href="register.html" class="active">注册</a>
-          <a href="personal.html" target="_blank">个人</a>
-        </div>
-        <div class="search-form pull-right">
-          <div class="input-group">
-            <input type="text" class="form-control" name="name" value="" placeholder="帖子/用户">
-            <div class="input-group-btn">
-              <button type="button" class="btn btn-default">
-                <i class="fa fa-search"></i>
-              </button>
+                <div class="login-reg pull-right">
+                    <a href="login.html" target="_blank" v-show="user.userStatus==null">登录</a>
+                    <a href="register.html" target="_blank" v-if="user.userStatus === null">注册</a>
+                    <a href="" v-else>{{ user.userAccountId }}</a>
+                    <a href="personal.html" target="_blank">个人</a>
+                </div>
+                <div class="search-form pull-right">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="name" value="" placeholder="帖子"
+                               v-model="userSearch" @keyup="whenKeyUp">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default" @click="get_data">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 
-<!--  -->
-<div class="container main">
-
-<!-- 左侧内容区 -->
-<div class="content-area bg-white">
-  <div class="mn xm_mn">
-   <div class="xm_index_info">
-  <div class="xm_index_info_dec">
-  今日: 14461<span class="pipe">|</span>
-  昨日: 24769<span class="pipe">|</span>
-  帖子: 13885382<span class="pipe">|</span>
-  <!-- 360fans: 30007272<span class="pipe">|</span> -->
-  欢迎<a href="#" target="_blank" class="xi2" style="padding-left: 4px;">360fans_Dd5wpy</a>
-  </div>
-  </div>
-  <script src="http://b1.qikucdn.com/static/js/forum.js?w1G" type="text/javascript"></script>
-  <div id="threadlist" class="tl">
-  <div class="th sortlist">
-          <div class="y forumlistsort">
-              <a href="#" class="xi2" style="font-weight: 400;">全部</a>
-              <span class="pipe">|</span>
-              <a href="#" class="xi2">热门</a>
-              <span class="pipe">|</span>
-              <a href="#" class="xi2">精华</a>&nbsp;&nbsp;
-  <!-- <span id="atarget" onclick="setatarget(-1)" class="y atarget_1" title="在新窗口中打开帖子">新窗</span> -->
-          </div>
-
-  </div>
-  <div class="cl">
-  <table summary="forum_0" cellspacing="0" cellpadding="0" id="threadlisttableid"><tbody id="stickthread_14646386">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="#" c="1" class="avatar" mid="card_2378"><img src="#"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="thread.html" target="_blank" class="s xst">【招募】畅快不止两三天 · 360手机N4S骁龙版济南同城开箱体验会[济南]</a>
-
-  <img src="http://b1.qikucdn.com/dfsj_imgs/../picture.png" alt="attach_img" title="图片附件" align="absmiddle">
-
-  <div class="info">
-  <a href="#" class="y replies">
-  11</a>
-  <a href="#" class="y viewnum">
-  140</a>
-
-  <span>
-  <a href="#" c="1" mid="card_2378">天谴执行官</a><a href="#" target="_blank"><img src="http://p0.qhmsg.com/t01519dfdd6d784ea54.png" class="vm" alt="VIP认证" title="VIP认证"></a></span>
-
-  <span>| <span>2016-11-5 11:54</span> | <a href="#" target="_blank" class="xg1">济南同城</a></span>
-
-
-
-  <a href="#" target="_blank" class="totop">
-  置顶活动</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14257531">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="#" c="1" class="avatar" mid="card_7599"><img src="#"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="#" style="font-weight: bold;color: #2897C5;" target="_blank" class="s xst">关于360系列手机ROOT问题的公告 8.1更新</a>
-
-  <img src="http://b1.qikucdn.com/dfsj_imgs/../picture.png" alt="attach_img" title="图片附件" align="absmiddle">
-
-  <div class="info">
-  <a href="#" class="y replies">
-  930</a>
-  <a href="#" class="y viewnum">
-  129127</a>
-
-  <span>
-  <a href="#" c="1" style="color: #333333;" mid="card_7599">刷机GG</a></span>
-
-  <span>| <span>2016-6-30 10:49</span> | <a href="#" target="_blank" class="xg1">360超级ROOT</a></span>
-
-
-
-  <a href="#" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14272113">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="#" c="1" class="avatar" mid="card_7432"><img src="#"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="#" style="font-weight: bold;color: #2897C5;" target="_blank" class="s xst">申请发布360手机助手用户福利规则介绍</a>
-
-  <img src="http://b1.qikucdn.com/static/image/stamp/011.small.gif" alt="新人帖" align="absmiddle">
-  <img src="http://b1.qikucdn.com/static/image/filetype/common.gif" alt="attachment" title="附件" align="absmiddle">
-  <img src="http://b1.qikucdn.com/dfsj_imgs/best.png" align="absmiddle" alt="digest" title="精华 1">
-
-  <div class="info">
-  <a href="#" class="y replies">
-  102</a>
-  <a href="#" class="y viewnum">
-  15704</a>
-
-  <span>
-  <a href="#" c="1" mid="card_7432">lanry__2015</a></span>
-
-  <span>| <span>2016-7-6 16:58</span> | <a href="#" target="_blank" class="xg1">360移动开发者社区</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14272113&goto=lastpost#lastpost">2016-11-7 11:44</a></em> -->
-  <a href="#" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14280822">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="#" c="1" class="avatar" mid="card_6513"><img src="#"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="#" target="_blank" class="s xst">手机连接不上电脑？请看这里~（2016年7月10日更新）</a>
-
-  <img src="#" alt="推荐" align="absmiddle">
-  <img src="#" alt="attachment" title="附件" align="absmiddle">
-  <img src="#" align="absmiddle" alt="digest" title="精华 1">
-
-  <div class="info">
-  <a href="#" class="y replies">
-  179</a>
-  <a href="#" class="y viewnum">
-  22229</a>
-
-  <span>
-  <a href="#" c="1" style="color: #0000FF;" mid="card_6513">逆袭的师尧</a><a href="#" target="_blank"><img src="http://p0.qhmsg.com/t01519dfdd6d784ea54.png" class="vm" alt="VIP认证" title="VIP认证"></a></span>
-
-  <span>| <span>2016-7-10 11:18</span> | <a href="#" target="_blank" class="xg1">手机助手</a></span>
-
-
-  <!-- <em>最后回复 <a href="#">2016-11-7 11:32</a></em> -->
-  <a href="#" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14603552">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="#" c="1" class="avatar" mid="card_7721"><img src="#"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="#" style="color: #EE5023;" target="_blank" class="s xst">【公告】360云盘服务转型公告</a>
-
-
-  <img src="http://b1.qikucdn.com/static/image/filetype/common.gif" alt="attachment" title="附件" align="absmiddle">
-
-  <div class="info">
-  <a href="#" class="y replies">
-  4768</a>
-  <a href="#" class="y viewnum">
-  109030</a>
-
-  <span>
-  <a href="#" c="1" style="color: #009900;" mid="card_7721">茉莉大大</a></span>
-
-  <span>| <span>2016-10-20 17:18</span> | <a href="#" target="_blank" class="xg1">360云盘</a></span>
-
-
-  <!-- <em>最后回复 <a href="#">2016-11-7 10:21</a></em> -->
-  <a href="#" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14642486">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="#" c="1" class="avatar" mid="card_7905"><img src="#"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="#" style="font-weight: bold;color: #EE1B2E;" target="_blank" class="s xst">解决8692手机公测版本云服务“桌面布局”备份失败问题说明！</a>
-
-  <img src="http://b1.qikucdn.com/dfsj_imgs/../picture.png" alt="attach_img" title="图片附件" align="absmiddle">
-
-  <div class="info">
-  <a href="#" class="y replies">
-  33</a>
-  <a href="#" class="y viewnum">
-  2121</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-30160486.html" c="1" style="color: #0000FF;" mid="card_7905">马彩燕</a></span>
-
-  <span>| <span>2016-11-3 17:00</span> | <a href="http://#.cn/forum-5285-1.html" target="_blank" class="xg1">奇酷旗舰版</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14642486&goto=lastpost#lastpost">2016-11-7 10:11</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14642486&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14639233">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-30169687.html" c="1" class="avatar" mid="card_7288"><img src="http://ucenter.#.cn/avatar.php?uid=30169687&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14639233&amp;extra=" style="font-weight: bold;color: #EE1B2E;" target="_blank" class="s xst">【好奇者试用】第060期 乐心智能手环ziva 0元试用</a>
-
-  <img src="http://b1.qikucdn.com/static/image/filetype/common.gif" alt="attachment" title="附件" align="absmiddle">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14639233&amp;extra=" class="y replies">
-  60</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14639233&amp;extra=" class="y viewnum">
-  7821</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-30169687.html" c="1" style="color: #FF0000;" mid="card_7288">好奇者试用</a><a href="http://#.cn/home.php?mod=spacecp&amp;ac=plugin&amp;id=myvipregister:profileset" target="_blank"><img src="http://p0.qhmsg.com/t01519dfdd6d784ea54.png" class="vm" alt="VIP认证" title="VIP认证"></a></span>
-
-  <span>| <span>2016-11-2 10:36</span> | <a href="http://#.cn/forum-5171-1.html" target="_blank" class="xg1">好奇者试用</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14639233&goto=lastpost#lastpost">2016-11-7 10:00</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14639233&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14534279">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-23648835.html" c="1" class="avatar" mid="card_6866"><img src="http://ucenter.#.cn/avatar.php?uid=23648835&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14534279&amp;extra=" style="font-weight: bold;color: #2897C5;" target="_blank" class="s xst">回帖量提升37倍，360社区运营三大秘籍首发</a>
-
-  <img src="http://b1.qikucdn.com/dfsj_imgs/../picture.png" alt="attach_img" title="图片附件" align="absmiddle">
-  <img src="http://b1.qikucdn.com/dfsj_imgs/best.png" align="absmiddle" alt="digest" title="精华 1">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14534279&amp;extra=" class="y replies">
-  37</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14534279&amp;extra=" class="y viewnum">
-  3408</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-23648835.html" c="1" style="color: #009900;" mid="card_6866">大台长真身</a></span>
-
-  <span>| <span>2016-9-22 18:45</span> | <a href="http://#.cn/forum-2540-1.html" target="_blank" class="xg1">360动态</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14534279&goto=lastpost#lastpost">2016-11-7 09:48</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14534279&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14371356">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-2547466.html" c="1" class="avatar" mid="card_7599"><img src="http://ucenter.#.cn/avatar.php?uid=2547466&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14371356&amp;extra=" style="font-weight: bold;color: #EE1B2E;" target="_blank" class="s xst">360 N4系列的盆友们，ROOT君吐血请求你们看这里！！！！！！！！</a>
-
-  <img src="http://b1.qikucdn.com/static/image/filetype/common.gif" alt="attachment" title="附件" align="absmiddle">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14371356&amp;extra=" class="y replies">
-  846</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14371356&amp;extra=" class="y viewnum">
-  64799</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-2547466.html" c="1" style="color: #333333;" mid="card_7599">刷机GG</a></span>
-
-  <span>| <span>2016-8-3 10:22</span> | <a href="http://#.cn/forum-1012-1.html" target="_blank" class="xg1">360超级ROOT</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14371356&goto=lastpost#lastpost">2016-11-7 09:47</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14371356&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14552999">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-27245215.html" c="1" class="avatar" mid="card_8228"><img src="http://ucenter.#.cn/avatar.php?uid=27245215&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14552999&amp;extra=" style="font-weight: bold;color: #3C9D40;" target="_blank" class="s xst">【游戏福利】360安全卫士《荡神志》特权礼包领取指南</a>
-
-  <img src="http://b1.qikucdn.com/dfsj_imgs/best.png" align="absmiddle" alt="digest" title="精华 1">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14552999&amp;extra=" class="y replies">
-  113</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14552999&amp;extra=" class="y viewnum">
-  21696</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-27245215.html" c="1" style="color: #009900;" mid="card_8228">龙殿守护者</a></span>
-
-  <span>| <span>2016-9-29 15:11</span> | <a href="http://#.cn/forum-7091-1.html" target="_blank" class="xg1">生死簿</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14552999&goto=lastpost#lastpost">2016-11-7 09:27</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14552999&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14581089">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-25869814.html" c="1" class="avatar" mid="card_2791"><img src="http://ucenter.#.cn/avatar.php?uid=25869814&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14581089&amp;extra=" style="font-weight: bold;color: #2B65B7;" target="_blank" class="s xst">秒杀病毒的win8杀毒pe以及相应的u盘制作工具，当然也可以重装系统！</a>
-
-  <img src="http://b1.qikucdn.com/static/image/stamp/011.small.gif" alt="新人帖" align="absmiddle">
-  <img src="http://b1.qikucdn.com/dfsj_imgs/../picture.png" alt="attach_img" title="图片附件" align="absmiddle">
-  <img src="http://b1.qikucdn.com/dfsj_imgs/best.png" align="absmiddle" alt="digest" title="精华 1">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14581089&amp;extra=" class="y replies">
-  34</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14581089&amp;extra=" class="y viewnum">
-  4213</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-25869814.html" c="1" mid="card_2791">xia_o_an</a></span>
-
-  <span>| <span>2016-10-11 10:42</span> | <a href="http://#.cn/forum-140-1.html" target="_blank" class="xg1">安全卫士</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14581089&goto=lastpost#lastpost">2016-11-7 09:24</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14581089&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14626902">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-24676878.html" c="1" class="avatar" mid="card_1508"><img src="http://ucenter.#.cn/avatar.php?uid=24676878&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14626902&amp;extra=" target="_blank" class="s xst">震惊！西游记里竟然暗藏脱单秘籍</a>
-
-  <img src="http://b1.qikucdn.com/dfsj_imgs/../picture.png" alt="attach_img" title="图片附件" align="absmiddle">
-  <img src="http://b1.qikucdn.com/dfsj_imgs/best.png" align="absmiddle" alt="digest" title="精华 2">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14626902&amp;extra=" class="y replies">
-  87</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14626902&amp;extra=" class="y viewnum">
-  5070</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-24676878.html" c="1" style="color: #0000FF;" mid="card_1508">晕晕</a></span>
-
-  <span>| <span>2016-10-27 16:14</span> | <a href="http://#.cn/forum-2463-1.html" target="_blank" class="xg1">360清理大师</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14626902&goto=lastpost#lastpost">2016-11-7 09:08</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14626902&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14444185">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-67078.html" c="1" class="avatar" mid="card_1979"><img src="http://ucenter.#.cn/avatar.php?uid=67078&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14444185&amp;extra=" style="font-weight: bold;color: #EE1B2E;" target="_blank" class="s xst">敲诈者病毒卷土重来！360反勒索服务来帮您！</a>
-
-  <img src="http://b1.qikucdn.com/dfsj_imgs/../picture.png" alt="attach_img" title="图片附件" align="absmiddle">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14444185&amp;extra=" class="y replies">
-  156</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14444185&amp;extra=" class="y viewnum">
-  15322</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-67078.html" c="1" style="color: #0000FF;" mid="card_1979">Alice_1123</a></span>
-
-  <span>| <span>2016-8-23 17:55</span> | <a href="http://#.cn/forum-140-1.html" target="_blank" class="xg1">安全卫士</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14444185&goto=lastpost#lastpost">2016-11-7 08:40</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14444185&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14399032">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-26203272.html" c="1" class="avatar" mid="card_5496"><img src="http://ucenter.#.cn/avatar.php?uid=26203272&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14399032&amp;extra=" style="font-weight: bold;color: #EE1B2E;" target="_blank" class="s xst">十周年庆生！360安全卫士迎来最新版11.1</a>
-
-  <img src="http://b1.qikucdn.com/static/image/stamp/011.small.gif" alt="新人帖" align="absmiddle">
-  <img src="http://b1.qikucdn.com/dfsj_imgs/../picture.png" alt="attach_img" title="图片附件" align="absmiddle">
-  <img src="http://b1.qikucdn.com/dfsj_imgs/best.png" align="absmiddle" alt="digest" title="精华 1">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14399032&amp;extra=" class="y replies">
-  1320</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14399032&amp;extra=" class="y viewnum">
-  149980</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-26203272.html" c="1" style="color: #0000FF;" mid="card_5496">蓝莓山药0313</a></span>
-
-  <span>| <span>2016-8-12 22:05</span> | <a href="http://#.cn/forum-140-1.html" target="_blank" class="xg1">安全卫士</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14399032&goto=lastpost#lastpost">2016-11-7 08:40</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14399032&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14586063">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-26203272.html" c="1" class="avatar" mid="card_5496"><img src="http://ucenter.#.cn/avatar.php?uid=26203272&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14586063&amp;extra=" style="font-weight: bold;color: #EE1B2E;" target="_blank" class="s xst">十年锻造！360安全卫士11.0转正</a>
-
-  <img src="http://b1.qikucdn.com/dfsj_imgs/../picture.png" alt="attach_img" title="图片附件" align="absmiddle">
-  <img src="http://b1.qikucdn.com/dfsj_imgs/best.png" align="absmiddle" alt="digest" title="精华 1">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14586063&amp;extra=" class="y replies">
-  175</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14586063&amp;extra=" class="y viewnum">
-  17994</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-26203272.html" c="1" style="color: #0000FF;" mid="card_5496">蓝莓山药0313</a></span>
-
-  <span>| <span>2016-10-12 21:22</span> | <a href="http://#.cn/forum-140-1.html" target="_blank" class="xg1">安全卫士</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14586063&goto=lastpost#lastpost">2016-11-7 08:38</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14586063&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14637782">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-30010030.html" c="1" class="avatar" mid="card_2053"><img src="http://ucenter.#.cn/avatar.php?uid=30010030&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14637782&amp;extra=" style="font-weight: bold;color: #EE1B2E;" target="_blank" class="s xst">【抽奖】厉害了我的换机！下载抢360N4S骁龙手机</a>
-
-  <img src="http://b1.qikucdn.com/dfsj_imgs/../picture.png" alt="attach_img" title="图片附件" align="absmiddle">
-  <img src="http://b1.qikucdn.com/dfsj_imgs/best.png" align="absmiddle" alt="digest" title="精华 1">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14637782&amp;extra=" class="y replies">
-  35</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14637782&amp;extra=" class="y viewnum">
-  967</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-30010030.html" c="1" style="color: #0000FF;" mid="card_2053">晓兔兔12138</a></span>
-
-  <span>| <span>2016-11-1 15:40</span> | <a href="http://#.cn/forum-2331-1.html" target="_blank" class="xg1">360安全换机</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14637782&goto=lastpost#lastpost">2016-11-7 08:25</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14637782&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14642672">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-17709705.html" c="1" class="avatar" mid="card_3536"><img src="http://ucenter.#.cn/avatar.php?uid=17709705&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14642672&amp;extra=" style="font-weight: bold;color: #EE1B2E;background-color: #FFFF00;" target="_blank" class="s xst">男星游戏秀胸肌！众女尖叫不停</a>
-
-  <img src="http://b1.qikucdn.com/dfsj_imgs/../picture.png" alt="attach_img" title="图片附件" align="absmiddle">
-  <img src="http://b1.qikucdn.com/dfsj_imgs/best.png" align="absmiddle" alt="digest" title="精华 1">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14642672&amp;extra=" class="y replies">
-  30</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14642672&amp;extra=" class="y viewnum">
-  2007</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-17709705.html" c="1" style="color: #009900;" mid="card_3536">lily_jingjing</a></span>
-
-  <span>| <span>2016-11-3 18:39</span> | <a href="http://#.cn/forum-7091-1.html" target="_blank" class="xg1">生死簿</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14642672&goto=lastpost#lastpost">2016-11-7 08:11</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14642672&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14244591">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-30023670.html" c="1" class="avatar" mid="card_6513"><img src="http://ucenter.#.cn/avatar.php?uid=30023670&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14244591&amp;extra=" style="color: #2B65B7;" target="_blank" class="s xst">教您轻松打开安卓手机USB调试</a>
-
-  <img src="http://b1.qikucdn.com/static/image/stamp/006.small.gif" alt="推荐" align="absmiddle">
-  <img src="http://b1.qikucdn.com/static/image/filetype/common.gif" alt="attachment" title="附件" align="absmiddle">
-  <img src="http://b1.qikucdn.com/dfsj_imgs/best.png" align="absmiddle" alt="digest" title="精华 1">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14244591&amp;extra=" class="y replies">
-  98</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14244591&amp;extra=" class="y viewnum">
-  12684</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-30023670.html" c="1" style="color: #0000FF;" mid="card_6513">逆袭的师尧</a><a href="http://#.cn/home.php?mod=spacecp&amp;ac=plugin&amp;id=myvipregister:profileset" target="_blank"><img src="http://p0.qhmsg.com/t01519dfdd6d784ea54.png" class="vm" alt="VIP认证" title="VIP认证"></a></span>
-
-  <span>| <span>2016-6-25 04:50</span> | <a href="http://#.cn/forum-108-1.html" target="_blank" class="xg1">手机助手</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14244591&goto=lastpost#lastpost">2016-11-7 07:19</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14244591&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14367174">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-2547466.html" c="1" class="avatar" mid="card_7599"><img src="http://ucenter.#.cn/avatar.php?uid=2547466&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14367174&amp;extra=" style="font-weight: bold;color: #EE1B2E;" target="_blank" class="s xst">【ROOT预告】正在适配的热门机型  8.16更新</a>
-
-  <img src="http://b1.qikucdn.com/dfsj_imgs/../picture.png" alt="attach_img" title="图片附件" align="absmiddle">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14367174&amp;extra=" class="y replies">
-  1351</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14367174&amp;extra=" class="y viewnum">
-  106725</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-2547466.html" c="1" style="color: #333333;" mid="card_7599">刷机GG</a></span>
-
-  <span>| <span>2016-8-1 15:08</span> | <a href="http://#.cn/forum-1012-1.html" target="_blank" class="xg1">360超级ROOT</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14367174&goto=lastpost#lastpost">2016-11-7 06:55</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14367174&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14408109">
-  <tr>
-  <th class="lock">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-26203272.html" c="1" class="avatar" mid="card_5496"><img src="http://ucenter.#.cn/avatar.php?uid=26203272&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14408109&amp;extra=" style="color: #EE1B2E;" target="_blank" class="s xst">360安全卫士10.3正式版优化更全面</a>
-
-  <img src="http://b1.qikucdn.com/dfsj_imgs/../picture.png" alt="attach_img" title="图片附件" align="absmiddle">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14408109&amp;extra=" class="y replies">
-  166</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14408109&amp;extra=" class="y viewnum">
-  41098</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-26203272.html" c="1" style="color: #0000FF;" mid="card_5496">蓝莓山药0313</a></span>
-
-  <span>| <span>2016-8-15 22:00</span> | <a href="http://#.cn/forum-140-1.html" target="_blank" class="xg1">安全卫士</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14408109&goto=lastpost#lastpost">2016-11-6 21:52</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14408109&amp;extra=" target="_blank" class="totop">
-  置顶关闭</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14552220">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-21849565.html" c="1" class="avatar" mid="card_5202"><img src="http://ucenter.#.cn/avatar.php?uid=21849565&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14552220&amp;extra=" target="_blank" class="s xst">关于“摇一摇”公告</a>
-
-  <img src="http://b1.qikucdn.com/dfsj_imgs/best.png" align="absmiddle" alt="digest" title="精华 1">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14552220&amp;extra=" class="y replies">
-  52</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14552220&amp;extra=" class="y viewnum">
-  4004</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-21849565.html" c="1" style="color: #009900;" mid="card_5202">运营_chenJ</a></span>
-
-  <span>| <span>2016-9-29 11:43</span> | <a href="http://#.cn/forum-108-1.html" target="_blank" class="xg1">手机助手</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14552220&goto=lastpost#lastpost">2016-11-6 19:05</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14552220&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14372586">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-2547466.html" c="1" class="avatar" mid="card_7599"><img src="http://ucenter.#.cn/avatar.php?uid=2547466&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14372586&amp;extra=" style="font-weight: bold;color: #3C9D40;" target="_blank" class="s xst">小米MIUI8 ROOT教程 【MIUI7开发版同样适用】8.5更新</a>
-
-  <img src="http://b1.qikucdn.com/static/image/filetype/common.gif" alt="attachment" title="附件" align="absmiddle">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14372586&amp;extra=" class="y replies">
-  217</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14372586&amp;extra=" class="y viewnum">
-  57684</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-2547466.html" c="1" style="color: #333333;" mid="card_7599">刷机GG</a></span>
-
-  <span>| <span>2016-8-3 18:14</span> | <a href="http://#.cn/forum-1012-1.html" target="_blank" class="xg1">360超级ROOT</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14372586&goto=lastpost#lastpost">2016-11-6 16:48</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14372586&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14235047">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-25444838.html" c="1" class="avatar" mid="card_7711"><img src="http://ucenter.#.cn/avatar.php?uid=25444838&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14235047&amp;extra=" style="color: #3C9D40;" target="_blank" class="s xst">360搜索蜘蛛IP段</a>
-
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14235047&amp;extra=" class="y replies">
-  91</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14235047&amp;extra=" class="y viewnum">
-  47555</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-25444838.html" c="1" style="color: #009900;" mid="card_7711">萌萌哒的小搜哥</a></span>
-
-  <span>| <span>2016-6-21 14:13</span> | <a href="http://#.cn/forum-137-1.html" target="_blank" class="xg1">360搜索</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14235047&goto=lastpost#lastpost">2016-11-6 13:46</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14235047&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14626681">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-30000384.html" c="1" class="avatar" mid="card_6673"><img src="http://ucenter.#.cn/avatar.php?uid=30000384&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14626681&amp;extra=" style="font-weight: bold;color: #EE1B2E;" target="_blank" class="s xst">如何查看手机是否限制网络权限</a>
-
-  <img src="http://b1.qikucdn.com/dfsj_imgs/../picture.png" alt="attach_img" title="图片附件" align="absmiddle">
-  <img src="http://b1.qikucdn.com/dfsj_imgs/best.png" align="absmiddle" alt="digest" title="精华 1">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14626681&amp;extra=" class="y replies">
-  10</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14626681&amp;extra=" class="y viewnum">
-  1000</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-30000384.html" c="1" style="color: #0000FF;" mid="card_6673">超级蛋挞人</a></span>
-
-  <span>| <span>2016-10-27 14:59</span> | <a href="http://#.cn/forum-7066-1.html" target="_blank" class="xg1">360帐号专区</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14626681&goto=lastpost#lastpost">2016-11-6 10:14</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14626681&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14577702">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-10871875.html" c="1" class="avatar" mid="card_3398"><img src="http://ucenter.#.cn/avatar.php?uid=10871875&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14577702&amp;extra=" target="_blank" class="s xst">近期LOL更新提示“运行补丁程序失败，请勿拦截补丁程序的运行“解决方案</a>
-
-  <img src="http://b1.qikucdn.com/static/image/filetype/common.gif" alt="attachment" title="附件" align="absmiddle">
-  <img src="http://b1.qikucdn.com/dfsj_imgs/best.png" align="absmiddle" alt="digest" title="精华 1">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14577702&amp;extra=" class="y replies">
-  25</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14577702&amp;extra=" class="y viewnum">
-  15685</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-10871875.html" c="1" style="color: #009900;" mid="card_3398">360电脑专家003</a></span>
-
-  <span>| <span>2016-10-9 12:54</span> | <a href="http://#.cn/forum-140-1.html" target="_blank" class="xg1">安全卫士</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14577702&goto=lastpost#lastpost">2016-11-6 09:09</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14577702&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14261244">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-2547466.html" c="1" class="avatar" mid="card_7599"><img src="http://ucenter.#.cn/avatar.php?uid=2547466&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14261244&amp;extra=" style="font-weight: bold;color: #EE1B2E;" target="_blank" class="s xst">360ROOT已支持机型列表【查看自己手机是否可以ROOT，戳这里】8.10更新</a>
-
-  <img src="http://b1.qikucdn.com/static/image/filetype/common.gif" alt="attachment" title="附件" align="absmiddle">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14261244&amp;extra=" class="y replies">
-  659</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14261244&amp;extra=" class="y viewnum">
-  222201</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-2547466.html" c="1" style="color: #333333;" mid="card_7599">刷机GG</a></span>
-
-  <span>| <span>2016-7-1 18:42</span> | <a href="http://#.cn/forum-1012-1.html" target="_blank" class="xg1">360超级ROOT</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14261244&goto=lastpost#lastpost">2016-11-6 07:41</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14261244&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14635626">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-25444838.html" c="1" class="avatar" mid="card_7711"><img src="http://ucenter.#.cn/avatar.php?uid=25444838&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14635626&amp;extra=" style="color: #EE1B2E;" target="_blank" class="s xst">360搜索蜘蛛IP段更新公告</a>
-
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14635626&amp;extra=" class="y replies">
-  8</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14635626&amp;extra=" class="y viewnum">
-  13706</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-25444838.html" c="1" style="color: #009900;" mid="card_7711">萌萌哒的小搜哥</a></span>
-
-  <span>| <span>2016-10-31 15:52</span> | <a href="http://#.cn/forum-137-1.html" target="_blank" class="xg1">360搜索</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14635626&goto=lastpost#lastpost">2016-11-6 00:25</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14635626&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14196313">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-24040558.html" c="1" class="avatar" mid="card_3155"><img src="http://ucenter.#.cn/avatar.php?uid=24040558&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14196313&amp;extra=" style="font-weight: bold;color: #996600;" target="_blank" class="s xst">已支持电话模式的摄像机型号及安卓手机型号（持续更新）</a>
-
-  <img src="http://b1.qikucdn.com/dfsj_imgs/../picture.png" alt="attach_img" title="图片附件" align="absmiddle">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14196313&amp;extra=" class="y replies">
-  983</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14196313&amp;extra=" class="y viewnum">
-  961682</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-24040558.html" c="1" style="color: #009900;" mid="card_3155">greenlim1</a></span>
-
-  <span>| <span>2015-11-18 21:19</span> | <a href="http://#.cn/forum-7004-1.html" target="_blank" class="xg1">360智能摄像机</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14196313&goto=lastpost#lastpost">2016-11-5 22:43</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14196313&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14257624">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-31512810.html" c="1" class="avatar" mid="card_6181"><img src="http://ucenter.#.cn/avatar.php?uid=31512810&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14257624&amp;extra=" style="font-weight: bold;color: #EE1B2E;" target="_blank" class="s xst">《水滴直播规范公告》及补充</a>
-
-  <img src="http://b1.qikucdn.com/static/image/filetype/common.gif" alt="attachment" title="附件" align="absmiddle">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14257624&amp;extra=" class="y replies">
-  62</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14257624&amp;extra=" class="y viewnum">
-  18852</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-31512810.html" c="1" style="color: #009900;" mid="card_6181">水滴直播</a><a href="http://#.cn/home.php?mod=spacecp&amp;ac=plugin&amp;id=myvipregister:profileset" target="_blank"><img src="http://p0.qhmsg.com/t01519dfdd6d784ea54.png" class="vm" alt="VIP认证" title="VIP认证"></a></span>
-
-  <span>| <span>2016-6-30 11:19</span> | <a href="http://#.cn/forum-7004-1.html" target="_blank" class="xg1">360智能摄像机</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14257624&goto=lastpost#lastpost">2016-11-5 22:42</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14257624&amp;extra=" target="_blank" class="totop">
-  置顶</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  <tbody id="stickthread_14645657">
-  <tr>
-  <th class="common">
-  <div class="avatarbox">
-  <a href="http://#.cn/space-uid-30257560.html" c="1" class="avatar" mid="card_7062"><img src="http://ucenter.#.cn/avatar.php?uid=30257560&amp;size=small"></a>
-  </div>
-
-  <div class="tl_ct">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14645657&amp;extra=" target="_blank" class="s xst">[招募］畅快安全·360手机N4A郑州同城体验会[河南郑州]</a>
-
-  <img src="http://b1.qikucdn.com/static/image/stamp/005.small.gif" alt="置顶" align="absmiddle">
-  <img src="http://b1.qikucdn.com/dfsj_imgs/../picture.png" alt="attach_img" title="图片附件" align="absmiddle">
-
-  <div class="info">
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14645657&amp;extra=" class="y replies">
-  13</a>
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14645657&amp;extra=" class="y viewnum">
-  128</a>
-
-  <span>
-  <a href="http://#.cn/space-uid-30257560.html" c="1" mid="card_7062">佯装、埋倦</a><a href="http://#.cn/home.php?mod=spacecp&amp;ac=plugin&amp;id=myvipregister:profileset" target="_blank"><img src="http://p0.qhmsg.com/t01519dfdd6d784ea54.png" class="vm" alt="VIP认证" title="VIP认证"></a></span>
-
-  <span>| <span>2016-11-4 22:59</span> | <a href="http://#.cn/forum-5438-1.html" target="_blank" class="xg1">郑州同城</a></span>
-
-
-  <!-- <em>最后回复 <a href="http://#.cn/forum.php?mod=redirect&tid=14645657&goto=lastpost#lastpost">2016-11-5 20:31</a></em> -->
-  <a href="http://#.cn/forum.php?mod=viewthread&amp;tid=14645657&amp;extra=" target="_blank" class="totop">
-  置顶活动</a>
-  </div>
-  </div>
-  </th>
-  </tr>
-  </tbody>
-  </table>
-  </div>
-  </div>
-
-  <div class="bm bw0 pgs cl">
-  <span class="pgb"><a href="http://#.cn/forumall.php">返&nbsp;回</a></span>
-  <span id="fd_page_bottom"><div class="pg"><strong>1</strong><a href="forumall.php?page=2">2</a><a href="forumall.php?page=3">3</a><a href="forumall.php?page=4">4</a><a href="forumall.php?page=5">5</a><a href="forumall.php?page=6">6</a><a href="forumall.php?page=47" class="last">... 47</a><label><input type="text" name="custompage" class="px" size="2" title="输入页码，按回车快速跳转" value="1" onkeydown="if(event.keyCode==13) {window.location='forumall.php?page='+this.value;; doane(event);}"><span title="共 47 页"> / 47 页</span></label><a href="forumall.php?page=2" class="nxt">下一页</a></div></span>
-  </div>
-
-  </div>
-</div>
-<!-- 右侧边栏 -->
-<div class="sidebar bg-white">
-  <div class="block"> <a href="#" class="new-thread bg-green">发帖</a>
-    <div class="signup-total bg-green"> 星期日<br />
-      <span class="num-date">11.6</span><br />
-      已签到56人 </div>
-    <div class="signup-lucky"> <a href="#" class="signup border-green">签到</a> <a href="#" class="lucky border-green">抽奖</a> </div>
-  </div>
-  <!-- 版块推荐 -->
-  <div class="plays box">
-    <h4><strong>版块推荐</strong></h4>
-    <ul>
-      <li class="playlist"><a href="forum-7076-1.html" target="_blank" title="360手机N4S"><img src="../picture/t01b3ea84a97551c661.png" width="24" height="24" alt="360手机N4S">计算机</a></li>
-      <li class="playlist"><a href="forum-5146-1.html" target="_blank" title="手机摄影"><img src="../picture/t01e9739182cfdbb42b.png" width="24" height="24" alt="手机摄影"></a>摄影</li>
-      <li class="playlist"><a href="forum-7088-1.html" target="_blank" title="360手机Q5"><img src="../picture/t0175b5d9c7d8bfd7aa.png" width="24" height="24" alt="360手机Q5">寻物启事</a></li>
-      <li class="playlist"><a href="forum-7081-1.html" target="_blank" title="360儿童机器人"><img src="../picture/t01bd408be3fdc7f74d.png" width="24" height="24" alt="360儿童机器人">机械设计</a></li>
-      <li class="playlist"><a href="forum-7005-1.html" target="_blank" title="360儿童卫士"><img src="../picture/t011cfce70442278c24.png" width="24" height="24" alt="360儿童卫士">社团活动</a></li>
-    </ul>
-  </div>
-  <div class="clearfix"></div>
-  <!-- 最新活动 -->
-  <div class="box">
-    <h4 class=""><strong>最新活动</strong></h4>
-    <div class="">
-      <div class="col topCol" style="width: 270px"><a href="# " target="_blank" title="" style="display: inline;"><em style="opacity: 0;"></em><img src="../picture/sign in.png" width="270" height="152" alt="签到赢红包"></a> </div>
+    <!--  -->
+    <div class="container main">
+
+        <!-- 左侧内容区 -->
+        <div class="content-area bg-white">
+            <div class="mn xm_mn">
+                <div class="xm_index_info">
+                    <div class="xm_index_info_dec">
+                        今日发布数量<span class="pipe">|</span>
+                        昨日发布数量<span class="pipe">|</span>
+                        帖子总共帖子数量<span class="pipe">|</span>
+                        欢迎<a href="#" target="_blank" class="xi2" style="padding-left: 4px;">用户ID</a>
+                    </div>
+                </div>
+                <div id="threadlist" class="tl">
+                    <div class="cl">
+                        <table summary="forum_0" cellspacing="0" cellpadding="0" id="threadlisttableid">
+                            <tbody id="stickthread_14646386">
+                            <tr>
+                                <th class="common">
+                                    <ul>
+                                        <li v-for="(item, index) in records">
+                                            <div class="avatarbox">
+                                                <a  c="1" class="avatar" mid="card_2378"><img src="" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="tl_ct">
+                                               <a href="" target="_self" class="s xst" @click="topicDetails(item.topicId)">{{
+                                                        item.topicTitle
+                                                    }}</a>
+                                                <br>
+                                                {{ item.topicContent }}
+                                                <div class="info">
+                                                    <a  class="y replies" >评论数量：{{ item.replys !=null?item.replys.length:0 }}</a>
+                                                    <a  class="y viewnum">浏览数量:{{ item.topicClickCount }}</a>
+                                                    <span>
+                                            <a href="#" c="1" mid="card_2378" target="_self">用户ID：{{ item.userId }}</a>
+                                        </span>
+                                                    <span>| <span>最新更新时间：{{ item.updateTime }}</span> | <a
+                                                            href="#" target="_self"
+                                                            class="xg1"></a></span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </th>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bm bw0 pgs cl">
+                    <span class="pgb">
+                        <a v-show="nowPage !== 1" @click="search_next()">上一页</a></span>
+                    <span id="fd_page_bottom">
+<!--------------------------------------------------------------->
+                        <div class="pg">
+                            <label>
+                                <button class="px" @click="goto_page">跳转</button>
+                                <input type="text" class="px" size="2" value="1" v-model="nowPage">
+                            <span title="共 47 页">/{{ total }}</span>
+                        </label>
+                            <a class="nxt" v-show="nowPage !== total" @click="search_previous">下一页</a>
+                        </div>
+                        <!--------------------------------------------------------------->
+                    </span>
+                </div>
+
+            </div>
+        </div>
+        <!-- 右侧边栏 -->
+        <div class="sidebar bg-white">
+            <div class="block"><a href="#" class="new-thread bg-green">发帖</a>
+                <div class="signup-total bg-green"> 星期日<br/>
+                    <span class="num-date">11.6</span><br/>
+                    已签到56人
+                </div>
+                <div class="signup-lucky"><a href="#" class="signup border-green">签到</a> <a href="#"
+                                                                                              class="lucky border-green">抽奖</a>
+                </div>
+            </div>
+            <!-- 版块推荐 -->
+            <div class="plays box">
+                <h4><strong>版块推荐</strong></h4>
+                <ul>
+                    <li class="playlist"><a href="forum-7076-1.html" target="_blank" title="360手机N4S"><img
+                            src="../picture/t01b3ea84a97551c661.png" width="24" height="24" alt="360手机N4S">计算机</a>
+                    </li>
+                    <li class="playlist"><a href="forum-5146-1.html" target="_blank" title="手机摄影"><img
+                            src="../picture/t01e9739182cfdbb42b.png" width="24" height="24" alt="手机摄影">摄影</a>
+                    </li>
+                    <li class="playlist"><a href="forum-7088-1.html" target="_blank" title="360手机Q5"><img
+                            src="../picture/t0175b5d9c7d8bfd7aa.png" width="24" height="24" alt="360手机Q5">寻物启事</a>
+                    </li>
+                    <li class="playlist"><a href="forum-7081-1.html" target="_blank" title="360儿童机器人"><img
+                            src="../picture/t01bd408be3fdc7f74d.png" width="24" height="24" alt="360儿童机器人">机械设计</a>
+                    </li>
+                    <li class="playlist"><a href="forum-7005-1.html" target="_blank" title="360儿童卫士"><img
+                            src="../picture/t011cfce70442278c24.png" width="24" height="24"
+                            alt="360儿童卫士">社团活动</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-  </div>
-  <!-- 热门推荐 -->
-  <div class="box hot">
-    <h4> <strong>热门推荐</strong> </h4>
-    <ul>
-      <li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037599478727046" target="_blank" title="双城派出所对留学生开展禁毒宣传教育">双城派出所对留学生开展禁毒宣传教育</a></li>
-      <li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037601288890914" target="_blank" title="化学工程学院开展校友、校友企业合作交流座谈会">化学工程学院校友、校友合作交流座谈会</a></li>
-      <li><a href="http://#.cn/thread-14588473-1-1.html" target="_blank" title="体育学院召开学生创新创业培训动员会">体育学院召开学生创新创业培训动员会</a></li>
-      <li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037596725215721" target="_blank" title="#冯雷应邀为我校作知识产权专题讲座">冯雷应邀为我校作知识产权专题讲座</a></li>
-      <li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037604350693809" target="_blank" title="">消防安全月 学校开展消防演练培训</a></li>
-      <li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037597480122262" target="_blank" title="孩子的最佳玩伴--360儿童机器人国庆把玩">研究生颜朋发表最新科研成果</a></li>
-      <li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037599049705384" target="_blank" title="十年 ！ 360已在我工作、生活中无处不在">人文学院乡村文化振兴项目上榜</a></li>
-      <li><a href="https://www.suse.edu.cn/p/10/?StId=st_app_news_i_x638037597865712348" target="_blank" title="【360社区APP v3.1.0版】【10月9日更新】">第一届音体美学生两委会交流会</a></li>
-    </ul>
-  </div>
-  <!-- 明星用户 -->
-  <div class="start-user box">
-    <h4>明星用户</h4>
-    <ul>
-      <li class="start-user-list"> <a href="#" c="1" target="_blank" mid="card_3527"><img src="../picture/avatar.php" width="48" height="48" alt="宣纸.泛黄"></a>
-        <p class="start-user-name"><a href="#" title="宣纸.泛黄" target="_blank">student-1</a></p>
-      </li>
-      <li class="start-user-list"> <a href="#" c="1" target="_blank" mid="card_3414"><img src="../picture/avatar.php" width="48" height="48" alt="誓言"></a>
-        <p class="start-user-name"><a href="#" title="誓言" target="_blank">誓言-2</a></p>
-      </li>
-      <li class="start-user-list"> <a href="#" c="1" target="_blank" mid="card_6958"><img src="../picture/avatar.php" width="48" height="48" alt="清彤"></a>
-        <p class="start-user-name"><a href="#" title="清彤" target="_blank">清彤-3</a></p>
-      </li>
-      <li class="start-user-list"> <a href="#" c="1" target="_blank" mid="card_7202"><img src="../picture/avatar.php" width="48" height="48" alt="亚柏"></a>
-        <p class="start-user-name"><a href="#" title="亚柏" target="_blank">亚柏-4</a></p>
-      </li>
-      <li class="start-user-list"> <a href="#" c="1" target="_blank" mid="card_484"><img src="../picture/avatar.php" width="48" height="48" alt="勺子"></a>
-        <p class="start-user-name"><a href="#" title="勺子" target="_blank">勺子-5</a></p>
-      </li>
-      <li class="start-user-list"> <a href="#" c="1" target="_blank" mid="card_4324"><img src="../picture/avatar.php" width="48" height="48" alt="不满格"></a>
-        <p class="start-user-name"><a href="#" title="不满格" target="_blank">不满格-6</a></p>
-      </li>
-    </ul>
-    <div style="clear:both;"></div>
-  </div>
-  <!-- 360社区客户端下载-->
-  <div class="box download-360" style="margin-bottom:0;">
-    <h4>联系我们</h4>
-    <div class="bm_c">
-      <table width="100%" border="0">
-        <tbody>
-          <tr>
-            <td align="center"><img src="../picture/contact.png" alt="" width="240" height="240"></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-</div>
 
-<button type="button" id="backTop" class="btn btn-default">
-  <i class="fa fa-arrow-up"></i>
-</button>
+    <button type="button" id="backTop" class="btn btn-default">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+</div>
 </body>
+
+<script>
+    /**
+     * 1.使用js文件存储用户搜索关键字
+     * 2.使用js文件存储请求结果
+     * 3.只有dataList放在forum.js
+     */
+    new Vue({
+        el: "#app",
+        data: {
+            urlBase:'http://localhost:8080/',
+            headLine: "headLine",
+            postedBy: "帖子所属用户",
+            replyTime: "最新回复时间",
+            IPLocation: "IP：四川",
+            readNum: 666,
+            commentNum: 123,
+            nowPage: 1,
+            total: 47,
+            userSearch: null,
+            records: [
+
+            ],
+            user: {
+                id: null,
+                userAccountId:"hjkgbhjbj",
+                username: 666,
+                password: null,
+                userEmail: null,
+                userSex: null,
+                userClass: null,
+                userStatement: null,
+                userStatus:null
+            }
+
+        },
+         mounted() {
+
+
+             let _this = this
+             axios({
+                 method: 'get',
+                 url: "http://localhost:8080/user/get",
+             }).then(res => {
+                 console.log(res);
+                 _this.user = res.data.data
+                 console.log("获取到用户信息{}",_this.user)
+             }, err => {
+                 console.log(err);
+             });
+
+
+            /*console.log(app.user)
+            console.log(app.user.userStatus)
+
+            !//1.判断登录状态,异常则退回登录界面
+            if (user.userStatus !== 1) {
+                this.$message.error("请登录！");
+                setTimeout(function () {
+                    window.location.href = "login.html";
+                }, 1000)
+            }
+
+
+            console.log(app.user.userStatement);
+            //2.从login.js中拿到user
+            //console.log("get user = ",this.user)
+            this.userSearch = app.user.userSearch;*/
+
+            //3.发送请求获取实际最大页数并存入本地
+             /*let res =   get(this.urlBase + "topic/listAll", 1, 20, null);
+            console.log("res = ",res)
+            if (res.data.code !== 1) {
+                this.$message.error("错误！");
+                return;
+            }
+            this.total = res.data.total;
+
+            //4.请求第一页并初始化
+            res =  get(this.urlBase + "topic/listAll", 1, 20, null);
+            if (res.data.code !== 1) {
+                this.$message.error("错误！");
+                return;
+            }
+            this.records = res.data.records;*/
+             this.$nextTick(function ()
+             {
+                 this.get_data()
+             })
+             //console.log("mounted:",this.records)
+
+        },
+        methods: {
+
+            topicDetails(id){
+                console.log("id = ",id)
+                console.log("called this func")
+                console.log("页面跳转")
+                window.open('thread.html'+'?'+id,id)
+                /*push({
+                    path:'thread.html',
+                    query:{id:id}
+                })*/
+            },
+
+            async get_data(){
+
+                //3.发送请求获取实际最大页数并存入本地
+                let res = await  get(this.urlBase + "topic/listAll", this.nowPage, this.total, this.userSearch);
+                console.log("res = ",res)
+                if (res.data.code !== 1) {
+                    this.$message.error("错误！");
+                    return;
+                }
+                this.records = res.data.data.records;
+                this.total = res.data.data.total
+                console.log(this.records)
+            },
+
+            to_search: function (res) {
+                if (res.data.code === 1) {
+                    this.records = res.data.data.records;
+                    return true;
+                }
+                this.$message.error("查找失败！");
+                return false;
+            },
+            /**
+             * 查找下一页
+             * @returns {Promise<void>}
+             */
+            search_next: async function () {
+                let res = await get(this.urlBase + "topic/listAll", this.nowPage + 1, 20, this.userSearch)
+                if (this.to_search(res)) this.nowPage++;
+            },
+            /**
+             * 查找上一页
+             * @returns {Promise<void>}
+             */
+            search_previous: async function () {
+                let res = await get(this.urlBase + "topic/listAll", this.nowPage - 1, 20, this.userSearch)
+                if (this.to_search(res)) this.nowPage--;
+            },
+            /**
+             * 查找任意页
+             */
+            goto_page: function () {
+                if (this.total > this.nowPage || this.nowPage < 1) {
+                    this.$message.error("页码错误！");
+                    return;
+                }
+                let res = get(this.urlBase + "topic/listAll", this.nowPage, 20, this.userSearch);
+                if (this.to_search(res)) {
+                }
+            },
+            /**
+             * 本地userSearch更新时更新login.js的userSearch
+             */
+            whenKeyUp: function () {
+                app.userSearch = this.userSearch;
+            }
+        }
+    })
+
+    /**进入页面后操作
+     * 1.根据登录状态选择登录，注册按钮的显示，以及展示登录用户ID
+     * 2.中心横条处更新帖子总数量以及用户ID
+     * 3.根据用户给出关键字发请求
+     * 4.展示所有请求到的帖子
+     */
+    function rand(n, m) {
+        let result = Math.random() * (m + 1 - n) + n;
+        while (result > m) {
+            result = Math.random() * (m + 1 - n) + n;
+        }
+        return result;
+    }
+
+</script>
 </html>

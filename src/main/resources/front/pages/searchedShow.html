@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>æŸ¥æ‰¾ç»“æžœ</title>
+    <meta charset="gb2312">
+    <title>²éÕÒ½á¹û</title>
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/font-awesome.css" rel="stylesheet">
     <link href="../css/common.css" rel="stylesheet">
@@ -10,51 +10,129 @@
     <link href="../css/content-area.css" rel="stylesheet">
     <link href="../css/sidebar.css" rel="stylesheet">
     <link href="../css/footer.css" rel="stylesheet">
-    <!-- å¼€å‘çŽ¯å¢ƒç‰ˆæœ¬ï¼ŒåŒ…å«äº†æœ‰å¸®åŠ©çš„å‘½ä»¤è¡Œè­¦å‘Š -->
+    <!-- ¿ª·¢»·¾³°æ±¾£¬°üº¬ÁËÓÐ°ïÖúµÄÃüÁîÐÐ¾¯¸æ -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <!--axioså¼€å‘çŽ¯å¢ƒ-->
+    <!--axios¿ª·¢»·¾³-->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="../js/package.js"></script>
-    <script src="../js/searchedShow.js"></script>
 </head>
 <body>
-<!--æœç´¢æ¡†-->
-<div class="input-group">
-    <input type="text" class="form-control" name="name" value="" placeholder="å¸–å­/ç”¨æˆ·" v-model="userSearch">
-    <div class="input-group-btn">
-        <button type="button" class="btn btn-default" @click="click_search">
-            <i class="fa fa-search"></i>
-        </button>
+<div id="loginDiv"></div>
+<div id="app">
+    <!--ËÑË÷¿ò-->
+    <div class="input-group">
+        <input type="text" class="form-control" name="name" value="" placeholder="Ìû×Ó/ÓÃ»§" v-model="userSearch">
+        <div class="input-group-btn">
+            <button type="button" class="btn btn-default" @click="click_search">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
     </div>
-</div>
-<!--æœç´¢ç»“æžœå±•ç¤º-->
-<div class="content-area bg-white">
-    <!-- æ–°é—» news -->
+    <!--ËÑË÷½á¹ûÕ¹Ê¾-->
+    <div class="content-area bg-white">
+        <!-- ÐÂÎÅ news -->
 
-    <ul style="list-style-type: decimal">
-        <!--item, indexåˆ†åˆ«æ˜¯å†…å®¹å’Œç´¢å¼•-->
-        <li v-for="(item, index) in dataList">
-            <!--    :hrefæŒ‡å‘ç›®æ ‡,v-textæ˜¾ç¤ºå…³é”®å­—    -->
-            <a :href="item.href" v-text="item.title"></a>
-        </li>
-    </ul>
-    <br>
-    <button v-show="nowPage != 1">previousPage</button>
-    <button v-show="hasNext">nextPage</button>
-    <div class="block">
-        <span class="demonstration">é¡µæ•°è¾ƒå°‘æ—¶çš„æ•ˆæžœ</span>
-        <el-pagination
-                layout="prev, pager, next"
-                :total="50">
-        </el-pagination>
-    </div>
-    <div class="block">
-        <span class="demonstration">å¤§äºŽ 7 é¡µæ—¶çš„æ•ˆæžœ</span>
-        <el-pagination
-                layout="prev, pager, next"
-                :total="1000">
-        </el-pagination>
+        <ul style="list-style-type: decimal">
+            <!--item, index·Ö±ðÊÇÄÚÈÝºÍË÷Òý-->
+            <li v-for="(item, index) in dataList">
+                <!--    :hrefÖ¸ÏòÄ¿±ê,v-textÏÔÊ¾¹Ø¼ü×Ö    -->
+                <a :href="item.href" v-text="item.title"></a>
+            </li>
+        </ul>
+        <br>
+        <span>ÌõÄ¿¹²</span>
+        <span>{{ totalPage }}</span>
+        <span>Ò³</span>
+        <button @click="goto_page()">Ìø×ª</button>
+        <span>ÖÁµÚ</span>
+        <input type="text" size="3" v-model="gotoPage">
+        <span>Ò³</span>
+        <br>
+        <button v-if="nowPage !== 1" @click="search_previous()">ÉÏÒ»Ò³</button>
+        <button v-if="nowPage !== totalPage" @click="search_next()">ÏÂÒ»Ò³</button>
     </div>
 </div>
 </body>
+<script type="text/javascript" charset="gb2312">
+
+
+    new Vue({
+        el: "#app",
+        data: {
+            userSearch: null,//ËÑË÷ÊäÈë¿òÊäÈëÖµ
+            searchedShow: null,//·µ»ØÖµ½á¹û
+            nowPage: 1,
+            totalPage: 3,
+            hasNext: null,
+            gotoPage: 1,
+            dataList: [
+                {href: "https:www.baidu.com", title: "°Ù¶È"},
+            ],
+        },
+        methods: {
+            mounted() {
+
+                /**
+                 *  DOM¼ÓÔØÍê³É
+                 *  ½ØÈ¡ÓÃ»§ËÑË÷ÄÚÈÝ
+                 */
+                console.log(window.location.href)
+                let url = decodeURI(window.location.href);
+                console.log(url)
+                let searchData = url.slice("?").split("=")[1];
+                app.userSearch = searchData;
+                console.log(searchData)
+                /**
+                 * »ñÈ¡ËùÓÐÊý¾ÝÌõÄ¿
+                 */
+                let res = get(this.urlBase + "user/search", 65536, 30, this.userSearch);
+                this.to_search(res);
+            },
+            to_search: function (res) {
+                if (res.data.code === 1) {
+                    app.dataList = res.data.dataList;
+                    app.totalPage = res.data.totalPage;
+                    return true;
+                } else {
+                    this.$message.error("²éÕÒÊ§°Ü£¡");
+                    return false;
+                }
+            },
+            click_search: function () {
+                //´ò¿ªsearchedShowÒ³Ãæ²¢´«Èë²ÎÊý
+                this.nowPage = 1;
+                window.open("searchedShow.html" + "?content=" + this.userSearch);
+            },
+            /**
+             * ²éÕÒÏÂÒ»Ò³
+             * @returns {Promise<void>}
+             */
+            search_next: async function () {
+                let res = await get(this.urlBase + "user/search", this.nowPage + 1, 20, this.userSearch)
+                if (this.to_search(res)) this.nowPage++;
+            },
+            /**
+             * ²éÕÒÉÏÒ»Ò³
+             * @returns {Promise<void>}
+             */
+            search_previous: async function () {
+                let res = await get(this.urlBase + "user/search", this.nowPage - 1, 20, this.userSearch)
+                if (this.to_search(res)) this.nowPage--;
+            },
+            /**
+             * ²éÕÒÈÎÒâÒ³
+             */
+            goto_page: function () {
+                if (this.gotoPage > this.nowPage || ths.gotoPage < 1) {
+                    this.$messge.error("Ò³Âë´íÎó£¡");
+                    return;
+                }
+                let res = get(this.urlBase + "user/search", this.gotoPage, 20, this.userSearch);
+                if (this.to_search(res)) this.nowPage = this.gotoPage;
+            }
+        }
+    });
+
+
+</script>
 </html>
