@@ -10,6 +10,11 @@
     <link href="../../static/12-1/node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
 
     <link href="../../static/12-1/node_modules/font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <link href="../../static/12-1/css/common.css" rel="stylesheet">
     <link href="../../static/12-1/css/header.css" rel="stylesheet">
     <link href="../../static/12-1/css/content-area.css" rel="stylesheet">
@@ -93,12 +98,6 @@
             </ul>
 
 
-            <div class="login-reg pull-right">
-                <a href="../../static/12-1/login.html">登录</a>
-                <a href="../../static/12-1/register.html" class="active">注册</a>
-                <a href="../../static/12-1/personal.html" target="_blank">个人</a>
-                <a href="../../static/12-1/my.html" target="_blank">我的发帖</a>
-            </div>
             <div class="search-form pull-right">
                 <div class="input-group">
                     <input type="text" class="form-control" name="name" value="" placeholder="帖子/用户">
@@ -253,7 +252,7 @@
             mounted() {
                 //  /status/topicID/replyID
                 //截取status
-                let needed = window.location.href.split("?")[1];
+                /*let needed = window.location.href.split("?")[1];
                 let status_id_id = needed.split("&");
                 //分别获取status，topicID以及replyID
                 this.postData.status = status_id_id[0];
@@ -261,13 +260,13 @@
                 this.postData.topicID = status_id_id[1];
                 console.log("topicId = ",this.postData.topicID)
                 if(status_id_id.length === 3)this.postData.replyID = status_id_id[2];
-                console.log(''+this.postData.status)
+                console.log(''+this.postData.status)*/
             },
             methods: {
-                click_post: function () {
+               async click_post() {
                     let uri;
                     //回复楼主
-                    if(this.postData.status === '1'){
+                    /*if(this.postData.status === '1'){
                         //回复
                         this.replys.topicId = this.postData.topicID
                         this.replys.replyContents = this.postData.postContent
@@ -280,13 +279,22 @@
                         this.replys.replyFloor = this.postData.replyID
                         this.replys.replyContents = this.postData.postContent
                         post_comm("http://localhost:8080/reply/answer?status="+this.postData.status, this.replys);
-                    }else{
+                    }else{*/
                         //发帖
                         this.topic.topicTitle = this.postData.postTitle
                         this.topic.topicContent = this.postData.postContent
-                        post_comm("http://localhost:8080/topic/create", this.topic);
-                    }
-                    /*window.location.href = 'http://localhost:8080/front/pages/'+this.postData.status ===1?*/
+                        await  post_comm("http://localhost:8080/topic/create", this.topic);
+
+                   /*this.$message({
+                       showClose: true,
+                       message: '发布成功',
+                       type: 'success'
+                   })*/
+                   setTimeout( ()=> {
+                       // window.location.href = _this.urlBase + "user/index.html";
+
+                       window.location.href ="http://localhost:8080/front/pages/forum.html"
+                   }, 1000);
                 }
 
             }

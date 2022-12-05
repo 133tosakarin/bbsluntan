@@ -107,7 +107,7 @@
                                                 <br>
                                                 {{ item.topicContent }}
                                                 <div class="info">
-                                                    <a  class="y replies" >评论数量：{{ item.replys !=null?item.replys.length:0 }}</a>
+                                                    <a  class="y replies" >评论数量：{{ item.topicReplyCount }}</a>
                                                     <a  class="y viewnum">浏览数量:{{ item.topicClickCount }}</a>
                                                     <span>
                                             <a href="#" c="1" mid="card_2378" target="_self">用户ID：{{ item.userId }}</a>
@@ -145,40 +145,7 @@
 
             </div>
         </div>
-        <!-- 右侧边栏 -->
-        <div class="sidebar bg-white">
-            <div class="block"><a href="#" class="new-thread bg-green">发帖</a>
-                <div class="signup-total bg-green"> 星期日<br/>
-                    <span class="num-date">11.6</span><br/>
-                    已签到56人
-                </div>
-                <div class="signup-lucky"><a href="#" class="signup border-green">签到</a> <a href="#"
-                                                                                              class="lucky border-green">抽奖</a>
-                </div>
-            </div>
-            <!-- 版块推荐 -->
-            <div class="plays box">
-                <h4><strong>版块推荐</strong></h4>
-                <ul>
-                    <li class="playlist"><a href="forum-7076-1.html" target="_blank" title="360手机N4S"><img
-                            src="../picture/t01b3ea84a97551c661.png" width="24" height="24" alt="360手机N4S">计算机</a>
-                    </li>
-                    <li class="playlist"><a href="forum-5146-1.html" target="_blank" title="手机摄影"><img
-                            src="../picture/t01e9739182cfdbb42b.png" width="24" height="24" alt="手机摄影">摄影</a>
-                    </li>
-                    <li class="playlist"><a href="forum-7088-1.html" target="_blank" title="360手机Q5"><img
-                            src="../picture/t0175b5d9c7d8bfd7aa.png" width="24" height="24" alt="360手机Q5">寻物启事</a>
-                    </li>
-                    <li class="playlist"><a href="forum-7081-1.html" target="_blank" title="360儿童机器人"><img
-                            src="../picture/t01bd408be3fdc7f74d.png" width="24" height="24" alt="360儿童机器人">机械设计</a>
-                    </li>
-                    <li class="playlist"><a href="forum-7005-1.html" target="_blank" title="360儿童卫士"><img
-                            src="../picture/t011cfce70442278c24.png" width="24" height="24"
-                            alt="360儿童卫士">社团活动</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+
     </div>
 
     <button type="button" id="backTop" class="btn btn-default">
@@ -229,6 +196,10 @@
              axios({
                  method: 'get',
                  url: "http://localhost:8080/user/get",
+                 headers: {
+                     "Content-Type": "application/octet-stream",
+                     "Access-Control-Allow-Origin": "*",
+                 }
              }).then(res => {
                  console.log(res);
                  _this.user = res.data.data

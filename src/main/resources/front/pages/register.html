@@ -2,6 +2,7 @@
 <html lang="en">
  
 <head>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
     <!-- 开发环境版本，包含了有帮助的命令行警告 -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <!--axios开发环境-->
@@ -116,18 +117,16 @@
             font-weight: initial;
         }
     </style>
-<!--  导入封装后axios  -->
-    <script src="../js/package.js"></script>
 
 </head>
 
 <body>
-    <div id="loginDiv">
+    <div id="app">
         <form action="file:///D:/web%E8%84%9A%E6%9C%AC/WEB/login.html" id="form">
             <h1>注册</h1>
-            <p>用户姓名:<input id="userNname" type="text" autofocus required v-model="username"><label id="name_trip"></label></p>
+            <p>用户姓名:<input id="userNname" type="text" autofocus required v-model="user.username"><label id="name_trip"></label></p>
  
-            <p>用户密码:<input id="password" type="password" required v-model="password"><label id="password_trip"></label></p>
+            <p>用户密码:<input id="password" type="password" required v-model="user.password"><label id="password_trip"></label></p>
  
             <p>确认密码:<input id="surePassword" type="password" required v-model="passwordConfirm" @keydown=""><label id="surePassword_trip"></label></p>
 <!--
@@ -178,5 +177,78 @@
 <!--  页面加载完后运行js  -->
     <script src="../js/register.js"></script>
 </body>
+<script>
+    /**
+     * register页面功能:
+     * 1.校验输入值
+     * 2.post请求
+     * 3.根据返回值跳转
+     */
+
+
+
+    /**
+     * 发送请求
+     */
+    new Vue({
+        el: "#app",
+        data: {
+            urlBase: "http://localhost:8080/",
+            user:{
+
+                id: null,
+                userAccountId: null,
+                username: null,
+                password: null,
+                userEmail: null,
+                userSex: null,
+                userClass: null,
+                userStatement: null,
+                userStatus:null,
+                createTime: null,
+                updateTime: null
+            },
+            passwordConfirm:null,
+        },
+
+        methods: {
+            /**
+             * 注册点击请求
+             */
+            async click_register(){
+                console.log(this.urlBase);
+                const  res = await register_post(this.urlBase + "user/register",this);
+                let _this = this;
+                console.log(res);
+                if(res.data.code === 1){
+                    this.$message({
+                        type:"success",
+                        showClose: true,
+                        message:'登录成功，即将跳转到登录页面'
+                    });
+
+                    /**
+                     * 注册成功后两秒跳转
+                     *
+                     */
+                    setTimeout(()=> {
+                        // window.location.href = _this.urlBase + "user/index.html";
+
+                        window.open(this.urlBase+'front/pages/login.html')
+                    }, 2000);
+
+                }else{
+                    this.$message.error("注册失败！");
+                }
+            },
+        }
+    });
+
+
+
+
+
+
+</script>
 </html>
 

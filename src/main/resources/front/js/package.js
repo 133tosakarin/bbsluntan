@@ -9,6 +9,10 @@ async function get(url)
         await axios({
             method: 'get',
             url: url + '?' + "username=" + _this.username + "&" + "password=" + _this.password,
+            headers: {
+                "Content-Type": "application/octet-stream",
+                "Access-Control-Allow-Origin": "*",
+            }
         }).then(res => {
             console.log(res);
             ares = res;
@@ -23,6 +27,10 @@ async function get(url)
             method: 'get',
 
             url: url + "?" + "page=" + arguments[1] + "&pageSize=" + arguments[2] + "&condition=" + arguments[3],
+            headers: {
+                "Content-Type": "application/octet-stream",
+                "Access-Control-Allow-Origin": "*",
+            }
         }).then(res=>{
             console.log(res);
             ares = res;
@@ -48,6 +56,10 @@ async  function post(url,records)
         data: {
             username:records.user.username,
             password:records.user.password
+        },
+        headers: {
+            "Content-Type": "application/octet-stream",
+            "Access-Control-Allow-Origin": "*",
         }
     }).then(res=>{
         console.log("axios中：",res);
@@ -65,8 +77,12 @@ async function register_post(url,_this)
         method: "post",
         url: url,
         data: {
-            username: _this.username,
-            password: _this.password
+            username: _this.user.username,
+            password: _this.user.password
+        },
+        headers: {
+            "Content-Type": "application/octet-stream",
+            "Access-Control-Allow-Origin": "*",
         }
     }).then(res=>{
         console.log(res);
@@ -85,6 +101,10 @@ async function put(url, record)
         method: 'put',
         url: url,
         data: record.user,
+        headers: {
+            "Content-Type": "application/octet-stream",
+            "Access-Control-Allow-Origin": "*",
+        }
     }).then(res=>{
         console.log(res);
         ares = res;
@@ -100,6 +120,10 @@ function del(url)
     axios({
         method: 'delete',
         url: url,
+        headers: {
+            "Content-Type": "application/octet-stream",
+            "Access-Control-Allow-Origin": "*",
+        }
     }).then(res=>{
         console.log(res);
         ares = res;
@@ -114,6 +138,10 @@ function showMyTopic(url, page, pageSize)
     axios({
         url: url + "?page=" + page + "&pageSize=" + pageSize,
         method: 'get',
+        headers: {
+            "Content-Type": "application/octet-stream",
+            "Access-Control-Allow-Origin": "*",
+        }
     }).then(res => {
         _this.dataList = res.dataList;
     }, err => {
@@ -129,6 +157,10 @@ function showList(url)
     axios({
         url: url,
         method: 'get',
+        headers: {
+            "Content-Type": "application/octet-stream",
+            "Access-Control-Allow-Origin": "*",
+        }
     }).then(res => {
         //获取结果
         reply = res;
@@ -144,6 +176,10 @@ function register(url)
     axios({
         url: url,
         method: 'get',
+        headers: {
+            "Content-Type": "application/octet-stream",
+            "Access-Control-Allow-Origin": "*",
+        }
     }).then(res => {
         return res.code === 1;
     }, err => {
@@ -156,6 +192,10 @@ async function get_user(){
     await axios({
         method: 'get',
         url: "http://localhost:8080/user/get",
+        headers: {
+            "Content-Type": "application/octet-stream",
+            "Access-Control-Allow-Origin": "*",
+        }
     }).then(res => {
         console.log(res);
         ares = res;
@@ -189,7 +229,11 @@ async function getTopicById(url){
     let res = null
     await axios({
         method:'get',
-        url:url
+        url:url,
+        headers: {
+            "Content-Type": "application/octet-stream",
+            "Access-Control-Allow-Origin": "*",
+        }
     }).then(resp=>{
         console.log("get topic:",res)
         res = resp
@@ -204,7 +248,11 @@ async  function post_comm(url,records){
     await axios({
         method:'post',
         data:records,
-        url:url
+        url:url,
+        headers: {
+            "Content-Type": "application/octet-stream",
+            "Access-Control-Allow-Origin": "*",
+        }
     }).then(resp=>{
         console.log("resp = ",resp)
         res = resp

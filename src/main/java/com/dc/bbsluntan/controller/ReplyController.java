@@ -34,7 +34,7 @@ public class ReplyController {
      * @return
      */
     @PostMapping("/answer")
-    public R<String> reply(@RequestBody ReplyEntity reply,Integer status, HttpServletRequest req){
+    public R<String> reply(@RequestBody ReplyEntity reply, HttpServletRequest req){
         Long userId = (Long) req.getSession().getAttribute("user");
         boolean flag;
         reply.setUserId(userId);
@@ -61,6 +61,7 @@ public class ReplyController {
         replyService.page(pageInfo,wrapper);
         List<ReplyEntity> records = pageInfo.getRecords();
         records = records.stream().map(item->{
+
             return replyService.getReplyAndFloor(item.getReplyId());
         }).collect(Collectors.toList());
         pageInfo.setRecords(records);

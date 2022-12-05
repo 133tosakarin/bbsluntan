@@ -53,7 +53,6 @@ public class TopicController {
         List<TopicEntity> records = pageInfo.getRecords();
         records = records.stream().map(item -> {
             item = topicService.selectTopicAndReply(item.getTopicId());
-            item.setTopicReplyCount(item.getReplys().size());
             System.out.println(item.getReplys().size());
             return item;
         }).collect(Collectors.toList());
@@ -100,7 +99,10 @@ public class TopicController {
     public R<TopicEntity> showDetail(Long id){
         log.info("展示话题详情");
         TopicEntity topicEntity = topicService.selectTopicAndReply(id);
-        topicEntity.setTopicReplyCount(topicEntity.getReplys().size());
+        Integer topicClickCount = topicEntity.getTopicClickCount();
+        System.out.println("topicClick = "+topicClickCount);
+        topicEntity.setTopicClickCount(topicClickCount+1);
+        topicService.updateById(topicEntity);
         return  R.success(topicEntity);
     }
 

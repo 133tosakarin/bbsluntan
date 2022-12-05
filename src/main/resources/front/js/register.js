@@ -10,13 +10,12 @@
 /**
  * 发送请求
  */
-let app2 = new Vue({
+new Vue({
     el: "#loginDiv",
     data: {
         urlBase: "http://localhost:8080/",
         user:{
 
-            serialVersionUID: null,
             id: null,
             userAccountId: null,
             username: null,
@@ -29,6 +28,7 @@ let app2 = new Vue({
             createTime: null,
             updateTime: null
         },
+        passwordConfirm:null,
     },
 
     methods: {
@@ -37,7 +37,7 @@ let app2 = new Vue({
          */
         async click_register(){
             console.log(this.urlBase);
-            const  res = await register_post(this.urlBase + "user/register",this.user);
+            const  res = await register_post(this.urlBase + "user/register",this);
             let _this = this;
             console.log(res);
             if(res.data.code === 1){

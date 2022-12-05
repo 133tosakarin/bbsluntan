@@ -24,6 +24,7 @@ public class ReplyServiceImpl extends ServiceImpl<ReplyMapper, ReplyEntity> impl
         List<ReplyEntity> list = this.list(wrapper);
         ReplyEntity reply = getById(replyId);
         reply.setM_replys(list);
+        reply.setReplyClickCount(list.size());
         return reply;
     }
 }

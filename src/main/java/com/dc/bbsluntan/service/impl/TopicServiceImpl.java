@@ -41,8 +41,12 @@ public class TopicServiceImpl extends ServiceImpl<TopicMapper, TopicEntity> impl
     @Override
     public TopicEntity selectTopicAndReply(Long topicId) {
         TopicEntity topic = getById(topicId);
-
+        LambdaQueryWrapper<ReplyEntity>wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(ReplyEntity::getTopicId,topicId);
+        int size = replyService.count(wrapper);
+        System.out.println(size);
         topic.setReplys(getReplys(topicId));
+        topic.setTopicReplyCount(size);
         return topic;
     }
 
