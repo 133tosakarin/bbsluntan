@@ -51,7 +51,7 @@
                     <a href="" v-else>{{ user.userAccountId }}</a>
                     <a href="personal.html" target="_blank">个人</a>
                 </div>
-                <div class="search-form pull-right">
+<!--                <div class="search-form pull-right">
                     <div class="input-group">
                         <input type="text" class="form-control" name="name" value="" placeholder="帖子/用户"
                                v-model="userSearch">
@@ -61,7 +61,7 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>
@@ -168,7 +168,7 @@
     let index_app = new Vue({
         el: "#app",
         data: {
-            urlBase: "http://localhost:8080/",
+            urlBase: "http://172.23.161.242:8080/",
             user: {
 
                 serialVersionUID: null,
@@ -190,11 +190,7 @@
             let _this = this
             axios({
                 method: 'get',
-                url: "http://localhost:8080/user/get",
-                headers: {
-                    "Content-Type": "application/octet-stream",
-                    "Access-Control-Allow-Origin": "*",
-                }
+                url: "http://172.23.161.242:8080/user/get",
             }).then(res => {
                 console.log(res);
                 _this.user = res.data.data

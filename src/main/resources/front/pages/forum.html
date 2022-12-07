@@ -35,6 +35,12 @@
     <link href="../css/content-area.css" rel="stylesheet">
     <link href="../css/sidebar.css" rel="stylesheet">
     <link href="../css/footer.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="../../static/12-1/node_modules/jquery/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../../static/12-1/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <!-- js -->
+    <script src="../../static/12-1/js/common.js"></script>
 </head>
 <body>
 <div id="loginDiv"></div>
@@ -97,7 +103,7 @@
                                     <ul>
                                         <li v-for="(item, index) in records">
                                             <div class="avatarbox">
-                                                <a  c="1" class="avatar" mid="card_2378"><img src="" alt="">
+                                                <a  c="1" class="avatar" mid="card_2378"><img src="../picture/5768b8f0967e91f1.jpg" alt="">
                                                 </a>
                                             </div>
                                             <div class="tl_ct">
@@ -119,6 +125,7 @@
                                             </div>
                                         </li>
                                     </ul>
+                                    <hr width="100%" >
                                 </th>
                             </tr>
                             </tbody>
@@ -144,8 +151,22 @@
                 </div>
 
             </div>
-        </div>
 
+        </div>
+        <div class="sidebar bg-white">
+            <div class="block">
+                <a href="fatie.html" class="new-thread bg-green">发帖</a>
+                <div class="signup-total bg-green">
+                    星期日<br/>
+                    <span class="num-date">11.6</span><br/>
+                    已签到56人
+                </div>
+                <div class="signup-lucky">
+                    <a href="#" class="signup border-green">签到</a>
+                    <a href="#" class="lucky border-green">抽奖</a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <button type="button" id="backTop" class="btn btn-default">
@@ -163,7 +184,7 @@
     new Vue({
         el: "#app",
         data: {
-            urlBase:'http://localhost:8080/',
+            urlBase:'http://172.23.161.242:8080/',
             headLine: "headLine",
             postedBy: "帖子所属用户",
             replyTime: "最新回复时间",
@@ -195,11 +216,7 @@
              let _this = this
              axios({
                  method: 'get',
-                 url: "http://localhost:8080/user/get",
-                 headers: {
-                     "Content-Type": "application/octet-stream",
-                     "Access-Control-Allow-Origin": "*",
-                 }
+                 url: "http://172.23.161.242:8080/user/get",
              }).then(res => {
                  console.log(res);
                  _this.user = res.data.data

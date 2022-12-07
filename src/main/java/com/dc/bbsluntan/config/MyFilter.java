@@ -34,16 +34,17 @@ public class MyFilter implements Filter {
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT, GET");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
-        if("OPTIONS".equalsIgnoreCase(((HttpServletRequest)request).getMethod())){
+        /*if("OPTIONS".equalsIgnoreCase(((HttpServletRequest)request).getMethod())){
             response.setStatus(HttpServletResponse.SC_OK);
         }else{
             chain.doFilter(request,response);
-        }
+        }*/
         String[] urls = new String[]{
                 "/user/login",
                 "/user/logout",
                 "/backend/**",
                 "/front/**",
+                "/user/register"
         };
         boolean check = check(urls, reqPath);
 

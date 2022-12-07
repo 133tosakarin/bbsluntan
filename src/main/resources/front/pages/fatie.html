@@ -92,7 +92,7 @@
             <ul class="menu pull-left">
                 <li class="active"><a href="../../static/12-1/index.html">首页</a></li>
                 <li><a href="../../static/12-1/forum.html">论坛</a></li>
-                <li><a href="../../static/12-1/group.html">校园</a></li>
+                <li><a href="group.html">校园</a></li>
 
 
             </ul>
@@ -283,7 +283,7 @@
                         //发帖
                         this.topic.topicTitle = this.postData.postTitle
                         this.topic.topicContent = this.postData.postContent
-                        await  post_comm("http://localhost:8080/topic/create", this.topic);
+                        await  post_comm("http://172.23.161.242:8080/topic/create", this.topic);
 
                    /*this.$message({
                        showClose: true,
@@ -293,7 +293,7 @@
                    setTimeout( ()=> {
                        // window.location.href = _this.urlBase + "user/index.html";
 
-                       window.location.href ="http://localhost:8080/front/pages/forum.html"
+                       window.location.href ="http://172.23.161.242:8080/front/pages/forum.html"
                    }, 1000);
                 }
 
@@ -306,8 +306,8 @@
     const editorConfig = {
         placeholder: 'Type here...',
         onChange(editor) {
-            const html = editor.getHtml()
-            app.postData.postContent = editor.getHtml();
+            const html = editor.getHtml();
+            app.postData.postContent = editor.getText();
             console.log('editor content', app.postData.postContent)
             // 也可以同步到 <textarea>
         }

@@ -2,16 +2,17 @@
 <html lang="en">
  
 <head>
-    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- 开发环境版本，包含了有帮助的命令行警告 -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <!--axios开发环境-->
-    <script src="../js/axios.min.js"></script>
-    <!-- 引入样式 -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--  导入操作js  -->
+
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <meta http-equiv="Content-Type" content="register/html; charset=UTF-8">
+
     <script src="../js/package.js"></script>
     <title>注册</title>
     <style>
@@ -169,13 +170,12 @@
             </div>
 -->
             <p style="text-align: center;">
-                <input type="button" class="button"  @click="click_register" value="提交">
+                <input type="button" class="button"  @click="click_register()" value="提交">
                 <input type="reset" class="button" value="重置">
             </p>
         </form>
     </div>
 <!--  页面加载完后运行js  -->
-    <script src="../js/register.js"></script>
 </body>
 <script>
     /**
@@ -193,7 +193,7 @@
     new Vue({
         el: "#app",
         data: {
-            urlBase: "http://localhost:8080/",
+            urlBase: "http://172.23.161.242:8080/",
             user:{
 
                 id: null,
@@ -215,10 +215,22 @@
             /**
              * 注册点击请求
              */
-            async click_register(){
+             async click_register(){
                 console.log(this.urlBase);
-                const  res = await register_post(this.urlBase + "user/register",this);
-                let _this = this;
+                let _this = this
+                if(this.user.password !== this.passwordConfirm){
+                    this.$message.error("两次密码不相同");
+                    return;
+                }
+
+                /*await axios.post({
+                    method:'post',
+                    url:/!*_this.urlBase+'user/register',*!/'http://172.23.161.242:8080/user/register',
+                    data:_this.user
+                }).then(resp=>{
+
+                })*/
+                let  res = await post(this.urlBase + "user/register",this);
                 console.log(res);
                 if(res.data.code === 1){
                     this.$message({
@@ -232,9 +244,9 @@
                      *
                      */
                     setTimeout(()=> {
-                        // window.location.href = _this.urlBase + "user/index.html";
+                         window.location.href = _this.urlBase + "front/pages/login.html";
 
-                        window.open(this.urlBase+'front/pages/login.html')
+                        //window.open(_this.urlBase+'front/pages/login.html')
                     }, 2000);
 
                 }else{

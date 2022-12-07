@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
     <meta charset="utf-8">
@@ -11,10 +11,12 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <!--axios开发环境-->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <!-- Bootstrap -->
+
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+    <!-- Bootstrap -->
     <link href="../css/common.css" rel="stylesheet">
     <link href="../css/header.css" rel="stylesheet">
     <link href="../css/content-area.css" rel="stylesheet">
@@ -42,7 +44,16 @@
     <!--[if lt IE 9]>
     <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+
     <![endif]-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="../../static/12-1/node_modules/jquery/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../../static/12-1/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <!-- js -->
+    <script src="../../static/12-1/js/common.js"></script>
+    <link href="../../static/12-1/css/slider.css" rel="stylesheet">
+    <script src="../../static/12-1/js/slider.js"></script>
     <style>
         .keyin {
             width: 300px;
@@ -71,15 +82,15 @@
 </head>
 <body>
 <div id="app">
-<div class="header">
+<div class="header" >
     <div class="second-nav bg-white">
         <div class="container">
             <div class="logo pull-left">
-                <a href="index.html"> <img src="../picture/qiku_community_logo.png" alt=""></a>
+                <a href="../../static/index.html"> <img src="../picture/qiku_community_logo.png" alt=""></a>
             </div>
             <ul class="menu pull-left">
-                <li class="active"><a href="index.html">首页</a></li>
-                <li><a href="../../../../../../QMDownload/forum.html">论坛</a></li>
+                <li class="active"><a href="../pages/index.html">首页</a></li>
+                <li><a href="../pages/forum.html">论坛</a></li>
                 <li><a href="group.html">校园</a></li>
 
             </ul>
@@ -107,7 +118,6 @@
 
 <!--  -->
 <div class="container main" >
-
 
     <!-- 左侧内容区 -->
     <div class="content-area bg-white">
@@ -139,9 +149,9 @@
 
                         <div class="y">
                             <div class="xm_tp_action">
-                                <span class="y replies-uncursor">{{host.topicReplyCount  }}</span>
+                                <span class="y replies-uncursor">{{ host.topicClickCount }}</span>
                                 <span class="y viewnum-uncursor">{{
-                                        host.topicClickCount
+                                        host.topicClickCount + host.topicReplyCount
                                     }}</span>
                             </div>
                         </div>
@@ -182,9 +192,9 @@
                                             <div>
                                                 <a id="comment">回复楼主</a>
                                                 <textarea name="inner_reply" id="host_area" cols="30"
-                                                          rows="5">点此输入</textarea>
+                                                          rows="5" v-model="hostContent">点此输入</textarea>
                                                 <span style="color: #00aaaa;display: none;cursor: grab" id="host_btn">
-                                                        <a @click="click_reply(1)"></a>回复
+                                                        <a @click="click_reply(1)">回复</a>
                                                 </span>
                                             </div>
 
@@ -217,7 +227,7 @@
                         </p>
                     </div>
                 </div>
-                <div id="post_102771656" v-for="(item, index) in reply">
+                <div id="post_102771656"   v-for="(item, index) in host.replys" >
                     <table id="pid102771656" class="plhin" summary="pid102771656" cellspacing="0" cellpadding="0">
                         <tbody>
                         <tr>
@@ -225,7 +235,7 @@
                                 <div id="favatar102771656" class="pls favatar">
                                     <div class="avatar">
                                         <!--用户头像-->
-                                        <img src="http://ucenter.#.cn/avatar.php?uid=30425433&amp;size=middle">
+                                        <img src="../picture/5768b8f0967e91f1.jpg" alt="">
                                     </div>
                                 </div>
                             </td>
@@ -241,8 +251,8 @@
 
                                         <div class="authi">
                                       <span class="author">
-                                          <a href="http://#.cn/space-uid-30425433.html" target="_blank">{{
-                                                  item.replyId
+                                          <a  >{{
+                                                  user.userAccountId
                                               }}</a>
                                       </span>
                                             <em id="authorposton102771656">{{ item.createTime }}</em>
@@ -275,15 +285,29 @@
                                 </div>
 
 
-                                <div style="background-color: #dddddd;width: 400px;" class="con_hide">
-                                    <span>A回复B：回复内容 &emsp;</span>
+                                <div style="background-color: #dddddd;width: 400px;"  class="con_hide" >
+                                    <!--&lt;!&ndash;&lt;!&ndash;v-for="(rep,idx) in item.m_replys&ndash;&gt;-->
+                                    <!--<span>{{rep.userId}}}回复{{item.userId}}}：{{rep.replyContents}}} &emsp;</span>-->
+                                    <span >{{item.userId}}回复{{host.userId}}：</span>
+                                    <textarea name="inner_reply"  cols="30" rows="5"
+                                              class="keyin" v-model="otherContent">点此输入</textarea>
 
-                                    <textarea name="inner_reply" id="" cols="30" rows="5"
-                                              class="keyin">点此输入</textarea>
-                                    <span style="color: #00aaaa;display: none;cursor: grab" class="over_hide">
-                                        <a @click="click_reply(2, item, index)"></a>回复
+                                    <span style="color: #00aaaa;display: none;cursor: grab" class="overhide">
+                                        <a @click="click_reply(2, item, index)">回复</a>
                                     </span>
                                     <hr>
+                                    <div style="background-color: #dddddd;width: 400px;" class="con_hide" v-for="(rep,idx) in item.m_replys"  >
+                                        <!--v-for="(rep,idx) in item.m_replys"-->
+                                        <!--<span>{{rep.userId}}}回复{{item.userId}}}：{{rep.replyContents}}} &emsp;</span>-->
+                                        <span >{{rep.userId}}回复{{item.userId}}：{{rep.replyContents}}</span>
+                                        <textarea name="inner_reply"  cols="30" rows="5"
+                                                  class="keyin" v-model="otherContent">点此输入</textarea>
+                                        <!--span>{{rep.userId}}}回复{{item.userId}}}：{{rep.replyContents}}}</span>-->
+                                        <span style="color: #00aaaa;display: none;cursor: grab" class="overhide">
+                                        <a @click="click_reply(2, rep, index)">回复</a>
+                                             </span>
+                                        <hr>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -292,11 +316,8 @@
                             <td>
                             </td>
                             <td class="plc" style="overflow:visible;">
-
-                </div>
-            </div>
-            </td>
-            </tr>
+                            </td>
+                        </tr>
             <tr class="ad">
                 <td class="pls">
                 </td>
@@ -331,60 +352,25 @@
 
 </div>
 </div>
-<!-- 右侧边栏 -->
-<div class="sidebar bg-white">
-    <div class="block"><a href="#" class="new-thread bg-green">发帖</a>
-        <div class="signup-total bg-green"> 星期日<br/>
-            <span class="num-date">11.6</span><br/>
-            已签到56人
-        </div>
-        <div class="signup-lucky"><a href="#" class="signup border-green">签到</a> <a href="#"
-                                                                                      class="lucky border-green">抽奖</a>
-        </div>
-    </div>
-    <!-- 版块推荐 -->
-    <div class="plays box">
-        <h4><strong>版块推荐</strong></h4>
-        <ul>
-            <li class="playlist"><a href="forum-7076-1.html" target="_blank" title="360手机N4S"><img
-                    src="../picture/t01b3ea84a97551c661.png" width="24" height="24" alt="360手机N4S">计算机</a></li>
-            <li class="playlist"><a href="forum-5146-1.html" target="_blank" title="手机摄影"><img
-                    src="../picture/t01e9739182cfdbb42b.png" width="24" height="24" alt="手机摄影"></a>摄影
-            </li>
-            <li class="playlist"><a href="forum-7088-1.html" target="_blank" title="360手机Q5"><img
-                    src="../picture/t0175b5d9c7d8bfd7aa.png" width="24" height="24" alt="360手机Q5">寻物启事</a>
-            </li>
-            <li class="playlist"><a href="forum-7081-1.html" target="_blank" title="360儿童机器人"><img
-                    src="../picture/t01bd408be3fdc7f74d.png" width="24" height="24" alt="360儿童机器人">机械设计</a>
-            </li>
-            <li class="playlist"><a href="forum-7005-1.html" target="_blank" title="360儿童卫士"><img
-                    src="../picture/t011cfce70442278c24.png" width="24" height="24" alt="360儿童卫士">社团活动</a>
-            </li>
-        </ul>
-    </div>
 </div>
-</div>
-</div>
+
 <!-- footer --><!-- other -->
 <button type="button" id="backTop" class="btn btn-default">
     <i class="fa fa-arrow-up"></i>
 </button>
-<div id="loginDiv"></div>
+</div>
+
 </body>
 <!--<script type="text/javascript">document.onkeyup = function (e) {
     keyPageScroll(e, 0, 0, 'forum.php?mod=viewthread&tid=14646386', 1);
 }</script>-->
 <script src="../js/package.js"></script>
 <script>
-    let inner_spans = document.querySelectorAll(".con_hide")
-    let keyins = document.querySelectorAll(".keyin");
-    let spans = document.querySelectorAll(".over_hide");
-    let loop = 0;
-    let area = document.querySelector("#host_area");
-    let btn = document.querySelector("#host_btn");
     new Vue({
         el: "#app",
+
         data: {
+            urlBase:'http://172.23.161.242:8080/',
             host:
                 {
                     createTime: "2022-11-01 16:16:27",
@@ -393,12 +379,15 @@
                         replyClickCount: 0,
                         replyContents: "dfgfdsgfsdbgdfsgdf",
                         replyEmotion: null,
+                        replyFloor:null,
                         replyId: "3133",
                         topicId: "1",
-                        replyFloor:[],
                         updateTime: null,
                         userId: "1586600449878847489",
-                        m_replys: []
+                        m_replys: [
+                            {replyContents: "hello"},
+                            {replyContents: "world"}
+                        ]
                     }],
                     sectionId: "1",
                     topicClickCount: 1,
@@ -410,20 +399,22 @@
                     updateTime: "2022-11-01 16:16:27",
                     userId: "1586600449878847489",
                 },
-            reply: [
+            reply:
                 {
-                    createTime: "2022/11/11",
-                    replyClickCount: 0,
-                    replyContents: "123",
+                    createTime: null,
+                    replyClickCount: null,
+                    replyContents: null,
                     replyEmotion: null,
-                    replyId: "31",
-                    topicId: "2",
-                    replyFloor:[],
+                    replyId: null,
+                    replyFloor:null,
+                    topicId: null,
                     updateTime: null,
-                    userId: "1586600489",
-                    m_replys: []
+                    userId: null,
+                    m_replys: [
+                        {replyContents: "hello"}
+                    ]
                 },
-            ],
+
             user: {
                 id: null,
                 userAccountId: "hjkgbhjbj",
@@ -434,20 +425,19 @@
                 userClass: null,
                 userStatement: null,
                 userStatus: null
-            }
+            },
+            hostContent:null,
+            otherContent:null,
         },
-        mounted() {
+        beforeMount() {
             /**
              * id为纯数字，可以采用url的方式放入topicID
              */
             let _this = this
+            console.log(_this.urlBase)
             axios({
                 method: 'get',
-                url: "http://localhost:8080/user/get",
-                headers: {
-                    "Content-Type": "application/octet-stream",
-                    "Access-Control-Allow-Origin": "*",
-                }
+                url: _this.urlBase+"user/get",
             }).then(res => {
                 console.log(res);
                 _this.user = res.data.data
@@ -458,42 +448,72 @@
             this.get_data()
             //1.解析topicID
         },
+        mounted(){
+            this.$nextTick(function (){
+
+
+            })
+
+        },
         methods: {
+            visiable(){
+                let inner_spans = document.querySelectorAll(".con_hide")
+                let keyins = document.querySelectorAll(".keyin");
+                let spans = document.querySelectorAll(".overhide");
+
+                for (let i = 0; i < spans.length; i++) {
+                    inner_spans[i].addEventListener("click", function (evt) {
+                        for (let j = 0; j < spans.length; j++) {
+                            spans[j].style.display = "none";
+                            keyins[j].style.display = "none";
+                        }
+                        spans[i].style.display = "block";
+                        keyins[i].style.display = "block";
+
+                    },false)
+
+                }
+            },
             async get_data() {
                 let id = window.location.href.split("?")[1];
-                let res = await getTopicById("http://localhost:8080/topic/detail?id=" + id)
+                let res = await getTopicById(this.urlBase+"topic/detail?id=" + id)
                 console.log("res = ", res)
                 this.host = res.data.data
-                this.reply = this.host.replys
+                //this.reply = this.host.replys
                 console.log("replys = ", this.reply)
+
+
             },
-            reply_user(id) {
+            /*reply_user(id) {
                 console.log('id =', id)
                 let status = id === undefined ? 1 : 2
                 window.open('fatie.html?' + status + '&' + this.host.topicId + (id === undefined ? '' : '&' + id))
-            },
+            },*/
             async click_reply(status) {
-                let reply = this.reply[0];
+                console.log("this.reply = ",this.reply)
+                let reply = this.reply;
+                console.log(reply)
                 //赋值status
-                reply.status = status;
-                if(status === 2) {
+                //reply.status = status;
+                if (status === 2) {
                     let index = arguments[2];
                     let item = arguments[1];
                     //传入index获取对应textarea值
-                    reply.replyContents = keyins[index].textContent;
+                    reply.replyContents = this.otherContent;
+                    console.log(this.otherContent)
                     //赋值tipicID
                     reply.topicId = item.topicId;
                     //赋值楼层
                     reply.replyFloor = item.replyId;
-                }
-                else{
+                } else {
                     //赋值content
-                    reply.replyContents = area.textContent;
+                    reply.replyContents = this.hostContent;
+                    console.log("area = ",this.hostContent)
                     //赋值topicID
-                    reply.topicId = this.topicId;
+                    reply.topicId = this.host.topicId;
                 }
                 //发送请求
-                let res = await post_comm("http://localhost:8080/reply/answer", reply);
+                let res = await post_comm(this.urlBase+"reply/answer", reply);
                 if (res.data.code === 1) {
                     this.$message.success("回复成功！")
                     window.location.reload(true);
@@ -501,6 +521,9 @@
             }
         }
     })
+    let loop = 0;
+    let area = document.querySelector("#host_area");
+    let btn = document.querySelector("#host_btn");
     document.querySelector("#comment").addEventListener("click", function () {
         if (loop % 2 === 0) {
             area.style.display = "block";
@@ -512,15 +535,24 @@
         loop++;
     })
     //------------------------------------------------------------------
-    for (let i = 0; i < spans.length; i++) {
-        inner_spans[i].addEventListener("mouseover", function (evt) {
-            for (let j = 0; j < spans.length; j++) {
-                spans[j].style.display = "none";
-                keyins[j].style.display = "none";
-            }
-            spans[i].style.display = "block";
-            keyins[i].style.display = "block";
-        })
-    }
+    window.addEventListener("DOMContentLoaded",function(){
+        setTimeout(function (){}, 500)
+        let inner_spans = document.querySelectorAll(".con_hide")
+        let keyins = document.querySelectorAll(".keyin");
+        let spans = document.querySelectorAll(".overhide");
+
+        console.log(spans.length)
+        for (let i = 0; i < spans.length; i++) {
+            inner_spans[i].addEventListener("click", function (evt) {
+                for (let j = 0; j < spans.length; j++) {
+                    spans[j].style.display = "none";
+                    keyins[j].style.display = "none";
+                }
+                spans[i].style.display = "block";
+                keyins[i].style.display = "block";
+            },true)
+        }
+
+    })
 </script>
 </html>

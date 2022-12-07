@@ -10,7 +10,7 @@ let app = new Vue({
     el: "#loginDiv",
 
     data: {
-        urlBase: "http://localhost:8080/",
+        urlBase: "http://172.23.161.242:8080/",
         user:{
 
             id: null,

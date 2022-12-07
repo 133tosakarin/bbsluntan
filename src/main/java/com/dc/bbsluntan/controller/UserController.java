@@ -73,6 +73,7 @@ public class UserController {
         if(newUser==null){
             log.info("注册成功");
             user.setPassword(password);
+            user.setUserStatus(0);
             userService.save(user);
             return R.success("success");
         }
